@@ -1,0 +1,65 @@
+@use "variable" as v;
+
+header {
+  background: v.$base-color;
+  display: flex;
+  height: 80px;
+
+  color: v.$text-color;
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    margin-left: 10em;
+
+    h3 {
+      font-size: 2rem;
+    }
+
+    .logo {
+      max-width: 50px;
+      margin-right: 2em;
+      img {
+        border-radius: 2px;
+        width: 100%;
+      }
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    flex: 1;
+
+    ul {
+      li {
+        display: inline-block;
+      }
+
+      li {
+        margin-right: 1.5em;
+        cursor: pointer;
+
+        button {
+          border-radius: 8px 8px 8px 0;
+          border: 2px solid rgba(0, 0, 0, 0);
+          background-color: v.$text-color;
+          color: v.$base-color;
+          padding: 5px 25px;
+          font-weight: 700;
+          cursor: pointer;
+          font-size: 1.6rem;
+          transition: all 0.3s;
+
+          &:hover {
+            background-color: rgba(0, 0, 0, 0);
+            border: 2px solid v.$text-color;
+            color: v.$text-color;
+          }
+        }
+      }
+    }
+  }
+}

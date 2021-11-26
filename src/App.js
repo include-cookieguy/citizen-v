@@ -6,6 +6,7 @@ import Alert from "./components/alert/Alert";
 import "./styles/global.scss";
 import { useEffect } from "react";
 import { refreshToken } from "./redux/actions/authAction";
+import Header from "./components/Header";
 
 function App() {
   const { auth } = useSelector((state) => state);
@@ -18,6 +19,7 @@ function App() {
   return (
     <Router>
       <Alert />
+      {auth.token && <Header />}
       <Routes>
         <Route exact path="/" element={auth.token ? <Home /> : <Login />} />
       </Routes>
