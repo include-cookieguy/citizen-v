@@ -1,6 +1,8 @@
 import { GLOBALTYPES } from "../actions/globalTypes";
 
-const initialState = {};
+const initialState = {
+  token: 'abc'
+};
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
