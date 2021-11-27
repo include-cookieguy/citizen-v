@@ -7,10 +7,8 @@ import NewUnit from "./pages/NewUnit";
 import Header from "./components/Header";
 import InputCitizen from "./pages/InputCitizen";
 import Alert from "./components/alert/Alert";
-
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import NewUnit from "./pages/NewUnit";
 
 function App() {
   const { auth } = useSelector((state) => state);
