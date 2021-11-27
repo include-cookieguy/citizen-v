@@ -1,4 +1,8 @@
 export const GLOBALTYPES = {
   AUTH: "AUTH",
   ALERT: "ALERT",
+
+  // Unit
+  GET_ALL_UNIT: 'GET_ALL_UNIT',
+  CREATE_UNIT: 'CREATE_UNIT',
 };
