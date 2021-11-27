@@ -7,6 +7,7 @@ import "./styles/global.scss";
 import { useEffect } from "react";
 import { refreshToken } from "./redux/actions/authAction";
 import Header from "./components/Header";
+import InputCitizen from "./pages/InputCitizen";
 
 function App() {
   const { auth } = useSelector((state) => state);
@@ -22,6 +23,7 @@ function App() {
       {auth.token && <Header />}
       <Routes>
         <Route exact path="/" element={auth.token ? <Home /> : <Login />} />
+        <Route exact path="/input-citizen" element={<InputCitizen />} />
       </Routes>
     </Router>
   );

@@ -1,0 +1,280 @@
+{
+    "ethnic": [
+        {
+            "id": "1",
+            "Tên": "Kinh",
+            "Tên gọi khác": "Việt"
+        },
+        {
+            "id": "2",
+            "Tên": "Tày",
+            "Tên gọi khác": "Thổ, Ngạn, Phén, Thù Lao, Pa Dí, Tày Khao"
+        },
+        {
+            "id": "3",
+            "Tên": "Thái",
+            "Tên gọi khác": "Tày Đăm, Tày Mười, Tày Thanh, Mán Thanh, Hàng Bông, Tày Mường, Pa Thay, Thổ Đà Bắc"
+        },
+        {
+            "id": "4",
+            "Tên": "Hoa",
+            "Tên gọi khác": "Hán, Triều Châu, Phúc Kiến, Quảng Đông, Hải Nam, Hạ, Xạ Phạng"
+        },
+        {
+            "id": "5",
+            "Tên": "Khơ-me",
+            "Tên gọi khác": "Cur, Cul, Cu, Thổ, Việt gốc Miên, Krôm"
+        },
+        {
+            "id": "6",
+            "Tên": "Mường",
+            "Tên gọi khác": "Mol, Mual, Mọi, Mọi Bi, Ao Tá, Ậu Tá"
+        },
+        {
+            "id": "7",
+            "Tên": "Nùng",
+            "Tên gọi khác": "Xuồng, Giang, Nùng An, Phàn Sinh, Nùng Cháo, Nùng Lòi, Quý Rim, Khèn Lài"
+        },
+        {
+            "id": "8",
+            "Tên": "HMông",
+            "Tên gọi khác": "Mèo, Hoa, Mèo Xanh, Mèo Đỏ, Mèo Đen, Ná Mẻo, Mán Trắng"
+        },
+        {
+            "id": "9",
+            "Tên": "Dao",
+            "Tên gọi khác": "Mán, Động, Trại, Xá, Dìu, Miên, Kiềm, Miền, Quần Trắng, Dao Đỏ, Quần Chẹt, Lô Giang, Dao Tiền, Thanh Y, Lan Tẻn, Đại Bản, Tiểu Bản, Cóc Ngáng, Cóc Mùn, Sơn Đầu"
+        },
+        {
+            "id": "10",
+            "Tên": "Gia-rai",
+            "Tên gọi khác": "Giơ-rai, Tơ-buăn, Chơ-rai, Hơ-bau, Hđrung, Chor"
+        },
+        {
+            "id": "11",
+            "Tên": "Ngái",
+            "Tên gọi khác": "Xín, Lê, Đản, Khách Gia"
+        },
+        {
+            "id": "12",
+            "Tên": "Ê-đê",
+            "Tên gọi khác": "Ra-đê, Đê, Kpạ, A-đham, Krung, Ktul, Đliê Ruê, Blô, Epan, Mđhur, Bih"
+        },
+        {
+            "id": "13",
+            "Tên": "Ba na",
+            "Tên gọi khác": "Giơ-lar. Tơ-lô, Giơ-lâng, Y-lăng, Rơ-ngao, Krem, Roh, ConKđe, A-la Công, Kpăng Công, Bơ-nâm"
+        },
+        {
+            "id": "14",
+            "Tên": "Xơ-Đăng",
+            "Tên gọi khác": "Xơ-teng, Hđang, Tơ-đra, Mơ-nâm, Ha-lăng, Ca-dong, Kmrâng, ConLan, Bri-la, Tang"
+        },
+        {
+            "id": "15",
+            "Tên": "Sán Chay",
+            "Tên gọi khác": "Cao Lan, Sán Chỉ, Mán Cao Lan, Hờn Bạn, Sơn Tử"
+        },
+        {
+            "id": "16",
+            "Tên": "Cơ-ho",
+            "Tên gọi khác": "Xrê, Nốp, Tu-lốp, Cơ-don, Chil, Lat, Lach, Trinh"
+        },
+        {
+            "id": "17",
+            "Tên": "Chăm",
+            "Tên gọi khác": "Chàm, Chiêm Thành, Hroi"
+        },
+        {
+            "id": "18",
+            "Tên": "Sán Dìu",
+            "Tên gọi khác": "Sán Dẻo, Trại, Trại Đất, Mán, Quần Cộc"
+        },
+        {
+            "id": "19",
+            "Tên": "Hrê",
+            "Tên gọi khác": "Chăm Rê, Chom, Krẹ Luỹ"
+        },
+        {
+            "id": "20",
+            "Tên": "Mnông",
+            "Tên gọi khác": "Pnông, Nông, Pré, Bu-đâng, ĐiPri, Biat, Gar, Rơ-lam, Chil"
+        },
+        {
+            "id": "21",
+            "Tên": "Ra-glai",
+            "Tên gọi khác": "Ra-clây, Rai, Noang, La-oang"
+        },
+        {
+            "id": "22",
+            "Tên": "Xtiêng",
+            "Tên gọi khác": "Xa-điêng"
+        },
+        {
+            "id": "23",
+            "Tên": "Bru-Vân Kiều",
+            "Tên gọi khác": "Bru, Vân Kiều, Măng Coong, Tri Khùa"
+        },
+        {
+            "id": "24",
+            "Tên": "Thổ",
+            "Tên gọi khác": "Kẹo, Mọn, Cuối, Họ, Đan Lai, Ly Hà, Tày Pọng, Con Kha, Xá Lá Vàng"
+        },
+        {
+            "id": "25",
+            "Tên": "Giáy",
+            "Tên gọi khác": "Nhắng, Dẩng, Pầu Thìn Nu Nà, Cùi Chu, Xa"
+        },
+        {
+            "id": "26",
+            "Tên": "Cơ-tu",
+            "Tên gọi khác": "Ca-tu, Cao, Hạ, Phương, Ca-tang"
+        },
+        {
+            "id": "27",
+            "Tên": "Gié Triêng",
+            "Tên gọi khác": "Đgiéh, Tareb, Giang Rẫy Pin, Triêng, Treng, Ta-riêng, Ve, Veh, La-ve, Ca-tang"
+        },
+        {
+            "id": "28",
+            "Tên": "Mạ",
+            "Tên gọi khác": "Châu Mạ, Mạ Ngăn, Mạ Xóp, Mạ Tô, Mạ Krung"
+        },
+        {
+            "id": "29",
+            "Tên": "Khơ-mú",
+            "Tên gọi khác": "Xá Cẩu, Mứn Xen, Pu Thênh, Tềnh, Tày Hay"
+        },
+        {
+            "id": "30",
+            "Tên": "Co",
+            "Tên gọi khác": "Cor, Col, Cùa, Trầu"
+        },
+        {
+            "id": "31",
+            "Tên": "Tà-ôi",
+            "Tên gọi khác": "Tôi-ôi, Pa-co, Pa-hi, Ba-hi"
+        },
+        {
+            "id": "32",
+            "Tên": "Chơ-ro",
+            "Tên gọi khác": "Dơ-ro, Châu-ro"
+        },
+        {
+            "id": "33",
+            "Tên": "Kháng",
+            "Tên gọi khác": "Xá Khao, Xá Súa, Xá Dón, Xá Dẩng, Xá Hốc, Xá Ái, Xá Bung, Quảng Lâm"
+        },
+        {
+            "id": "34",
+            "Tên": "Xinh-mun",
+            "Tên gọi khác": "Puộc, Pụa"
+        },
+        {
+            "id": "35",
+            "Tên": "Hà Nhì",
+            "Tên gọi khác": "U Ni, Xá U Ni"
+        },
+        {
+            "id": "36",
+            "Tên": "Chu ru",
+            "Tên gọi khác": "Chơ-ru, Chu"
+        },
+        {
+            "id": "37",
+            "Tên": "Lào",
+            "Tên gọi khác": "Là Bốc, Lào Nọi"
+        },
+        {
+            "id": "38",
+            "Tên": "La Chí",
+            "Tên gọi khác": "Cù Tê, La Quả"
+        },
+        {
+            "id": "39",
+            "Tên": "La Ha",
+            "Tên gọi khác": "Xá Khao, Khlá Phlạo"
+        },
+        {
+            "id": "40",
+            "Tên": "Phù Lá",
+            "Tên gọi khác": "Bồ Khô Pạ, Mu Di Pạ Xá, Phó, Phổ, Va Xơ"
+        },
+        {
+            "id": "41",
+            "Tên": "La Hủ",
+            "Tên gọi khác": "Lao, Pu Đang, Khù Xung, Cò Xung, Khả Quy"
+        },
+        {
+            "id": "42",
+            "Tên": "Lự",
+            "Tên gọi khác": "Lừ, Nhuồn, Duôn"
+        },
+        {
+            "id": "43",
+            "Tên": "Lô Lô",
+            "Tên gọi khác": "Mun Di"
+        },
+        {
+            "id": "44",
+            "Tên": "Chứt",
+            "Tên gọi khác": "Sách, Máy, Rục, Mã-liêng, A-rem, Tu vang, Pa-leng, Xơ-Lang, Tơ-hung, Chà-củi, Tắc-củi, U-mo, Xá Lá Vàng"
+        },
+        {
+            "id": "45",
+            "Tên": "Mảng",
+            "Tên gọi khác": "Mảng Ư, Xá Lá Vàng"
+        },
+        {
+            "id": "46",
+            "Tên": "Pà Thẻn",
+            "Tên gọi khác": "Pà Hưng, Tống"
+        },
+        {
+            "id": "47",
+            "Tên": "Co Lao"
+        },
+        {
+            "id": "48",
+            "Tên": "Cống",
+            "Tên gọi khác": "Xắm Khống, Mấng Nhé, Xá Xeng"
+        },
+        {
+            "id": "49",
+            "Tên": "Bố Y",
+            "Tên gọi khác": "Chủng Chá, Trọng Gia, Tu Di, Tu Din"
+        },
+        {
+            "id": "50",
+            "Tên": "Si La",
+            "Tên gọi khác": "Cù Dề Xừ, Khả pẻ"
+        },
+        {
+            "id": "51",
+            "Tên": "Pu Péo",
+            "Tên gọi khác": "Ka Pèo, Pen Ti Lô Lô"
+        },
+        {
+            "id": "52",
+            "Tên": "Brâu",
+            "Tên gọi khác": "Brao"
+        },
+        {
+            "id": "53",
+            "Tên": "Ơ Đu",
+            "Tên gọi khác": "Tày Hạt"
+        },
+        {
+            "id": "54",
+            "Tên": "Rơ măm"
+        },
+        {
+            "id": "55",
+            "Tên": "Người nước ngoài"
+        },
+        {
+            "id": "56",
+            "Tên": "Không rõ"
+        }
+    ]
+}
