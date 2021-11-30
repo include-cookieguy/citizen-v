@@ -1,46 +1,105 @@
 @use "variable" as v;
 
 header {
-  background: v.$base-color;
+  position: fixed;
+  top: 0;
+  background-image: linear-gradient(
+    to right, 
+    v.$base-color-1,
+    v.$base-color,
+    v.$base-color
+  );
   display: flex;
-  height: 80px;
-
+  align-items: center;
+  width: 100%;
+  height: 70px;
   color: v.$text-color;
 
-  .header-left {
+  .header-container {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
-    align-items: center;
-    flex: 1;
-    margin-left: 10em;
 
-    h3 {
-      // font-size: 2rem;
+    @media screen and (max-width: v.$tablet-width) {
+      width: 90%;
     }
 
-    .logo {
-      max-width: 50px;
-      margin-right: 2em;
-      img {
-        border-radius: 2px;
+    .header-container-content {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      
+      .title-nav {
         width: 100%;
+        display: flex;
+        align-items: center;
+        flex: 6;
+
+        @media screen and (max-width: v.$tablet-width) {
+          flex: 5;
+        }
+
+        @media screen and (max-width: v.$phone-width) {
+          flex: 2;
+        }
+
+        .title-logo {
+          flex: 1;
+          display: flex;
+          align-items: center;
+
+          .logo {
+            max-width: 45px;
+            margin-right: 1.5em;
+            img {
+              border-radius: 2px;
+              width: 100%;
+              min-width: 45px;
+            }
+          }
+
+          .title {
+            font-weight: bold;
+            font-size: large;
+          }
+        }
+
+        .nav-bar {
+          flex: 1;
+          display: flex;
+          justify-content: right;
+
+          .nav-bar-option {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            flex: 2;
+            justify-content: right;
+
+            @media screen and (max-width: v.$phone-width) {
+              display: none;
+            }
+
+            .opt-nav-bar {
+              cursor: pointer;
+              margin-left: 20px;
+              margin-right: 20px;
+            }
+          }
+          
+        }
       }
-    }
-  }
 
-  .header-right {
-    display: flex;
-    align-items: center;
-    // font-size: 1.6rem;
-    flex: 1;
+      .logout {
+        flex: 1;
+        display: flex;
+        justify-content: left;
 
-    ul {
-      li {
-        display: inline-block;
-      }
-
-      li {
-        margin-right: 1.5em;
-        cursor: pointer;
+        @media screen and (max-width: v.$tablet-width) {
+          justify-content: right;
+        }
 
         button {
           border-radius: 8px 8px 8px 0;
@@ -50,7 +109,6 @@ header {
           padding: 5px 25px;
           font-weight: 700;
           cursor: pointer;
-          // font-size: 1.6rem;
           transition: all 0.3s;
 
           &:hover {
@@ -63,3 +121,111 @@ header {
     }
   }
 }
+
+.bottom {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+
+  .nav-bar-bottom {
+    display: none;
+  
+    @media screen and (max-width: v.$phone-width) {
+      display: flex;
+      justify-content: center;
+      width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 10px;
+      background-image: linear-gradient(
+        to right, 
+        v.$base-color-1,
+        v.$base-color
+      );
+      color: v.$text-color;
+
+      .nav-bar-bottom-container {
+        height: 70px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+
+        .nav-bar-option {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          flex: 2;
+          justify-content: right;
+
+          .opt-nav-bar {
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+// header {
+//   background-color: v.$base-color;
+//   display: flex;
+//   height: 80px;
+
+//   color: v.$text-color;
+
+//   .header-left {
+//     display: flex;
+//     align-items: center;
+//     flex: 1;
+//     margin-left: 10em;
+
+//     .logo {
+//       max-width: 50px;
+//       margin-right: 2em;
+//       img {
+//         border-radius: 2px;
+//         width: 100%;
+//       }
+//     }
+//   }
+
+//   .header-right {
+//     display: flex;
+//     align-items: center;
+//     // font-size: 1.6rem;
+//     flex: 1;
+
+//     ul {
+//       li {
+//         display: inline-block;
+//       }
+
+//       li {
+//         margin-right: 1.5em;
+//         cursor: pointer;
+
+//         button {
+//           border-radius: 8px 8px 8px 0;
+//           border: 2px solid rgba(0, 0, 0, 0);
+//           background-color: v.$text-color;
+//           color: v.$base-color;
+//           padding: 5px 25px;
+//           font-weight: 700;
+//           cursor: pointer;
+//           // font-size: 1.6rem;
+//           transition: all 0.3s;
+
+//           &:hover {
+//             background-color: rgba(0, 0, 0, 0);
+//             border: 2px solid v.$text-color;
+//             color: v.$text-color;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
