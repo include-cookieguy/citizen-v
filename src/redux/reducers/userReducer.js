@@ -1,17 +1,17 @@
 import { GLOBALTYPES } from "../actions/globalTypes";
 
 const initialState = {
-  allUnit: [],
+  allUser: [],
 };
 
 const unitReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GLOBALTYPES.GET_ALL_UNIT:
-      return { ...state, allUnit: action.payload };
-    case GLOBALTYPES.CREATE_UNIT:
-      let temp = state.allUnit
+    case GLOBALTYPES.GET_CHILD_USER:
+      return { ...state, allUser: action.payload };
+    case GLOBALTYPES.CREATE_USER:
+      let temp = state.allUser
       temp.push(action.payload)
-      return { ...state, allUnit: temp };
+      return { ...state, allUser: temp };
     default:
       return state;
   }

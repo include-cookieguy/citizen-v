@@ -73,8 +73,6 @@ const Login = () => {
     }
   };
 
-  function validateUsername(email) {}
-
   return (
     <div className="login">
       <form onSubmit={handleSubmit}>
