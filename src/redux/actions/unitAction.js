@@ -10,6 +10,15 @@ export const getAllUnit = () => async (dispatch) => {
   }
 }
 
+export const getChildUnit = () => async (dispatch) => {
+  try {
+    let res = await getDataAPI('/unit/child')
+    dispatch({ type: GLOBALTYPES.GET_ALL_UNIT, payload: res.data })
+  } catch(err) {
+    console.log(err)
+  }
+}
+
 export const createUnit = (data) => async (dispatch) => {
   try {
     let res = await postDataAPI('/unit', data)

@@ -8,7 +8,7 @@ import { Button, DialogContent, Dialog, DialogTitle, DialogActions,
 
 import '../styles/newUnit.scss'
 import location from '../data/location.json'
-import { getAllUnit, createUnit, updateUnit, deleteUnit } from '../redux/actions/unitAction';
+import { getChildUnit, createUnit, updateUnit, deleteUnit } from '../redux/actions/unitAction';
 import { createUser, getChildUser, updateUserById } from '../redux/actions/userAction';
 
 const style = {
@@ -60,7 +60,7 @@ export default function NewUnit() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getAllUnit())
+    dispatch(getChildUnit())
     dispatch(getChildUser())
   }, [])
 

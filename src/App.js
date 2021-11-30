@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./styles/global.scss";
 import { useEffect } from "react";
-import { refreshToken } from "./redux/actions/authAction";
 import NewUnit from "./pages/NewUnit";
 import Header from "./components/Header";
 import InputCitizen from "./pages/InputCitizen";
@@ -15,7 +14,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(refreshToken());
+    
   }, [dispatch]);
 
   return (
