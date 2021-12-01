@@ -8,4 +8,13 @@ export const GLOBALTYPES = {
 
   // Citizen
   GET_CITIZENS: "GET_CITIZENS",
+  UPDATE_UNIT: "UPDATE_UNIT",
+
+  // User
+  GET_CHILD_USER: "GET_CHILD_USER",
+  CREATE_USER: "CREATE_USER",
+  UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID",
+  DELETE_USER_BY_ID: "DELETE_USER_BY_ID",
 };
+
+export const getToken = localStorage.getItem("token");

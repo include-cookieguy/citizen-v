@@ -3,6 +3,7 @@
 @use "header";
 @use "newUnit";
 @use "citizen";
+@use "home";
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Roboto:wght@100;300;400;500;700&display=swap");
 
 * {
@@ -10,6 +11,7 @@
   margin: 0;
   box-sizing: border-box;
   font-family: "Roboto";
+  text-decoration: none;
 }
 
 html {
