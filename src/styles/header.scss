@@ -1,6 +1,7 @@
 @use "variable" as v;
 
 header {
+  z-index: 999;
   font-size: medium;
   position: fixed;
   top: 0;
