@@ -26,7 +26,7 @@
     flex-direction: column;
     border-radius: 8px;
     padding: 3em;
-    font-size: 1.6rem;
+    font-size: 16px;
 
     h1 {
       font-weight: 400;
@@ -49,7 +49,7 @@
       }
 
       ::placeholder {
-        font-size: 1.6rem;
+        font-size: 16px;
       }
     }
 
@@ -63,7 +63,7 @@
     .error {
       margin-top: 4px;
       color: v.$third-color;
-      font-size: 1.3rem;
+      font-size: 13px;
     }
 
     .error-submit {
@@ -93,7 +93,7 @@
       padding: 5px 25px;
       font-weight: 700;
       cursor: pointer;
-      font-size: 1.6rem;
+      font-size: 16px;
       transition: all 0.3s;
 
       &:hover {

@@ -3,6 +3,9 @@ export const GLOBALTYPES = {
   ALERT: "ALERT",
 
   // Unit
-  GET_ALL_UNIT: 'GET_ALL_UNIT',
-  CREATE_UNIT: 'CREATE_UNIT',
+  GET_ALL_UNIT: "GET_ALL_UNIT",
+  CREATE_UNIT: "CREATE_UNIT",
+
+  // Citizen
+  GET_CITIZENS: "GET_CITIZENS",
 };
