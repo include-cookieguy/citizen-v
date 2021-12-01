@@ -1,0 +1,109 @@
+@use "variable" as v;
+
+a,
+a:hover,
+a:focus {
+  text-decoration: none;
+  transition: 0.5s;
+  outline: none;
+}
+
+/* -----Search-filter */
+
+.card {
+  box-shadow: 0px 5px 10px rgba(90, 116, 148, 0.3);
+  background-color: #fff;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: #475f7b;
+  overflow: hidden;
+}
+.table-filter-info {
+  padding: 15px;
+}
+.thead-primary tr th {
+  background-color: #5a8dee;
+  border-color: #5a8dee;
+  color: #fff;
+}
+.dt-pagination-ul {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  padding-left: 0;
+  border-top: 1px solid #dee2e6;
+  padding-top: 15px;
+}
+
+.dt-pagination .dt-item {
+  display: inline-block;
+}
+
+.dt-pagination .dt-item .dt-link {
+  padding: 6px 8px;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 8px;
+  margin-left: 0;
+  margin-right: 8px;
+  border: 1px solid #fff;
+  font-size: 12px;
+  font-weight: 500;
+  color: #8a93a6;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+}
+
+.dt-pagination .dt-item .dt-link:hover {
+  background-color: #ebf2fd;
+  color: #5a8dee;
+}
+
+.dt-pagination .dt-item.disabled .dt-link {
+  background-color: #f6f7fb;
+  color: #d7dae0;
+  cursor: not-allowed;
+}
+
+.dt-pagination .dt-item:first-child .dt-link,
+.dt-pagination .dt-item:last-child .dt-link {
+  background-color: #f6f7fb;
+}
+
+.dt-pagination .dt-item.active .dt-link {
+  background-color: #5a8dee;
+  border-color: #5a8dee;
+  color: #fff;
+}
+
+.input-citizen form {
+  .submit-button {
+    border-radius: 8px 8px 8px 0;
+    border: 2px solid rgba(0, 0, 0, 0);
+    background-color: v.$base-color;
+    color: v.$text-color;
+    padding: 5px 25px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: v.$hover-color;
+      color: v.$text-color;
+    }
+  }
+
+  .label-text {
+    color: v.$base-color;
+    display: block;
+    margin: 5px 10px 0px 10px;
+
+    span {
+      color: v.$third-color;
+    }
+  }
+}

@@ -8,13 +8,14 @@ import InputCitizen from "./pages/InputCitizen";
 import Alert from "./components/alert/Alert";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import { refreshToken } from "./redux/actions/authAction";
 
 function App() {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    
+    // refreshToken();
   }, [dispatch]);
 
   return (

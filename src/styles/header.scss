@@ -6,7 +6,7 @@ header {
   position: fixed;
   top: 0;
   background-image: linear-gradient(
-    to right, 
+    to right,
     v.$base-color-1,
     v.$base-color,
     v.$base-color
@@ -32,7 +32,7 @@ header {
       width: 100%;
       height: 100%;
       align-items: center;
-      
+
       .title-nav {
         width: 100%;
         display: flex;
@@ -65,7 +65,7 @@ header {
                 min-width: 45px;
               }
             }
-  
+
             .title {
               font-weight: bold;
               font-size: large;
@@ -100,7 +100,6 @@ header {
               }
             }
           }
-          
         }
       }
 
@@ -142,7 +141,7 @@ header {
 
   .nav-bar-bottom {
     display: none;
-  
+
     @media screen and (max-width: v.$phone-width) {
       display: flex;
       justify-content: center;
@@ -151,7 +150,7 @@ header {
       margin-right: auto;
       border-radius: 10px;
       background-image: linear-gradient(
-        to right, 
+        to right,
         v.$base-color-1,
         v.$base-color
       );
