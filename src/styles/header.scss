@@ -9,7 +9,7 @@ header {
     to right,
     v.$base-color-1,
     v.$base-color,
-    v.$base-color
+    v.$base-color-2
   );
   display: flex;
   align-items: center;
@@ -134,6 +134,7 @@ header {
 }
 
 .bottom {
+  z-index: 999;
   font-size: medium;
   position: fixed;
   bottom: 20px;
@@ -152,7 +153,8 @@ header {
       background-image: linear-gradient(
         to right,
         v.$base-color-1,
-        v.$base-color
+        v.$base-color,
+        v.$base-color-2
       );
       color: v.$text-color;
 
