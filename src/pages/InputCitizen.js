@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import location from "../data/location.json";
+import locationData from "../data/location.json";
 import ethnic from "../data/ethnic.json";
 import { postDataAPI } from "../utils/fetchData";
 import { useSelector } from "react-redux";
@@ -42,7 +42,7 @@ const InputCitizen = () => {
 
   const availableDistricts = useMemo(() => {
     if (citizenInfo.city) {
-      const res = location.find((e) => e.label === citizenInfo.city);
+      const res = locationData.find((e) => e.label === citizenInfo.city);
 
       if (res) {
         return res.Districts;
@@ -163,7 +163,6 @@ const InputCitizen = () => {
     if (check.errLength > 0) {
       setErrBlur(check.errMsg);
     } else {
-      console.log("ccc");
       const location = {
         city,
         district,
@@ -174,6 +173,7 @@ const InputCitizen = () => {
       delete citizenInfo.city;
       delete citizenInfo.district;
       delete citizenInfo.ward;
+      delete citizenInfo.village;
 
       const finalInfo = {
         ...citizenInfo,
@@ -306,11 +306,13 @@ const InputCitizen = () => {
             </label>
             <Autocomplete
               disablePortal
-              options={location}
+              options={locationData}
               sx={{ width: 300 }}
-              key={(citizenInfo.city || "") + "city"}
+              key={citizenInfo.city + "city"}
               onBlur={() => handleBlur("city")}
+              clearText="Xoá"
               onInputChange={(e, newInput) => {
+                console.log(newInput);
                 setCitizenInfo({
                   ...citizenInfo,
                   city: newInput,
@@ -342,6 +344,7 @@ const InputCitizen = () => {
               sx={{ width: 300 }}
               disabled={citizenInfo.city ? false : true}
               onInputChange={(e, newInput) => {
+                console.log(newInput);
                 setCitizenInfo({
                   ...citizenInfo,
                   district: newInput,
@@ -368,7 +371,7 @@ const InputCitizen = () => {
             <Autocomplete
               disablePortal
               options={avaiableWards}
-              key={citizenInfo.ward + "ward"}
+              key={citizenInfo.ward}
               sx={{ width: 300 }}
               onInputChange={(e, newInput) => {
                 setCitizenInfo({ ...citizenInfo, ward: newInput });

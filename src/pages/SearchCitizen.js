@@ -1,18 +1,13 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import DataPagination from "../components/DataPagination";
 import { searchCitizens } from "../redux/actions/citizenAction";
+import { Autocomplete, TextField } from "@mui/material";
+import locationData from "../data/location.json";
 
 const SearchCitizen = () => {
   const [searchQuery, setSearchQuery] = useState({
     fullName: "",
-    dateOfBirth: "",
-    currentAddress: "",
-    gender: "",
-    email: "",
-    occupation: "",
-    ethnic: "",
-    religion: "",
     location: {
       city: "",
       district: "",
@@ -22,6 +17,38 @@ const SearchCitizen = () => {
 
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
+
+  const availableDistricts = useMemo(() => {
+    if (searchQuery.location.city) {
+      const res = locationData.find(
+        (e) => e.label === searchQuery.location.city
+      );
+
+      if (res) {
+        return res.Districts;
+      }
+    }
+  }, [searchQuery.location.city]);
+
+  const avaiableWards = useMemo(() => {
+    if (
+      searchQuery.location.city &&
+      searchQuery.location.district &&
+      availableDistricts
+    ) {
+      const res = availableDistricts.find(
+        (e) => e.label === searchQuery.location.district
+      );
+
+      if (res) {
+        return res.Wards;
+      }
+    }
+  }, [
+    searchQuery.location.city,
+    searchQuery.location.district,
+    availableDistricts,
+  ]);
 
   const handleSearchQuery = (e) => {
     const { value, name } = e.target;
@@ -39,43 +66,69 @@ const SearchCitizen = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmitSearch}>
+      <form onSubmit={handleSubmitSearch} className="search-citizen">
         <input
           type="text"
           placeholder="Họ và tên"
           name="fullName"
+          className="fullname-search"
           onChange={handleSearchQuery}
         />
-        <input
-          type="text"
-          placeholder="Tỉnh/Thành Phố"
-          onChange={(e) =>
+        <Autocomplete
+          disablePortal
+          options={locationData}
+          sx={{ width: 300 }}
+          onInputChange={(e, newInput) => {
             setSearchQuery({
               ...searchQuery,
-              location: { ...searchQuery.location, city: e.target.value },
-            })
-          }
+              location: {
+                ...searchQuery.location,
+                city: newInput,
+                district: "",
+                ward: "",
+              },
+            });
+          }}
+          renderInput={(params) => (
+            <TextField {...params} label="Tỉnh/Thành Phố" />
+          )}
         />
-        <input
-          type="text"
-          placeholder="Quận/Huyện"
-          onChange={(e) =>
+
+        <Autocomplete
+          disablePortal
+          options={availableDistricts}
+          sx={{ width: 300 }}
+          disabled={searchQuery.location.city ? false : true}
+          onInputChange={(e, newInput) => {
             setSearchQuery({
               ...searchQuery,
-              location: { ...searchQuery.location, district: e.target.value },
-            })
-          }
+              location: {
+                ...searchQuery.location,
+                district: newInput,
+                ward: "",
+              },
+            });
+          }}
+          renderInput={(params) => <TextField {...params} label="Quận/Huyện" />}
         />
-        <input
-          type="text"
-          placeholder="Phuờng/Xã"
-          onChange={(e) =>
+
+        <Autocomplete
+          disablePortal
+          options={avaiableWards}
+          sx={{ width: 300 }}
+          onInputChange={(e, newInput) => {
             setSearchQuery({
               ...searchQuery,
-              location: { ...searchQuery.location, ward: e.target.value },
-            })
-          }
+              location: {
+                ...searchQuery.location,
+                ward: newInput,
+              },
+            });
+          }}
+          disabled={searchQuery.location.district ? false : true}
+          renderInput={(params) => <TextField {...params} label="Xã/Phường" />}
         />
+
         <button>Tìm kiếm</button>
       </form>
 
