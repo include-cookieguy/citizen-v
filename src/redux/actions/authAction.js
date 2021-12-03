@@ -16,6 +16,7 @@ export const login = (data) => async (dispatch) => {
 
       localStorage.setItem("firstLogin", true);
       localStorage.setItem('token', res.data.access_token)
+      localStorage.setItem('user', res.data.user)
 
       dispatch({
         type: GLOBALTYPES.ALERT,
