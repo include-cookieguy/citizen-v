@@ -8,6 +8,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { LocalizationProvider, DatePicker } from "@mui/lab";
 import moment from "moment";
 import { validateCitizen } from "../utils/validateCitizen";
+import logoDepartment from '../assets/department-citizen.png';
 
 const InputCitizen = () => {
   const { auth } = useSelector((state) => state);
@@ -188,13 +189,25 @@ const InputCitizen = () => {
 
   return (
     <div className="input-citizen">
+      <div className='title-logo'>
+        <div className='header-form'>
+          <div className='ministry'>BỘ Y TẾ</div>
+          <div className='department'>TỔNG CỤC DÂN SỐ</div>
+        </div>
+        <div className='logo'>
+          <img src={logoDepartment} alt='logo of department' />
+        </div>
+        <div className='title'>PHIẾU ĐIỀN THÔNG TIN CỦA CÔNG DÂN</div>
+      </div>
+
       <form onSubmit={handleSubmit}>
         <Box
           sx={{
             "& .MuiTextField-root": { m: 1 },
           }}
         >
-          <div>
+
+          <div className='field fullname'>
             <label className="label-text">
               Họ và tên <span>{"(*)"}</span>
             </label>
@@ -202,13 +215,16 @@ const InputCitizen = () => {
               error={errBlur.fullName ? true : false}
               placeholder="Ví dụ: Nguyễn Văn A"
               name="fullName"
+              sx={{ width: '100%' }}
               value={citizenInfo.fullName}
               onChange={handleInput}
               onBlur={() => handleBlur("fullName")}
               onInput={() => handleBlurInput("fullName")}
               helperText={errBlur.fullName}
             />
+          </div>
 
+          <div className='field dateOfBirth'>
             <label className="label-text">
               Ngày sinh <span>{"(*)"}</span>
             </label>
@@ -235,6 +251,7 @@ const InputCitizen = () => {
                   <TextField
                     {...params}
                     helperText={errBlur.dateOfBirth}
+                    sx={{ width: '100%' }}
                     error={errBlur.dateOfBirth ? true : false}
                     onBlur={() => handleBlur("dateOfBirth")}
                     onInput={() => handleBlurInput("dateOfBirth")}
@@ -242,7 +259,9 @@ const InputCitizen = () => {
                 )}
               />
             </LocalizationProvider>
+          </div>
 
+          <div className='field gender'>
             <label className="label-text">
               Giới tính <span>{"(*)"}</span>
             </label>
@@ -266,41 +285,62 @@ const InputCitizen = () => {
             />
           </div>
 
-          <label className="label-text">
-            Căn cước công dân/Chứng minh thư <span>{"(*)"}</span>
-          </label>
-          <div>
+          <div className='field identifiedCode'>
+            <label className="label-text">
+              Căn cước công dân/Chứng minh thư <span>{"(*)"}</span>
+            </label>
             <TextField
               placeholder="Ví dụ: 123456789101"
               helperText={errBlur.identifiedCode}
               name="identifiedCode"
+              sx={{ width: '100%' }}
               onChange={handleInput}
               error={errBlur.identifiedCode ? true : false}
               onBlur={() => handleBlur("identifiedCode")}
               onInput={() => handleBlurInput("identifiedCode")}
             />
+          </div>
 
-            <label className="label-text">Số điện thoại</label>
-            <TextField
-              placeholder="Ví dụ: 0123456789"
-              name="phoneNumber"
-              onChange={handleInput}
-              helperText={errBlur.phoneNumber}
-              error={errBlur.phoneNumber ? true : false}
-            />
-
-            <label className="label-text">Email</label>
-            <TextField
-              placeholder="Ví dụ: nguyenvana@gmail.com"
-              helperText={errBlur.email}
+          <div className='field ethnic'>
+            <label className="label-text">Dân tộc</label>
+            <Autocomplete
+              disablePortal
+              options={ethnic.ethnic}
               sx={{ width: 300 }}
-              error={errBlur.email ? true : false}
-              name="email"
-              onChange={handleInput}
+              onInputChange={(e, newInput) =>
+                setCitizenInfo({ ...citizenInfo, ethnic: newInput })
+              }
+              renderInput={(params) => (
+                <TextField {...params} placeholder="Ví dụ: Kinh" />
+              )}
             />
           </div>
 
-          <div>
+          <div className='field religion'>
+            <label className="label-text">Tôn giáo</label>
+            <Autocomplete
+              disablePortal
+              options={[
+                "Không",
+                "Phật giáo",
+                "Công giáo",
+                "Tin Lành",
+                "Hoà Hảo",
+                "Hồi giáo",
+                "Bà-la-môn",
+                "Cao Đài",
+              ]}
+              sx={{ width: 300 }}
+              onChange={(e, newInput) =>
+                setCitizenInfo({ ...citizenInfo, religion: newInput })
+              }
+              renderInput={(params) => (
+                <TextField {...params} placeholder="Không" />
+              )}
+            />
+          </div>
+
+          <div className='field province'>
             <label className="label-text">
               Tỉnh/Thành phố <span>{"(*)"}</span>
             </label>
@@ -334,6 +374,9 @@ const InputCitizen = () => {
                 />
               )}
             />
+          </div>
+
+          <div className='field district'>
             <label className="label-text">
               Quận/Huyện <span>{"(*)"}</span>
             </label>
@@ -365,6 +408,9 @@ const InputCitizen = () => {
                 />
               )}
             />
+          </div>
+
+          <div className='field ward'>
             <label className="label-text">
               Xã/Phường <span>{"(*)"}</span>
             </label>
@@ -393,69 +439,73 @@ const InputCitizen = () => {
             />
           </div>
 
-          <label className="label-text">Thôn/Xóm/Khu/Ấp</label>
-          <TextField
-            placeholder="Ví dụ: Ấp Thạnh Vinh"
-            name="village"
-            onChange={(e) =>
-              setCitizenInfo({
-                ...citizenInfo,
-                village: e.target.value,
-              })
-            }
-          />
+          <div className='field village'>
+            <label className="label-text">Thôn/Xóm/Khu/Ấp</label>
+            <TextField
+              placeholder="Ví dụ: Ấp Thạnh Vinh"
+              name="village"
+              sx={{ width: '100%' }}
+              onChange={(e) =>
+                setCitizenInfo({
+                  ...citizenInfo,
+                  village: e.target.value,
+                })
+              }
+            />
+          </div>
 
-          <label className="label-text">Nghề nghiệp</label>
-          <TextField
-            placeholder="Ví dụ: Lập trình viên"
-            name="occupation"
-            onChange={handleInput}
-          />
+          <div className='field currentAddress'>
+            <label className="label-text">Địa chỉ hiện tại</label>
+            <TextField
+              className='ta dang o dau'
+              placeholder="Số nhà - Thôn/Xóm/Khu/Ấp - Xã/Phường - Quận/Huyện - Tỉnh/Thành Phố"
+              name="currentAddress"
+              sx={{ width: '100%' }}
+              onChange={handleInput}
+            />
+          </div>
 
-          <label className="label-text">Địa chỉ hiện tại</label>
-          <TextField
-            placeholder="Số nhà - Thôn/Xóm/Khu/Ấp - Xã/Phường - Quận/Huyện - Tỉnh/Thành Phố"
-            name="currentAddress"
-            sx={{ width: 600 }}
-            onChange={handleInput}
-          />
+          <div className='field occupation'>
+            <label className="label-text">Nghề nghiệp</label>
+            <TextField
+              placeholder="Ví dụ: Lập trình viên"
+              name="occupation"
+              sx={{ width: '100%' }}
+              onChange={handleInput}
+            />
+          </div>
 
-          <label className="label-text">Dân tộc</label>
-          <Autocomplete
-            disablePortal
-            options={ethnic.ethnic}
-            sx={{ width: 300 }}
-            onInputChange={(e, newInput) =>
-              setCitizenInfo({ ...citizenInfo, ethnic: newInput })
-            }
-            renderInput={(params) => (
-              <TextField {...params} placeholder="Ví dụ: Kinh" />
-            )}
-          />
+          <div className='field phone'>
+            <label className="label-text">Số điện thoại</label>
+            <TextField
+              placeholder="Ví dụ: 0123456789"
+              name="phoneNumber"
+              sx={{ width: '100%' }}
+              onChange={handleInput}
+              helperText={errBlur.phoneNumber}
+              error={errBlur.phoneNumber ? true : false}
+            />
+          </div>
 
-          <label className="label-text">Tôn giáo</label>
-          <Autocomplete
-            disablePortal
-            options={[
-              "Không",
-              "Phật giáo",
-              "Công giáo",
-              "Tin Lành",
-              "Hoà Hảo",
-              "Hồi giáo",
-              "Bà-la-môn",
-              "Cao Đài",
-            ]}
-            sx={{ width: 300 }}
-            onChange={(e, newInput) =>
-              setCitizenInfo({ ...citizenInfo, religion: newInput })
-            }
-            renderInput={(params) => (
-              <TextField {...params} placeholder="Không" />
-            )}
-          />
+          <div className='field email'>
+            <label className="label-text">Email</label>
+            <TextField
+              placeholder="Ví dụ: nguyenvana@gmail.com"
+              helperText={errBlur.email}
+              sx={{ width: '100%' }}
+              error={errBlur.email ? true : false}
+              name="email"
+              onChange={handleInput}
+            />
+          </div>
+
         </Box>
-        <button className="submit-button">Gửi dữ liệu</button>
+
+        <div className='submit'>
+          <div>
+            <button className="submit-button">Gửi dữ liệu</button>
+          </div>
+        </div>
       </form>
     </div>
   );
