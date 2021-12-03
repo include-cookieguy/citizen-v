@@ -27,6 +27,10 @@ const style = {
 
 export default function NewUnit() {
   const initState = {
+    // Dropdown options
+    select: [],
+    cSelect: [],
+
     // Modal
     isModalOpen: false,
     isEditModalOpen: false,
@@ -62,17 +66,36 @@ export default function NewUnit() {
   useEffect(() => {
     dispatch(getChildUnit())
     dispatch(getChildUser())
+    let options = location.map(x => x.label)
+    let cOptions = location.map(x => ({ label: x.label }))
+    setState({ ...state, select: options, cSelect: cOptions })
   }, [])
 
-  let cSelect = location.map(x => ({ label: x.Name }))
   let cRows = useSelector(state => state.unit.allUnit.map((u, idx) => ({ id: idx, _id: u._id, name: u.nameOfUnit, code: u.code })))
   let cChildUser = useSelector(state => state.user.allUser)
   
+  //  Compute select
+  const computedSelect = (temp) => {
+    let cTemp = temp.map(x => ({ label: x }))
+    setState({ ...state, select: temp })
+    setState({ ...state, cSelect: cTemp })
+  }
+
   //  New Unit handler
   const handleOpen = () => setState({ ...state, isModalOpen: true })
   const handleClose = () => setState({ ...state, isModalOpen: false })
   const handleUnit = (e, v) => {
     setState({ ...state, newUnit: (v || {}).label })
+  }
+  const handleKeydownUnit = (e) => {
+    if (e.keyCode === 13) {
+      let temp = state.select
+      if (!temp.includes(e.target.value)) {
+        temp.push(e.target.value)
+      }
+      computedSelect(temp)
+      setState({ ...state, newUnit: e.target.value })
+    }
   }
   const handleCode = (e) => {
     setState({ ...state, newUnitCode: e.target.value })
@@ -151,7 +174,7 @@ export default function NewUnit() {
     { field: 'id', headerName: 'STT', width: 80 },
     { field: '_id', headerName: '_ID', width: 240 },
     { field: 'name', headerName: 'Name', width: 250 },
-    { field: 'code', headerName: 'Code', width: 80 },
+    { field: 'code', headerName: 'Code', width: 100 },
     {
       field: 'account',
       headerName: 'Account',
@@ -161,8 +184,8 @@ export default function NewUnit() {
         let user = cChildUser.filter(u => u.username === params.row.code)[0]
         return (
           <>
-            { user && <Button style={{ fontSize: '1.4rem' }} onClick={ () => handleEditAccountOpen(params.row) }>Edit</Button> }
-            { !user && <Button style={{ fontSize: '1.4rem' }} onClick={ () => handleAccountOpen(params.row) }>Create</Button> }
+            { user && <Button  onClick={ () => handleEditAccountOpen(params.row) }>Edit</Button> }
+            { !user && <Button  onClick={ () => handleAccountOpen(params.row) }>Create</Button> }
           </>
         );
       },
@@ -175,8 +198,8 @@ export default function NewUnit() {
       renderCell: (params) => {
         return (
           <>
-            <Button style={{ fontSize: '1.4rem' }} onClick={ () => handleEditOpen(params.row) }>Edit</Button>
-            <Button style={{ fontSize: '1.4rem' }} onClick={ () => handleDelete(params.row) }>Delete</Button>
+            <Button  onClick={ () => handleEditOpen(params.row) }>Edit</Button>
+            <Button  onClick={ () => handleDelete(params.row) }>Delete</Button>
           </>
         );
       },
@@ -185,120 +208,103 @@ export default function NewUnit() {
 
   return (
     <div className="newUnit-body">
-      <Button style={{ border: '1px solid' ,margin: '10px auto 10px 90%', fontSize: '1.5rem' }}
+      <Button style={{ border: '1px solid' ,margin: '10px auto 10px 90%',  }}
         onClick={handleOpen}
       >New Unit</Button>
 
       <Dialog // New Unit dialog
-        style={{ fontSize: '1.6rem' }}
         open={state.isModalOpen}
         onClose={handleClose}
       >
-        <DialogTitle style={{ fontSize: '1.8rem' }}>Create new Unit</DialogTitle>
-        <DialogContent style={{ width: '100%', height: 300, display: 'flex', fontSize: '1.6rem' }}>
+        <DialogTitle >Create new Unit</DialogTitle>
+        <DialogContent style={{ width: '100%', height: 300, display: 'flex',  }}>
           <Autocomplete
             disablePortal
             onChange={handleUnit}
-            options={cSelect}
+            onKeyDown={handleKeydownUnit}
+            options={state.cSelect}
             sx={{ width: 300, marginTop: '10px' }}
             renderInput={(params) => 
               <TextField 
                 { ...params } 
-                // InputProps={{ style: { fontSize: '1.6rem' } }}s
                 label="Unit" 
-                InputLabelProps={{ style: { fontSize: '1.6rem' } }} 
               />
             }
           />
           <TextField label='Code' variant='outlined'
-            InputProps={{ style: { fontSize: '1.6rem' } }}
-            InputLabelProps={{ style: { fontSize: '1.6rem' } }}
-            style={{ marginLeft: '10px', marginTop: '10px', fontSize: '1.6rem' }}
+            style={{ marginLeft: '10px', marginTop: '10px',  }}
             onChange={handleCode}
           ></TextField>
         </DialogContent>
         <DialogActions>
-          <Button style={{ height: 60, fontSize: '1.4rem' }} onClick={handleSubmit}>Submit</Button>
-          <Button style={{ height: 60, fontSize: '1.4rem' }} onClick={handleClose}>Close</Button>
+          <Button style={{ height: 60,  }} onClick={handleSubmit}>Submit</Button>
+          <Button style={{ height: 60,  }} onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
 
       <Dialog // Edit Unit dialog
-        style={{ fontSize: '1.6rem' }}
         open={state.isEditModalOpen}
         onClose={handleEditClose}
       >
-        <DialogTitle style={{ fontSize: '1.8rem' }}>Edit Unit</DialogTitle>
-        <DialogContent style={{ width: '100%', height: 250, display: 'flex', fontSize: '1.6rem' }}>
+        <DialogTitle >Edit Unit</DialogTitle>
+        <DialogContent style={{ width: '100%', height: 250, display: 'flex',  }}>
           <TextField label='Unit' variant='outlined' 
-            InputProps={{ style: { fontSize: '1.6rem' } }}
-            InputLabelProps={{ style: { fontSize: '1.6rem' } }}
             style={{ marginTop: '10px' }}
             value={state.editUnit}
             disabled
           ></TextField>
           <TextField label='Code' variant='outlined' 
-            InputProps={{ style: { fontSize: '1.6rem' } }}
-            InputLabelProps={{ style: { fontSize: '1.6rem' } }}
-            style={{ marginLeft: '10px', marginTop: '10px', fontSize: '1.6rem' }}
+            style={{ marginLeft: '10px', marginTop: '10px',  }}
             value={state.editUnitCode}
             onChange={handleEditCode}
           ></TextField>
         </DialogContent>
         <DialogActions>
-          <Button style={{ height: 60, fontSize: '1.6rem' }} onClick={handleEditSubmit}>Submit</Button>
-          <Button style={{ height: 60, fontSize: '1.6rem' }} onClick={handleEditClose}>Close</Button>
+          <Button style={{ height: 60,  }} onClick={handleEditSubmit}>Submit</Button>
+          <Button style={{ height: 60,  }} onClick={handleEditClose}>Close</Button>
         </DialogActions>
       </Dialog>
 
       <Dialog // New Account dialog
-        style={{ fontSize: '1.6rem' }}
+        
         open={state.isAccountModalOpen}
         onClose={handleAccountClose}
       >
-        <DialogTitle style={{ fontSize: '1.8rem' }}>Create new account</DialogTitle>
-        <DialogContent style={{ width: '100%', height: 300, display: 'flex', fontSize: '1.6rem' }}>
+        <DialogTitle >Create new account</DialogTitle>
+        <DialogContent style={{ width: '100%', height: 300, display: 'flex',  }}>
           <TextField label='Username' variant='outlined'
-            InputProps={{ style: { fontSize: '1.6rem' } }}
-            InputLabelProps={{ style: { fontSize: '1.6rem' } }}
-            style={{ marginLeft: '10px', marginTop: '10px', fontSize: '1.6rem' }}
+            style={{ marginLeft: '10px', marginTop: '10px',  }}
             value={state.newUsername}
             onChange={handleUsername}
             disabled
           ></TextField>
           <TextField label='Password' variant='outlined'
-            InputProps={{ style: { fontSize: '1.6rem' } }}
-            InputLabelProps={{ style: { fontSize: '1.6rem' } }}
-            style={{ marginLeft: '10px', marginTop: '10px', fontSize: '1.6rem' }}
+            style={{ marginLeft: '10px', marginTop: '10px',  }}
             onChange={handlePassword}
           ></TextField>
         </DialogContent>
         <DialogActions>
-          <Button style={{ height: 60, fontSize: '1.4rem' }} onClick={handleAccountSubmit}>Create</Button>
-          <Button style={{ height: 60, fontSize: '1.4rem' }} onClick={handleAccountClose}>Close</Button>
+          <Button style={{ height: 60,  }} onClick={handleAccountSubmit}>Create</Button>
+          <Button style={{ height: 60,  }} onClick={handleAccountClose}>Close</Button>
         </DialogActions>
       </Dialog>
 
       <Dialog // Edit Account dialog
-        style={{ fontSize: '1.6rem' }}
+        
         open={state.isEditAccountModalOpen}
         onClose={handleEditAccountClose}
       >
-        <DialogTitle style={{ fontSize: '1.8rem' }}>Edit account</DialogTitle>
-        <DialogContent style={{ width: '100%', minHeight: 300, fontSize: '1.6rem' }}>
+        <DialogTitle >Edit account</DialogTitle>
+        <DialogContent style={{ width: '100%', minHeight: 300,  }}>
           <div style={{ display: 'flex', width: '100%' }}>
             <TextField label='Username' variant='outlined'
-              InputProps={{ style: { fontSize: '1.6rem' } }}
-              InputLabelProps={{ style: { fontSize: '1.6rem' } }}
-              style={{ marginLeft: '10px', marginTop: '10px', fontSize: '1.6rem' }}
+              style={{ marginLeft: '10px', marginTop: '10px',  }}
               value={state.editUsername}
               onChange={handleEditUsername}
               disabled
             ></TextField>
             <TextField label='Password' variant='outlined'
-              InputProps={{ style: { fontSize: '1.6rem' } }}
-              InputLabelProps={{ style: { fontSize: '1.6rem' } }}
-              style={{ marginLeft: '10px', marginTop: '10px', fontSize: '1.6rem' }}
+              style={{ marginLeft: '10px', marginTop: '10px',  }}
               onChange={handleEditPassword}
             ></TextField>
           </div>
@@ -317,18 +323,18 @@ export default function NewUnit() {
           <div>
             <h3>Thời gian khai báo</h3>
             <TextField label='Start time' variant='standard'
-              InputProps={{ style: { fontSize: '1.6rem' } }}
-              InputLabelProps={{ shrink: true, style: { fontSize: '1.6rem' } }}
-              style={{ marginLeft: '10px', marginTop: '10px', fontSize: '1.6rem' }}
+              
+              InputLabelProps={{ shrink: true, style: {  } }}
+              style={{ marginLeft: '10px', marginTop: '10px',  }}
               type='datetime-local'
               onChange={handleEditStartTime}
             ></TextField>
             <br />
             <br />
             <TextField label='End time' variant='standard'
-              InputProps={{ style: { fontSize: '1.6rem' } }}
-              InputLabelProps={{ shrink: true, style: { fontSize: '1.6rem' } }}
-              style={{ marginLeft: '10px', marginTop: '10px', fontSize: '1.6rem' }}
+              
+              InputLabelProps={{ shrink: true, style: {  } }}
+              style={{ marginLeft: '10px', marginTop: '10px',  }}
               type='datetime-local'
               onChange={handleEditEndtTime}
             ></TextField>
@@ -336,13 +342,13 @@ export default function NewUnit() {
 
         </DialogContent>
         <DialogActions>
-          <Button style={{ height: 60, fontSize: '1.4rem' }} onClick={handleEditAccountSubmit}>Submit</Button>
-          <Button style={{ height: 60, fontSize: '1.4rem' }} onClick={handleEditAccountClose}>Close</Button>
+          <Button style={{ height: 60,  }} onClick={handleEditAccountSubmit}>Submit</Button>
+          <Button style={{ height: 60,  }} onClick={handleEditAccountClose}>Close</Button>
         </DialogActions>
       </Dialog>
 
       <DataGrid
-        style={{ fontSize: '1.6rem' }}
+        
         rows={cRows}
         columns={columns}
         pageSize={7}
