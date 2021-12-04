@@ -47,7 +47,7 @@ export const deleteUnit =
   async (dispatch) => {
     try {
       await deleteDataAPI(`/unit/${_id}`);
-      let res = await getDataAPI("/unit");
+      let res = await getDataAPI("/unit/child");
       dispatch({ type: GLOBALTYPES.GET_ALL_UNIT, payload: res.data });
     } catch (err) {
       console.log(err);

@@ -9,7 +9,7 @@ import { Button, DialogContent, Dialog, DialogTitle, DialogActions,
 import '../styles/newUnit.scss'
 import location from '../data/location.json'
 import { getChildUnit, createUnit, updateUnit, deleteUnit } from '../redux/actions/unitAction';
-import { createUser, getChildUser, updateUserById } from '../redux/actions/userAction';
+import { createUser, getChildUser, updateUserById, getOptions } from '../redux/actions/userAction';
 
 const style = {
   position: 'absolute',
@@ -63,11 +63,13 @@ export default function NewUnit() {
 
   const dispatch = useDispatch()
 
-  useEffect(() => {
+  useEffect(async () => {
     dispatch(getChildUnit())
     dispatch(getChildUser())
-    let options = location.map(x => x.label)
-    let cOptions = location.map(x => ({ label: x.label }))
+    
+    let options = await getOptions()
+
+    let cOptions = options.map(x => ({ label: x }))
     setState({ ...state, select: options, cSelect: cOptions })
   }, [])
 
@@ -76,9 +78,10 @@ export default function NewUnit() {
   
   //  Compute select
   const computedSelect = (temp) => {
-    let cTemp = temp.map(x => ({ label: x }))
-    setState({ ...state, select: temp })
-    setState({ ...state, cSelect: cTemp })
+    return new Promise(next => {
+      let cTemp = temp.map(x => ({ label: x }))
+      next(cTemp)
+    })
   }
 
   //  New Unit handler
@@ -87,14 +90,14 @@ export default function NewUnit() {
   const handleUnit = (e, v) => {
     setState({ ...state, newUnit: (v || {}).label })
   }
-  const handleKeydownUnit = (e) => {
+  const handleKeydownUnit = async (e) => {
     if (e.keyCode === 13) {
       let temp = state.select
       if (!temp.includes(e.target.value)) {
         temp.push(e.target.value)
       }
-      computedSelect(temp)
-      setState({ ...state, newUnit: e.target.value })
+      let cTemp = await computedSelect(temp)
+      setState({ ...state, select: temp, cSelect: cTemp, newUnit: e.target.value })
     }
   }
   const handleCode = (e) => {
