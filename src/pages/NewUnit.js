@@ -144,11 +144,15 @@ export default function NewUnit() {
   const handleEditAccountOpen = (row) => {
     let user = cChildUser.filter(u => u.username === row.code)[0]
     state.editUser = user
+    user.startTime = (user.startTime || "").split('.')[0]
+    user.endTime = (user.endTime || "").split('.')[0]
     setState({
       ...state, 
       isEditAccountModalOpen: true, 
       editUsername: user.username, 
-      editActive: user.active
+      editActive: user.active,
+      editStartTime: user.startTime,
+      editEndTime: user.endTime,
     })
   }
   const handleEditAccountClose = () => setState({ ...state, isEditAccountModalOpen: false })
@@ -326,7 +330,7 @@ export default function NewUnit() {
           <div>
             <h3>Thời gian khai báo</h3>
             <TextField label='Start time' variant='standard'
-              
+              defaultValue={state.editStartTime}
               InputLabelProps={{ shrink: true, style: {  } }}
               style={{ marginLeft: '10px', marginTop: '10px',  }}
               type='datetime-local'
@@ -335,7 +339,7 @@ export default function NewUnit() {
             <br />
             <br />
             <TextField label='End time' variant='standard'
-              
+              defaultValue={state.editEndTime}
               InputLabelProps={{ shrink: true, style: {  } }}
               style={{ marginLeft: '10px', marginTop: '10px',  }}
               type='datetime-local'
