@@ -27,3 +27,14 @@ export const updateUserById = (data) => async (dispatch) => {
     console.log(err)
   }
 }
+
+export const getOptions = () => {
+  return new Promise(async next => {
+    try {
+    let res = await getDataAPI('/user/options')
+      next(res.data)
+    } catch(err) {
+      console.log(err)
+    }
+  })
+}

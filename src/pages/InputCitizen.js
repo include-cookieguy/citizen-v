@@ -27,6 +27,10 @@ const InputCitizen = () => {
     ward: "",
     village: "",
     ethnic: "",
+    //  Key
+    city_key: true,
+    district_key: true,
+    ward_key: true,
   });
 
   const [errBlur, setErrBlur] = useState({
@@ -348,7 +352,7 @@ const InputCitizen = () => {
               disablePortal
               options={locationData}
               sx={{ width: 300 }}
-              key={citizenInfo.city + "city"}
+              key={citizenInfo.city_key + "city"}
               onBlur={() => handleBlur("city")}
               clearText="Xoá"
               onInputChange={(e, newInput) => {
@@ -358,6 +362,8 @@ const InputCitizen = () => {
                   city: newInput,
                   district: "",
                   ward: "",
+                  district_key: !citizenInfo.district_key,
+                  ward_key: !citizenInfo.ward_key,
                 });
 
                 setErrBlur({
@@ -383,7 +389,7 @@ const InputCitizen = () => {
             <Autocomplete
               disablePortal
               options={availableDistricts}
-              key={citizenInfo.district + "district"}
+              key={citizenInfo.district_key + "district"}
               sx={{ width: 300 }}
               disabled={citizenInfo.city ? false : true}
               onInputChange={(e, newInput) => {
@@ -392,6 +398,7 @@ const InputCitizen = () => {
                   ...citizenInfo,
                   district: newInput,
                   ward: "",
+                  ward_key: !citizenInfo.ward_key
                 });
                 setErrBlur({
                   ...errBlur,
@@ -417,7 +424,7 @@ const InputCitizen = () => {
             <Autocomplete
               disablePortal
               options={avaiableWards}
-              key={citizenInfo.ward}
+              key={citizenInfo.ward_key}
               sx={{ width: 300 }}
               onInputChange={(e, newInput) => {
                 setCitizenInfo({ ...citizenInfo, ward: newInput });
