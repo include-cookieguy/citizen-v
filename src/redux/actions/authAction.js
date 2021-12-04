@@ -16,7 +16,7 @@ export const login = (data) => async (dispatch) => {
 
       localStorage.setItem("firstLogin", true);
       localStorage.setItem('token', res.data.access_token)
-      localStorage.setItem('user', res.data.user)
+      localStorage.setItem('user', JSON.stringify(res.data.user))
 
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -86,6 +86,7 @@ export const logout = () => async (dispatch) => {
   try {
     localStorage.removeItem("firstLogin");
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     await postDataAPI("logout");
     window.location.href = "/";
   } catch (err) {
