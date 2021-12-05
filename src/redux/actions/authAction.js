@@ -18,6 +18,8 @@ export const login = (data) => async (dispatch) => {
       localStorage.setItem("token", res.data.access_token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
+      console.log(res.data.user);
+
       dispatch({
         type: GLOBALTYPES.ALERT,
         payload: {

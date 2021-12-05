@@ -259,7 +259,10 @@ export default function NewUnit() {
 
   return (
     <div className="newUnit-body">
-
+      <div className='name-of-official'>
+        <div className='department'></div>
+        <div className='official'></div>
+      </div>
 
       <div className='header'>
         <div className='header-title'>
