@@ -28,15 +28,11 @@
       margin-right: auto;
       margin-bottom: 20px;
 
-<<<<<<< HEAD
     @media screen and (max-width: v.$phone-width) {
         width: 90%;
     }
 
     .title-logo {
-=======
-      img {
->>>>>>> dae2b93de3fa6d731b3ede4dd6476b8d452b9c6b
         width: 100%;
         min-width: 60px;
       }
@@ -56,7 +52,6 @@
       .field {
         margin-bottom: 20px;
 
-<<<<<<< HEAD
             @media screen and (max-width: v.$phone-width) {
                 font-size: large;
             }
@@ -64,10 +59,6 @@
             .ministry {
                 margin-bottom: 10px;
             }
-=======
-        .css-viou3o-MuiAutocomplete-root {
-          width: 100%;
->>>>>>> dae2b93de3fa6d731b3ede4dd6476b8d452b9c6b
         }
       }
 
@@ -185,7 +176,6 @@
           padding-left: 30px;
         }
 
-<<<<<<< HEAD
         .title {
             font-size: xx-large;
             font-weight: bold;
@@ -193,11 +183,6 @@
             @media screen and (max-width: v.$phone-width) {
                 font-size: x-large;
             }
-=======
-        .province {
-          flex: 50%;
-          padding-right: 15px;
->>>>>>> dae2b93de3fa6d731b3ede4dd6476b8d452b9c6b
         }
 
         .district {
@@ -271,4 +256,4 @@
       }
     }
   }
-}
+

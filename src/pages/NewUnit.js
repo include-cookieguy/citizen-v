@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-import React from 'react'
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { DataGrid } from '@mui/x-data-grid'
-import {
-  Button, DialogContent, Dialog, DialogTitle, DialogActions,
-  Autocomplete, TextField, Switch
-} from '@mui/material';
-=======
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +12,6 @@ import {
   TextField,
   Switch,
 } from "@mui/material";
->>>>>>> dae2b93de3fa6d731b3ede4dd6476b8d452b9c6b
 
 import "../styles/newUnit.scss";
 import location from "../data/location.json";
@@ -97,24 +86,9 @@ export default function NewUnit() {
     setState({ ...state, select: options, cSelect: cOptions });
   }, []);
 
-<<<<<<< HEAD
-  useEffect(async () => {
-    dispatch(getChildUnit())
-    dispatch(getChildUser())
-
-    let options = await getOptions()
-
-    let cOptions = options.map(x => ({ label: x }))
-    setState({ ...state, select: options, cSelect: cOptions })
-  }, [])
-
-  let cRows = useSelector(state => state.unit.allUnit.map((u, idx) => ({ id: idx + 1, _id: u._id, name: u.nameOfUnit, code: u.code })))
-  let cChildUser = useSelector(state => state.user.allUser)
-
-=======
   let cRows = useSelector((state) =>
     state.unit.allUnit.map((u, idx) => ({
-      id: idx,
+      id: idx + 1,
       _id: u._id,
       name: u.nameOfUnit,
       code: u.code,
@@ -122,7 +96,6 @@ export default function NewUnit() {
   );
   let cChildUser = useSelector((state) => state.user.allUser);
 
->>>>>>> dae2b93de3fa6d731b3ede4dd6476b8d452b9c6b
   //  Compute select
   const computedSelect = (temp) => {
     let cTemp = temp.map((x) => ({ label: x }));
@@ -157,16 +130,6 @@ export default function NewUnit() {
   };
 
   //  New Account handler
-<<<<<<< HEAD
-  const handleAccountOpen = (row) => setState({ ...state, isAccountModalOpen: true, newUsername: row.code })
-  const handleAccountClose = () => setState({ ...state, isAccountModalOpen: false })
-  const handleUsername = (e) => setState({ ...state, newUsername: e.target.value })
-  const handlePassword = (e) => setState({ ...state, newPassword: e.target.value })
-  const handleAccountSubmit = () => {
-    dispatch(createUser({ username: state.newUsername, password: state.newPassword }))
-    handleAccountClose()
-  }
-=======
   const handleAccountOpen = (row) =>
     setState({ ...state, isAccountModalOpen: true, newUsername: row.code });
   const handleAccountClose = () =>
@@ -181,7 +144,6 @@ export default function NewUnit() {
     );
     handleAccountClose();
   };
->>>>>>> dae2b93de3fa6d731b3ede4dd6476b8d452b9c6b
 
   //  Edit Unit handler
   const handleEditOpen = (params) => {
