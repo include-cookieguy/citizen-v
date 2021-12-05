@@ -1,7 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/actions/authAction";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import homeIcon from '../assets/home.png';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -53,8 +54,13 @@ const Header = () => {
         <div className='nav-bar-bottom'>
           <div className='nav-bar-bottom-container'>
             <div className='nav-bar-option'>
-              <div className='opt-nav-bar'>
-                <Link to='/' className='header-link'>Trang chủ</Link>
+              <div className='opt-nav-bar home'>
+                <Link to='/' className='header-link'>
+                  <div className='icon'>
+                    {/* <img src={homeIcon} /> */}
+                  </div>
+                  <div>Trang chủ</div>
+                </Link>
               </div>
               <div className='opt-nav-bar'>
                 <Link to='/newUnit' className='header-link'>Đơn vị</Link>
