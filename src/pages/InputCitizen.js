@@ -9,7 +9,7 @@ import { LocalizationProvider, DatePicker } from "@mui/lab";
 import moment from "moment";
 import { validateCitizen } from "../utils/validateCitizen";
 import logoDepartment from "../assets/department-citizen.png";
-import { getYear } from "date-fns";
+import vnLocale from "../data/formatVietnamMonth";
 
 const InputCitizen = () => {
   const { auth } = useSelector((state) => state);
@@ -23,12 +23,14 @@ const InputCitizen = () => {
     identifiedCode: "",
     occupation: "",
     religion: "",
+    residentAddress: "",
+    educationLevel: "",
     city: "",
     district: "",
     ward: "",
     village: "",
     ethnic: "",
-    age: getYear(Date.now()) - getYear(new Date()),
+    age: 0,
     //  Key
     city_key: true,
     district_key: true,
@@ -43,8 +45,14 @@ const InputCitizen = () => {
     city: "",
     district: "",
     ward: "",
+    ethnic: "",
+    occupation: "",
     phoneNumber: "",
     email: "",
+    religion: "",
+    currentAddress: "",
+    residentAddress: "",
+    educationLevel: "",
   });
 
   const availableDistricts = useMemo(() => {
@@ -100,7 +108,42 @@ const InputCitizen = () => {
             });
           }
           break;
-
+        case "ethnic":
+          setErrBlur({
+            ...errBlur,
+            [type]: "Vui lòng chọn dân tộc của công dân.",
+          });
+          break;
+        case "occupation":
+          setErrBlur({
+            ...errBlur,
+            [type]: "Vui lòng nhập nghề nghiệp của công dân.",
+          });
+          break;
+        case "religion":
+          setErrBlur({
+            ...errBlur,
+            [type]: "Vui lòng chọn tôn giáo của công dân.",
+          });
+          break;
+        case "currentAddress":
+          setErrBlur({
+            ...errBlur,
+            [type]: "Vui lòng nhập địa chỉ tạm trú của công dân.",
+          });
+          break;
+        case "residentAddress":
+          setErrBlur({
+            ...errBlur,
+            [type]: "Vui lòng nhập địa chỉ thường trú của công dân.",
+          });
+          break;
+        case "educationLevel":
+          setErrBlur({
+            ...errBlur,
+            [type]: "Vui lòng nhập trình độ học vấn của công dân.",
+          });
+          break;
         case "city":
           setErrBlur({
             ...errBlur,
@@ -121,7 +164,6 @@ const InputCitizen = () => {
             [type]: "Vui lòng chọn Xã/Phường của công dân.",
           });
           break;
-
         default:
           break;
       }
@@ -157,10 +199,18 @@ const InputCitizen = () => {
 
   const handleInput = (e) => {
     const { value, name } = e.target;
-    setCitizenInfo({
-      ...citizenInfo,
-      [name]: value,
-    });
+    if (name === "educationLevel") {
+      let splash = value;
+      if (splash.length === 2) {
+        splash += "/12";
+      }
+      setCitizenInfo({ ...citizenInfo, [name]: splash });
+    } else {
+      setCitizenInfo({
+        ...citizenInfo,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -232,7 +282,10 @@ const InputCitizen = () => {
             <label className="label-text">
               Ngày sinh <span>{"(*)"}</span>
             </label>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <LocalizationProvider
+              dateAdapter={AdapterDateFns}
+              locale={vnLocale}
+            >
               <DatePicker
                 disableFuture
                 placeholder="dd/mm/yyyy"
@@ -250,7 +303,7 @@ const InputCitizen = () => {
                   setCitizenInfo({
                     ...citizenInfo,
                     dateOfBirth: newValue,
-                    age: getYear(Date.now()) - getYear(newValue),
+                    age: new Date().getFullYear() - newValue.getFullYear(),
                   });
 
                   setErrBlur({
@@ -278,6 +331,7 @@ const InputCitizen = () => {
             </label>
             <Autocomplete
               disablePortal
+              noOptionsText={"Không có lựa chọn phù hợp"}
               options={["Nam", "Nữ"]}
               sx={{ width: 300 }}
               onInputChange={(e, newInput) => {
@@ -319,23 +373,39 @@ const InputCitizen = () => {
           </div>
 
           <div className="field ethnic">
-            <label className="label-text">Dân tộc</label>
+            <label className="label-text">
+              Dân tộc <span>{"(*)"}</span>
+            </label>
             <Autocomplete
+              noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
               options={ethnic.ethnic}
+              onBlur={() => handleBlur("ethnic")}
               sx={{ width: 300 }}
-              onInputChange={(e, newInput) =>
-                setCitizenInfo({ ...citizenInfo, ethnic: newInput })
-              }
+              onInputChange={(e, newInput) => {
+                setCitizenInfo({ ...citizenInfo, ethnic: newInput });
+                setErrBlur({
+                  ...errBlur,
+                  ethnic: "",
+                });
+              }}
               renderInput={(params) => (
-                <TextField {...params} placeholder="Ví dụ: Kinh" />
+                <TextField
+                  {...params}
+                  placeholder="Ví dụ: Kinh"
+                  helperText={errBlur.ethnic}
+                  error={errBlur.ethnic ? true : false}
+                />
               )}
             />
           </div>
 
           <div className="field religion">
-            <label className="label-text">Tôn giáo</label>
+            <label className="label-text">
+              Tôn giáo <span>{"(*)"}</span>
+            </label>
             <Autocomplete
+              noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
               options={[
                 "Không",
@@ -348,11 +418,21 @@ const InputCitizen = () => {
                 "Cao Đài",
               ]}
               sx={{ width: 300 }}
-              onChange={(e, newInput) =>
-                setCitizenInfo({ ...citizenInfo, religion: newInput })
-              }
+              onBlur={() => handleBlur("religion")}
+              onInputChange={(e, newInput) => {
+                setCitizenInfo({ ...citizenInfo, religion: newInput });
+                setErrBlur({
+                  ...errBlur,
+                  religion: "",
+                });
+              }}
               renderInput={(params) => (
-                <TextField {...params} placeholder="Không" />
+                <TextField
+                  {...params}
+                  placeholder="Ví dụ: Không"
+                  helperText={errBlur.religion}
+                  error={errBlur.religion ? true : false}
+                />
               )}
             />
           </div>
@@ -362,6 +442,7 @@ const InputCitizen = () => {
               Tỉnh/Thành phố <span>{"(*)"}</span>
             </label>
             <Autocomplete
+              noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
               options={locationData}
               sx={{ width: 300 }}
@@ -400,6 +481,7 @@ const InputCitizen = () => {
               Quận/Huyện <span>{"(*)"}</span>
             </label>
             <Autocomplete
+              noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
               options={availableDistricts}
               key={citizenInfo.district_key + "district"}
@@ -435,6 +517,7 @@ const InputCitizen = () => {
               Xã/Phường <span>{"(*)"}</span>
             </label>
             <Autocomplete
+              noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
               options={avaiableWards}
               key={citizenInfo.ward_key}
@@ -475,8 +558,14 @@ const InputCitizen = () => {
           </div>
 
           <div className="field currentAddress">
-            <label className="label-text">Địa chỉ hiện tại</label>
+            <label className="label-text">
+              Địa chỉ tạm trú <span>{"(*)"}</span>
+            </label>
             <TextField
+              onBlur={() => handleBlur("currentAddress")}
+              onInput={() => handleBlurInput("currentAddress")}
+              error={errBlur.currentAddress ? true : false}
+              helperText={errBlur.currentAddress}
               className="ta dang o dau"
               placeholder="Số nhà - Thôn/Xóm/Khu/Ấp - Xã/Phường - Quận/Huyện - Tỉnh/Thành Phố"
               name="currentAddress"
@@ -485,9 +574,49 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className="field occupation">
-            <label className="label-text">Nghề nghiệp</label>
+          <div className="field village">
+            <label className="label-text">
+              Trình độ học vấn <span>{"(*)"}</span>
+            </label>
             <TextField
+              onBlur={() => handleBlur("educationLevel")}
+              onInput={() => handleBlurInput("educationLevel")}
+              error={errBlur.educationLevel ? true : false}
+              helperText={errBlur.educationLevel}
+              value={citizenInfo.educationLevel}
+              placeholder="Ví dụ: 12/12"
+              name="educationLevel"
+              sx={{ width: "100%" }}
+              onChange={handleInput}
+            />
+          </div>
+
+          <div className="field currentAddress">
+            <label className="label-text">
+              Địa chỉ thường trú <span>{"(*)"}</span>
+            </label>
+            <TextField
+              onBlur={() => handleBlur("residentAddress")}
+              onInput={() => handleBlurInput("residentAddress")}
+              error={errBlur.residentAddress ? true : false}
+              helperText={errBlur.residentAddress}
+              className="ta dang o dau"
+              placeholder="Số nhà - Thôn/Xóm/Khu/Ấp - Xã/Phường - Quận/Huyện - Tỉnh/Thành Phố"
+              name="residentAddress"
+              sx={{ width: "100%" }}
+              onChange={handleInput}
+            />
+          </div>
+
+          <div className="field occupation">
+            <label className="label-text">
+              Nghề nghiệp <span>{"(*)"}</span>
+            </label>
+            <TextField
+              onBlur={() => handleBlur("occupation")}
+              onInput={() => handleBlurInput("occupation")}
+              error={errBlur.occupation ? true : false}
+              helperText={errBlur.occupation}
               placeholder="Ví dụ: Lập trình viên"
               name="occupation"
               sx={{ width: "100%" }}

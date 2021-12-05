@@ -54,6 +54,16 @@ const DataPagination = () => {
       width: 200,
     },
     {
+      field: "residentAddress",
+      headerName: "Địa chỉ thường trú",
+      width: 500,
+    },
+    {
+      field: "educationLevel",
+      headerName: "Trình độ học vấn",
+      width: 150,
+    },
+    {
       field: "village",
       headerName: "Thôn/Xóm/Ấp/Khu",
       width: 200,
@@ -78,7 +88,7 @@ const DataPagination = () => {
     {
       field: "currentAddress",
       headerName: "Địa chỉ hiện tại",
-      width: 400,
+      width: 500,
       sortable: false,
     },
     {
@@ -102,13 +112,13 @@ const DataPagination = () => {
   }
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ height: 600, width: "100%" }}>
       <DataGrid
         rows={rowData}
         columns={columns}
         components={{ NoRowsOverlay }}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
         checkboxSelection={false}
       />
     </div>
