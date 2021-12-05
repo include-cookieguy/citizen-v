@@ -60,19 +60,62 @@ export const getSearchInit = (auth) => async (dispatch) => {
 };
 
 export const createUser = (data) => async (dispatch) => {
+  let type = null;
+  let message = null;
   try {
     let res = await postDataAPI("/user", data);
     dispatch({ type: GLOBALTYPES.CREATE_USER, payload: res.data });
+    type = "success";
+    message = res.data.msg || res.data.message || "Success";
   } catch (err) {
-    console.log(err);
+    type = "error";
+    message = err.response.msg || err.response.message;
+  } finally {
+    dispatch({
+      type: GLOBALTYPES.SHOW_MESSAGE,
+      payload: { isShow: true, type, message },
+    });
+    setTimeout(() => {
+      dispatch({
+        type: GLOBALTYPES.SHOW_MESSAGE,
+        payload: { isShow: false, type: null, message: null },
+      });
+    }, 4000);
   }
 };
 
 export const updateUserById = (data) => async (dispatch) => {
+  let type = null;
+  let message = null;
   try {
-    await putDataAPI(`/user/${data._id}`, data);
+    let res = await putDataAPI(`/user/${data._id}`, data);
     dispatch(getChildUser());
+    type = "success";
+    message = res.data.msg || res.data.message || "Success";
   } catch (err) {
-    console.log(err);
+    type = "error";
+    message = err.response.msg || err.response.message;
+  } finally {
+    dispatch({
+      type: GLOBALTYPES.SHOW_MESSAGE,
+      payload: { isShow: true, type, message },
+    });
+    setTimeout(() => {
+      dispatch({
+        type: GLOBALTYPES.SHOW_MESSAGE,
+        payload: { isShow: false, type: null, message: null },
+      });
+    }, 4000);
   }
+};
+
+export const getOptions = () => {
+  return new Promise(async (next) => {
+    try {
+      let res = await getDataAPI("/user/options");
+      next(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  });
 };
