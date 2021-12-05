@@ -21,13 +21,8 @@ function App() {
   // }, [dispatch]);
 
   useEffect(() => {
-<<<<<<< HEAD
     dispatch(getSearchInit(auth));
   }, [dispatch, auth]);
-=======
-    
-  }, [dispatch]);
->>>>>>> 4e5da1ddefaa082089c58a7f7a44c657400ded1a
 
   return (
     <Router>
