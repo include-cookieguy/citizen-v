@@ -9,9 +9,8 @@ export const validateCitizen = (info) => {
     city,
     district,
     ward,
+    age,
   } = info;
-
-  console.log(info);
 
   const err = {};
 
@@ -51,10 +50,10 @@ export const validateCitizen = (info) => {
       "Số điện thoại của công dân chỉ được chứ các số và phải chứa ít nhất 10 số.";
   }
 
-  if (!identifiedCode) {
+  if (!identifiedCode && age > 15) {
     err.identifiedCode =
       "Vui lòng nhập căn cước công dân/chứng minh thư của công dân.";
-  } else if (!validateID(identifiedCode)) {
+  } else if (!validateID(identifiedCode) && age > 15) {
     err.identifiedCode =
       "CCCD/CMT của công dân chỉ được chứ các số và phải chứa ít nhất 9 số.";
   }

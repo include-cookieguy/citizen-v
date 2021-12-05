@@ -84,7 +84,7 @@ export default function NewUnit() {
     let options = location.map((x) => x.label);
     let cOptions = location.map((x) => ({ label: x.label }));
     setState({ ...state, select: options, cSelect: cOptions });
-  }, [dispatch, state]);
+  }, []);
 
   let cRows = useSelector((state) =>
     state.unit.allUnit.map((u, idx) => ({

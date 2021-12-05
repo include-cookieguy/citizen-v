@@ -9,6 +9,7 @@ import { LocalizationProvider, DatePicker } from "@mui/lab";
 import moment from "moment";
 import { validateCitizen } from "../utils/validateCitizen";
 import logoDepartment from "../assets/department-citizen.png";
+import { getYear } from "date-fns";
 
 const InputCitizen = () => {
   const { auth } = useSelector((state) => state);
@@ -27,6 +28,7 @@ const InputCitizen = () => {
     ward: "",
     village: "",
     ethnic: "",
+    age: getYear(Date.now()) - getYear(new Date()),
     //  Key
     city_key: true,
     district_key: true,
@@ -90,11 +92,13 @@ const InputCitizen = () => {
           });
           break;
         case "identifiedCode":
-          setErrBlur({
-            ...errBlur,
-            [type]:
-              "Vui lòng nhập căn cước công dân/chứng minh thư của công dân.",
-          });
+          if (citizenInfo.age > 15) {
+            setErrBlur({
+              ...errBlur,
+              [type]:
+                "Vui lòng nhập căn cước công dân/chứng minh thư của công dân.",
+            });
+          }
           break;
 
         case "city":
@@ -180,6 +184,8 @@ const InputCitizen = () => {
         dateOfBirth: moment(citizenInfo.dateOfBirth).format("DD/MM/YYYY"),
         location,
       };
+
+      console.log(finalInfo);
       const res = await postDataAPI("citizen", finalInfo, auth.token);
 
       console.log(res.data);
@@ -244,6 +250,7 @@ const InputCitizen = () => {
                   setCitizenInfo({
                     ...citizenInfo,
                     dateOfBirth: newValue,
+                    age: getYear(Date.now()) - getYear(newValue),
                   });
 
                   setErrBlur({
@@ -291,14 +298,20 @@ const InputCitizen = () => {
 
           <div className="field identifiedCode">
             <label className="label-text">
-              Căn cước công dân/Chứng minh thư <span>{"(*)"}</span>
+              Căn cước công dân/Chứng minh thư{" "}
+              {citizenInfo.age > 15 && <span>{"(*)"}</span>}
             </label>
             <TextField
-              placeholder="Ví dụ: 123456789101"
-              helperText={errBlur.identifiedCode}
+              placeholder={
+                citizenInfo.age > 15
+                  ? "Ví dụ: 123456789101"
+                  : "Công dân chưa đủ tuổi để sở hữu CCCD/CMT"
+              }
+              helperText={citizenInfo.age > 15 && errBlur.identifiedCode}
               name="identifiedCode"
               sx={{ width: "100%" }}
               onChange={handleInput}
+              disabled={citizenInfo.age < 15 ? true : false}
               error={errBlur.identifiedCode ? true : false}
               onBlur={() => handleBlur("identifiedCode")}
               onInput={() => handleBlurInput("identifiedCode")}

@@ -112,7 +112,6 @@ const SearchCitizen = () => {
             options={locationData}
             sx={{ width: 300 }}
             key={searchQuery.city_key + "city"}
-            disabled={disabledLocation.city}
             onInputChange={(e, newInput) => {
               setSearchQuery({
                 ...searchQuery,
@@ -141,7 +140,7 @@ const SearchCitizen = () => {
             sx={{ width: 300 }}
             // value={searchQuery.district}
             key={searchQuery.district_key + "district"}
-            disabled={disabledLocation.district}
+            disabled={searchQuery.city ? false : true}
             onInputChange={(e, newInput) => {
               setSearchQuery({
                 ...searchQuery,
@@ -174,7 +173,7 @@ const SearchCitizen = () => {
                 ward: newInput,
               });
             }}
-            disabled={disabledLocation.ward}
+            disabled={searchQuery.district ? false : true}
             renderInput={(params) => (
               <TextField {...params} label="Xã/Phường" />
             )}
