@@ -2,7 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid'
-import { Button, DialogContent, Dialog, DialogTitle, DialogActions,
+import {
+  Button, DialogContent, Dialog, DialogTitle, DialogActions,
   Autocomplete, TextField, Switch
 } from '@mui/material';
 
@@ -66,16 +67,16 @@ export default function NewUnit() {
   useEffect(async () => {
     dispatch(getChildUnit())
     dispatch(getChildUser())
-    
+
     let options = await getOptions()
 
     let cOptions = options.map(x => ({ label: x }))
     setState({ ...state, select: options, cSelect: cOptions })
   }, [])
 
-  let cRows = useSelector(state => state.unit.allUnit.map((u, idx) => ({ id: idx, _id: u._id, name: u.nameOfUnit, code: u.code })))
+  let cRows = useSelector(state => state.unit.allUnit.map((u, idx) => ({ id: idx + 1, _id: u._id, name: u.nameOfUnit, code: u.code })))
   let cChildUser = useSelector(state => state.user.allUser)
-  
+
   //  Compute select
   const computedSelect = (temp) => {
     return new Promise(next => {
@@ -112,12 +113,12 @@ export default function NewUnit() {
   const handleAccountOpen = (row) => setState({ ...state, isAccountModalOpen: true, newUsername: row.code })
   const handleAccountClose = () => setState({ ...state, isAccountModalOpen: false })
   const handleUsername = (e) => setState({ ...state, newUsername: e.target.value })
-  const handlePassword = (e) => setState({ ...state, newPassword: e.target.value }) 
+  const handlePassword = (e) => setState({ ...state, newPassword: e.target.value })
   const handleAccountSubmit = () => {
     dispatch(createUser({ username: state.newUsername, password: state.newPassword }))
     handleAccountClose()
   }
-  
+
   //  Edit Unit handler
   const handleEditOpen = (params) => {
     setState({
@@ -137,7 +138,8 @@ export default function NewUnit() {
       _id: state.editUnitId,
       nameOfUnit: state.editUnit,
       code: state.editUnitCode,
-    }))
+    }));
+    handleEditClose()
   }
 
   //  Edit Account handler
@@ -147,9 +149,9 @@ export default function NewUnit() {
     user.startTime = (user.startTime || "").split('.')[0]
     user.endTime = (user.endTime || "").split('.')[0]
     setState({
-      ...state, 
-      isEditAccountModalOpen: true, 
-      editUsername: user.username, 
+      ...state,
+      isEditAccountModalOpen: true,
+      editUsername: user.username,
       editActive: user.active,
       editStartTime: user.startTime,
       editEndTime: user.endTime,
@@ -157,7 +159,7 @@ export default function NewUnit() {
   }
   const handleEditAccountClose = () => setState({ ...state, isEditAccountModalOpen: false })
   const handleEditUsername = (e) => setState({ ...state, editUsername: e.target.value })
-  const handleEditPassword = (e) => setState({ ...state, editPassword: e.target.value }) 
+  const handleEditPassword = (e) => setState({ ...state, editPassword: e.target.value })
   const handleEditActive = () => setState({ ...state, editActive: !state.editActive })
   const handleEditStartTime = (e) => setState({ ...state, editStartTime: e.target.value })
   const handleEditEndtTime = (e) => setState({ ...state, editEndTime: e.target.value })
@@ -178,35 +180,38 @@ export default function NewUnit() {
   }
 
   const columns = [
-    { field: 'id', headerName: 'STT', width: 80 },
-    { field: '_id', headerName: '_ID', width: 240 },
-    { field: 'name', headerName: 'Name', width: 250 },
-    { field: 'code', headerName: 'Code', width: 100 },
+    { field: 'id', headerName: 'STT', flex: 80, minWidth: 62 },
+    { field: 'name', headerName: 'Tên đơn vị', flex: 300, minWidth: 231 },
+    { field: 'code', headerName: 'Mã đơn vị', flex: 100, minWidth: 100 },
     {
       field: 'account',
-      headerName: 'Account',
-      width: 150,
+      headerName: 'Tài khoản đơn vị',
+      flex: 200,
+      minWidth: 154,
       sortable: false,
       renderCell: (params) => {
         let user = cChildUser.filter(u => u.username === params.row.code)[0]
         return (
           <>
-            { user && <Button  onClick={ () => handleEditAccountOpen(params.row) }>Edit</Button> }
-            { !user && <Button  onClick={ () => handleAccountOpen(params.row) }>Create</Button> }
+            {user && <Button onClick={() => handleEditAccountOpen(params.row)}>Chỉnh sửa</Button>}
+            {!user && <Button onClick={() => handleAccountOpen(params.row)}>Tạo mới</Button>}
           </>
         );
       },
     },
     {
       field: 'action',
-      headerName: 'Action',
-      width: 150,
+      headerName: 'Quản lý mã đơn vị',
+      flex: 250,
+      minWidth: 192,
       sortable: false,
       renderCell: (params) => {
         return (
           <>
-            <Button  onClick={ () => handleEditOpen(params.row) }>Edit</Button>
-            <Button  onClick={ () => handleDelete(params.row) }>Delete</Button>
+            <Button
+              style={{ marginRight: '30px' }}
+              onClick={() => handleEditOpen(params.row)}>Chỉnh sửa</Button>
+            <Button onClick={() => handleDelete(params.row)}>Xóa</Button>
           </>
         );
       },
@@ -215,37 +220,47 @@ export default function NewUnit() {
 
   return (
     <div className="newUnit-body">
-      <Button style={{ border: '1px solid' ,margin: '10px auto 10px 90%',  }}
-        onClick={handleOpen}
-      >New Unit</Button>
+
+
+      <div className='header'>
+        <div className='header-title'>
+          <div>Danh sách các đơn vị</div>
+        </div>
+
+        <div className='button-new-unit'>
+          <Button style={{ border: '1px solid', margin: '', }}
+            onClick={handleOpen}
+          >Khai báo và cấp mã</Button>
+        </div>
+      </div>
 
       <Dialog // New Unit dialog
         open={state.isModalOpen}
         onClose={handleClose}
       >
-        <DialogTitle >Create new Unit</DialogTitle>
-        <DialogContent style={{ width: '100%', height: 300, display: 'flex',  }}>
+        <DialogTitle >Khai báo và cấp mã</DialogTitle>
+        <DialogContent style={{ width: '100%', height: 300, display: 'flex', }}>
           <Autocomplete
             disablePortal
             onChange={handleUnit}
             onKeyDown={handleKeydownUnit}
             options={state.cSelect}
             sx={{ width: 300, marginTop: '10px' }}
-            renderInput={(params) => 
-              <TextField 
-                { ...params } 
-                label="Unit" 
+            renderInput={(params) =>
+              <TextField
+                {...params}
+                label="Tên đơn vị"
               />
             }
           />
-          <TextField label='Code' variant='outlined'
-            style={{ marginLeft: '10px', marginTop: '10px',  }}
+          <TextField label='Mã đơn vị' variant='outlined'
+            style={{ marginLeft: '10px', marginTop: '10px', }}
             onChange={handleCode}
           ></TextField>
         </DialogContent>
         <DialogActions>
-          <Button style={{ height: 60,  }} onClick={handleSubmit}>Submit</Button>
-          <Button style={{ height: 60,  }} onClick={handleClose}>Close</Button>
+          <Button style={{ height: 60, }} onClick={handleSubmit}>Cấp mã</Button>
+          <Button style={{ height: 60, }} onClick={handleClose}>Đóng</Button>
         </DialogActions>
       </Dialog>
 
@@ -253,65 +268,63 @@ export default function NewUnit() {
         open={state.isEditModalOpen}
         onClose={handleEditClose}
       >
-        <DialogTitle >Edit Unit</DialogTitle>
-        <DialogContent style={{ width: '100%', height: 250, display: 'flex',  }}>
-          <TextField label='Unit' variant='outlined' 
+        <DialogTitle >Chỉnh sửa mã đơn vị</DialogTitle>
+        <DialogContent style={{ width: '100%', height: 250, display: 'flex', }}>
+          <TextField label='Tên đơn vị' variant='outlined'
             style={{ marginTop: '10px' }}
             value={state.editUnit}
             disabled
           ></TextField>
-          <TextField label='Code' variant='outlined' 
-            style={{ marginLeft: '10px', marginTop: '10px',  }}
+          <TextField label='Mã đơn vị' variant='outlined'
+            style={{ marginLeft: '10px', marginTop: '10px', }}
             value={state.editUnitCode}
             onChange={handleEditCode}
           ></TextField>
         </DialogContent>
         <DialogActions>
-          <Button style={{ height: 60,  }} onClick={handleEditSubmit}>Submit</Button>
-          <Button style={{ height: 60,  }} onClick={handleEditClose}>Close</Button>
+          <Button style={{ height: 60, }} onClick={handleEditSubmit}>Cập nhật</Button>
+          <Button style={{ height: 60, }} onClick={handleEditClose}>Đóng</Button>
         </DialogActions>
       </Dialog>
 
       <Dialog // New Account dialog
-        
         open={state.isAccountModalOpen}
         onClose={handleAccountClose}
       >
-        <DialogTitle >Create new account</DialogTitle>
-        <DialogContent style={{ width: '100%', height: 300, display: 'flex',  }}>
-          <TextField label='Username' variant='outlined'
-            style={{ marginLeft: '10px', marginTop: '10px',  }}
+        <DialogTitle >Cấp tài khoản cho đơn vị</DialogTitle>
+        <DialogContent style={{ width: '100%', height: 300, display: 'flex', }}>
+          <TextField label='Mã đơn vị' variant='outlined'
+            style={{ marginLeft: '10px', marginTop: '10px', }}
             value={state.newUsername}
             onChange={handleUsername}
             disabled
           ></TextField>
-          <TextField label='Password' variant='outlined'
-            style={{ marginLeft: '10px', marginTop: '10px',  }}
+          <TextField label='Mật khẩu' variant='outlined'
+            style={{ marginLeft: '10px', marginTop: '10px', }}
             onChange={handlePassword}
           ></TextField>
         </DialogContent>
         <DialogActions>
-          <Button style={{ height: 60,  }} onClick={handleAccountSubmit}>Create</Button>
-          <Button style={{ height: 60,  }} onClick={handleAccountClose}>Close</Button>
+          <Button style={{ height: 60, }} onClick={handleAccountSubmit}>Tạo</Button>
+          <Button style={{ height: 60, }} onClick={handleAccountClose}>Đóng</Button>
         </DialogActions>
       </Dialog>
 
       <Dialog // Edit Account dialog
-        
         open={state.isEditAccountModalOpen}
         onClose={handleEditAccountClose}
       >
-        <DialogTitle >Edit account</DialogTitle>
-        <DialogContent style={{ width: '100%', minHeight: 300,  }}>
+        <DialogTitle >Chỉnh sửa tài khoản</DialogTitle>
+        <DialogContent style={{ width: '100%', minHeight: 300, }}>
           <div style={{ display: 'flex', width: '100%' }}>
-            <TextField label='Username' variant='outlined'
-              style={{ marginLeft: '10px', marginTop: '10px',  }}
+            <TextField label='Mã đơn vị' variant='outlined'
+              style={{ marginLeft: '10px', marginTop: '10px', }}
               value={state.editUsername}
               onChange={handleEditUsername}
               disabled
             ></TextField>
-            <TextField label='Password' variant='outlined'
-              style={{ marginLeft: '10px', marginTop: '10px',  }}
+            <TextField label='Mật khẩu' variant='outlined'
+              style={{ marginLeft: '10px', marginTop: '10px', }}
               onChange={handleEditPassword}
             ></TextField>
           </div>
@@ -320,7 +333,7 @@ export default function NewUnit() {
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <h4>Quyền khai báo</h4>
             <Switch
-              checked={state.editActive || false} 
+              checked={state.editActive || false}
               onChange={handleEditActive}
               inputProps={{ 'aria-label': 'controlled' }}
             ></Switch>
@@ -329,19 +342,19 @@ export default function NewUnit() {
           <br />
           <div>
             <h3>Thời gian khai báo</h3>
-            <TextField label='Start time' variant='standard'
+            <TextField label='Thời gian bắt đầu' variant='standard'
               defaultValue={state.editStartTime}
-              InputLabelProps={{ shrink: true, style: {  } }}
-              style={{ marginLeft: '10px', marginTop: '10px',  }}
+              InputLabelProps={{ shrink: true, style: {} }}
+              style={{ marginLeft: '10px', marginTop: '10px', }}
               type='datetime-local'
               onChange={handleEditStartTime}
             ></TextField>
             <br />
             <br />
-            <TextField label='End time' variant='standard'
+            <TextField label='Thời gian kết thúc' variant='standard'
               defaultValue={state.editEndTime}
-              InputLabelProps={{ shrink: true, style: {  } }}
-              style={{ marginLeft: '10px', marginTop: '10px',  }}
+              InputLabelProps={{ shrink: true, style: {} }}
+              style={{ marginLeft: '10px', marginTop: '10px', }}
               type='datetime-local'
               onChange={handleEditEndtTime}
             ></TextField>
@@ -349,13 +362,13 @@ export default function NewUnit() {
 
         </DialogContent>
         <DialogActions>
-          <Button style={{ height: 60,  }} onClick={handleEditAccountSubmit}>Submit</Button>
-          <Button style={{ height: 60,  }} onClick={handleEditAccountClose}>Close</Button>
+          <Button style={{ height: 60, }} onClick={handleEditAccountSubmit}>Cập nhật</Button>
+          <Button style={{ height: 60, }} onClick={handleEditAccountClose}>Đóng</Button>
         </DialogActions>
       </Dialog>
 
       <DataGrid
-        
+        autoHeight
         rows={cRows}
         columns={columns}
         pageSize={7}

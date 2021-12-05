@@ -1,9 +1,39 @@
+@use "variable" as v;
+
 .newUnit-body {
-  width: 80%;
-  height: 80vh;
+  width: 55.9%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 90px;
+  margin-top: 100px;
   margin-bottom: 200px;
   font-size: 1.6rem;
+
+  @media screen and (max-width: v.$tablet-width-3) {
+    width: 90%;
+  }
+
+  .header {
+    display: flex;
+    margin-bottom: 10px;
+
+    .header-title {
+      flex: 1;
+      display: flex;
+      align-items: center;
+
+      div {
+        font-weight: 700;
+
+        @media screen and (max-width: v.$phone-width) {
+          font-size: large;
+        }
+      }
+    }
+
+    .button-new-unit {
+      flex: 1;
+      display: flex;
+      justify-content: right;
+    }
+  }
 }
