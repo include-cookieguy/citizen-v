@@ -10,6 +10,12 @@ export const validateCitizen = (info) => {
     district,
     ward,
     age,
+    ethnic,
+    religion,
+    occupation,
+    residentAddress,
+    educationLevel,
+    currentAddress,
   } = info;
 
   const err = {};
@@ -45,6 +51,27 @@ export const validateCitizen = (info) => {
     err.gender = "Vui lòng chọn giới tính của công dân.";
   }
 
+  if (!ethnic) {
+    err.ethnic = "Vui lòng chọn dân tộc của công dân.";
+  }
+  if (!residentAddress) {
+    err.residentAddress = "Vui lòng nhập địa chỉ thường trú của công dân.";
+  }
+  if (!currentAddress) {
+    err.currentAddress = "Vui lòng nhập địa chỉ tạm trú của công dân.";
+  }
+  if (!occupation) {
+    err.occupation = "Vui lòng nhập nghề nghiệp của công dân.";
+  }
+  if (!religion) {
+    err.religion = "Vui lòng chọn tôn giáo của công dân.";
+  }
+  if (!educationLevel) {
+    err.educationLevel = "Vui lòng nhập trình độ học vấn của công dân.";
+  } else if (!validateEducationLevel(educationLevel)) {
+    err.educationLevel =
+      "Vui lòng nhập đúng theo định dạng trình độ học vấn của công dân đã cho.";
+  }
   if (!validatePhoneNumber(phoneNumber) && phoneNumber) {
     err.phoneNumber =
       "Số điện thoại của công dân chỉ được chứ các số và phải chứa ít nhất 10 số.";
@@ -79,6 +106,19 @@ function validateFullName(fullName) {
 function validatePhoneNumber(phoneNumber) {
   const re = /^!*(\d!*){10,}$/;
   return re.test(phoneNumber);
+}
+
+function validateEducationLevel(educationLevel) {
+  if (educationLevel.length < 0 || educationLevel.length > 5) {
+    return false;
+  }
+  const num = parseInt(educationLevel.slice(0, 2));
+
+  if (num < 0 || num > 12) {
+    return false;
+  }
+  const re = /^\d{2}\/12$/;
+  return re.test(educationLevel);
 }
 
 function validateID(ID) {

@@ -1,19 +1,18 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import DataPagination from "../components/DataPagination";
-import { searchCitizens } from "../redux/actions/citizenAction";
+import { listCitizens } from "../redux/actions/citizenAction";
 import { Autocomplete, TextField } from "@mui/material";
 import locationData from "../data/location.json";
 
-const SearchCitizen = () => {
+const ListCitizen = () => {
   const { auth, user } = useSelector((state) => state);
 
   const [searchQuery, setSearchQuery] = useState({
-    fullName: "",
-    city: "",
-    district: "",
-    ward: "",
-    village: "",
+    city: [],
+    district: [],
+    ward: [],
+    village: [],
     //  Key
     city_key: true,
     district_key: true,
@@ -29,7 +28,15 @@ const SearchCitizen = () => {
   const dispatch = useDispatch();
 
   const availableDistricts = useMemo(() => {
-    if (searchQuery.city) {
+    if (searchQuery.city.length === 1) {
+      const res = locationData.find((e) => e.label === searchQuery.city[0]);
+
+      if (res) {
+        return res.Districts;
+      }
+    }
+
+    if (typeof searchQuery.city === "string") {
       const res = locationData.find((e) => e.label === searchQuery.city);
 
       if (res) {
@@ -39,7 +46,10 @@ const SearchCitizen = () => {
   }, [searchQuery.city]);
 
   const avaiableWards = useMemo(() => {
-    if (searchQuery.city && searchQuery.district && availableDistricts) {
+    if (
+      typeof searchQuery.city === "string" &&
+      typeof searchQuery.district === "string"
+    ) {
       const res = availableDistricts.find(
         (e) => e.label === searchQuery.district
       );
@@ -48,15 +58,17 @@ const SearchCitizen = () => {
         return res.Wards;
       }
     }
-  }, [searchQuery.city, searchQuery.district, availableDistricts]);
 
-  const handleSearchQuery = (e) => {
-    const { value, name } = e.target;
-    setSearchQuery({
-      ...searchQuery,
-      [name]: value,
-    });
-  };
+    if (searchQuery.district.length === 1) {
+      const res = availableDistricts.find(
+        (e) => e.label === searchQuery.district[0]
+      );
+
+      if (res) {
+        return res.Wards;
+      }
+    }
+  }, [searchQuery.city, searchQuery.district, availableDistricts]);
 
   const handleSubmitSearch = (e) => {
     e.preventDefault();
@@ -64,9 +76,9 @@ const SearchCitizen = () => {
     const { city, district, ward, village } = searchQuery;
 
     const location = {
-      city,
-      district,
-      ward,
+      city: typeof city === "string" ? city : city.join(","),
+      district: typeof district === "string" ? district : district.join(","),
+      ward: typeof ward === "string" ? ward : ward.join(","),
       village,
     };
 
@@ -75,16 +87,16 @@ const SearchCitizen = () => {
       location,
     };
 
-    dispatch(searchCitizens(res_search, auth));
+    dispatch(listCitizens(res_search, auth));
   };
 
   useEffect(() => {
     const { city, district, ward, village } = searchQuery;
 
     const location = {
-      city,
-      district,
-      ward,
+      city: typeof city === "string" ? city : city.join(","),
+      district: typeof district === "string" ? district : district.join(","),
+      ward: typeof ward === "string" ? ward : ward.join(","),
       village,
     };
 
@@ -93,15 +105,17 @@ const SearchCitizen = () => {
       location,
     };
 
-    dispatch(searchCitizens(res_search, auth));
+    dispatch(listCitizens(res_search, auth));
   }, []);
 
   useEffect(() => {
     setSearchQuery({
       ...searchQuery,
-      city: user.searchLocation.city,
-      district: user.searchLocation.district,
-      ward: user.searchLocation.ward,
+      city: user.searchLocation.city ? user.searchLocation.city : [],
+      district: user.searchLocation.district
+        ? user.searchLocation.district
+        : [],
+      ward: user.searchLocation.ward ? user.searchLocation.ward : [],
     });
 
     setDisabledLocation({
@@ -115,23 +129,19 @@ const SearchCitizen = () => {
   return (
     <div>
       <form onSubmit={handleSubmitSearch} className="search-citizen">
-        <TextField
-          name="fullName"
-          sx={{ width: "50%" }}
-          onChange={handleSearchQuery}
-        />
         {!disabledLocation.city ? (
           <Autocomplete
             noOptionsText={"Không có lựa chọn phù hợp"}
             options={locationData}
-            sx={{ width: 300 }}
+            multiple
+            sx={{ width: 400 }}
             key={searchQuery.city_key + "city"}
-            onInputChange={(e, newInput) => {
+            onChange={(e, newInput) => {
               setSearchQuery({
                 ...searchQuery,
-                city: newInput,
-                district: "",
-                ward: "",
+                city: newInput.map((e) => e.label),
+                district: [],
+                ward: [],
                 district_key: !searchQuery.district_key,
                 ward_key: !searchQuery.ward_key,
               });
@@ -151,17 +161,19 @@ const SearchCitizen = () => {
         {!disabledLocation.district ? (
           <Autocomplete
             noOptionsText={"Không có lựa chọn phù hợp"}
-            options={availableDistricts}
+            options={availableDistricts || []}
             sx={{ width: 300 }}
+            multiple
+            // key={searchQuery.district_key + "district"}
             // value={searchQuery.district}
-            key={searchQuery.district_key + "district"}
             disabled={searchQuery.city ? false : true}
-            onInputChange={(e, newInput) => {
+            onChange={(e, newInput) => {
               setSearchQuery({
                 ...searchQuery,
-                district: newInput,
+                district: newInput.map((e) => e.label),
+                ward: [],
+                district_key: !searchQuery.district_key,
                 ward_key: !searchQuery.ward_key,
-                ward: "",
               });
             }}
             renderInput={(params) => (
@@ -179,14 +191,17 @@ const SearchCitizen = () => {
         {!disabledLocation.ward ? (
           <Autocomplete
             noOptionsText={"Không có lựa chọn phù hợp"}
-            options={avaiableWards}
+            options={avaiableWards || []}
             sx={{ width: 300 }}
+            multiple
             // value={searchQuery.location.ward}
-            key={searchQuery.ward_key}
-            onInputChange={(e, newInput) => {
+            // key={searchQuery.ward_key}
+            onChange={(e, newInput) => {
               setSearchQuery({
                 ...searchQuery,
-                ward: newInput,
+                ward: newInput.map((e) => e.label),
+                district_key: !searchQuery.district_key,
+                ward_key: !searchQuery.ward_key,
               });
             }}
             disabled={searchQuery.district ? false : true}
@@ -212,4 +227,4 @@ const SearchCitizen = () => {
   );
 };
 
-export default SearchCitizen;
+export default ListCitizen;

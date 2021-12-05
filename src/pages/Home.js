@@ -2,12 +2,13 @@ import React from "react";
 import ChartCitizen from "../components/ChartCitizen";
 import { Link } from "react-router-dom";
 import SearchCitizen from "./SearchCitizen";
+import ListCitizen from "./ListCitizen";
 
 const Home = () => {
   return (
     <div className="home-container">
       <div>
-        <SearchCitizen />
+        <ListCitizen />
       </div>
       <div>
         <Link to="/input-citizen">
