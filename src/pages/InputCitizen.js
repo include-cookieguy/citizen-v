@@ -8,7 +8,8 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { LocalizationProvider, DatePicker } from "@mui/lab";
 import moment from "moment";
 import { validateCitizen } from "../utils/validateCitizen";
-import logoDepartment from '../assets/department-citizen.png';
+import logoDepartment from "../assets/department-citizen.png";
+import { getYear } from "date-fns";
 
 const InputCitizen = () => {
   const { auth } = useSelector((state) => state);
@@ -27,6 +28,7 @@ const InputCitizen = () => {
     ward: "",
     village: "",
     ethnic: "",
+    age: getYear(Date.now()) - getYear(new Date()),
     //  Key
     city_key: true,
     district_key: true,
@@ -90,11 +92,13 @@ const InputCitizen = () => {
           });
           break;
         case "identifiedCode":
-          setErrBlur({
-            ...errBlur,
-            [type]:
-              "Vui lòng nhập căn cước công dân/chứng minh thư của công dân.",
-          });
+          if (citizenInfo.age > 15) {
+            setErrBlur({
+              ...errBlur,
+              [type]:
+                "Vui lòng nhập căn cước công dân/chứng minh thư của công dân.",
+            });
+          }
           break;
 
         case "city":
@@ -175,16 +179,13 @@ const InputCitizen = () => {
         village,
       };
 
-      delete citizenInfo.city;
-      delete citizenInfo.district;
-      delete citizenInfo.ward;
-      delete citizenInfo.village;
-
       const finalInfo = {
         ...citizenInfo,
         dateOfBirth: moment(citizenInfo.dateOfBirth).format("DD/MM/YYYY"),
         location,
       };
+
+      console.log(finalInfo);
       const res = await postDataAPI("citizen", finalInfo, auth.token);
 
       console.log(res.data);
@@ -193,15 +194,15 @@ const InputCitizen = () => {
 
   return (
     <div className="input-citizen">
-      <div className='title-logo'>
-        <div className='header-form'>
-          <div className='ministry'>BỘ Y TẾ</div>
-          <div className='department'>TỔNG CỤC DÂN SỐ</div>
+      <div className="title-logo">
+        <div className="header-form">
+          <div className="ministry">BỘ Y TẾ</div>
+          <div className="department">TỔNG CỤC DÂN SỐ</div>
         </div>
-        <div className='logo'>
-          <img src={logoDepartment} alt='logo of department' />
+        <div className="logo">
+          <img src={logoDepartment} alt="logo of department" />
         </div>
-        <div className='title'>PHIẾU ĐIỀN THÔNG TIN CỦA CÔNG DÂN</div>
+        <div className="title">PHIẾU ĐIỀN THÔNG TIN CỦA CÔNG DÂN</div>
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -210,8 +211,7 @@ const InputCitizen = () => {
             "& .MuiTextField-root": { m: 1 },
           }}
         >
-
-          <div className='field fullname'>
+          <div className="field fullname">
             <label className="label-text">
               Họ và tên <span>{"(*)"}</span>
             </label>
@@ -219,7 +219,7 @@ const InputCitizen = () => {
               error={errBlur.fullName ? true : false}
               placeholder="Ví dụ: Nguyễn Văn A"
               name="fullName"
-              sx={{ width: '100%' }}
+              sx={{ width: "100%" }}
               value={citizenInfo.fullName}
               onChange={handleInput}
               onBlur={() => handleBlur("fullName")}
@@ -228,7 +228,7 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className='field dateOfBirth'>
+          <div className="field dateOfBirth">
             <label className="label-text">
               Ngày sinh <span>{"(*)"}</span>
             </label>
@@ -240,10 +240,17 @@ const InputCitizen = () => {
                 inputFormat="dd/MM/yyyy"
                 views={["year", "month", "day"]}
                 value={citizenInfo.dateOfBirth}
+                // onError={() =>
+                //   setErrBlur({
+                //     ...errBlur,
+                //     dateOfBirth: "Ngày/tháng/năm sinh không hợp lệ.",
+                //   })
+                // }
                 onChange={(newValue) => {
                   setCitizenInfo({
                     ...citizenInfo,
                     dateOfBirth: newValue,
+                    age: getYear(Date.now()) - getYear(newValue),
                   });
 
                   setErrBlur({
@@ -255,7 +262,7 @@ const InputCitizen = () => {
                   <TextField
                     {...params}
                     helperText={errBlur.dateOfBirth}
-                    sx={{ width: '100%' }}
+                    sx={{ width: "100%" }}
                     error={errBlur.dateOfBirth ? true : false}
                     onBlur={() => handleBlur("dateOfBirth")}
                     onInput={() => handleBlurInput("dateOfBirth")}
@@ -265,7 +272,7 @@ const InputCitizen = () => {
             </LocalizationProvider>
           </div>
 
-          <div className='field gender'>
+          <div className="field gender">
             <label className="label-text">
               Giới tính <span>{"(*)"}</span>
             </label>
@@ -289,23 +296,29 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className='field identifiedCode'>
+          <div className="field identifiedCode">
             <label className="label-text">
-              Căn cước công dân/Chứng minh thư <span>{"(*)"}</span>
+              Căn cước công dân/Chứng minh thư{" "}
+              {citizenInfo.age > 15 && <span>{"(*)"}</span>}
             </label>
             <TextField
-              placeholder="Ví dụ: 123456789101"
-              helperText={errBlur.identifiedCode}
+              placeholder={
+                citizenInfo.age > 15
+                  ? "Ví dụ: 123456789101"
+                  : "Công dân chưa đủ tuổi để sở hữu CCCD/CMT"
+              }
+              helperText={citizenInfo.age > 15 && errBlur.identifiedCode}
               name="identifiedCode"
-              sx={{ width: '100%' }}
+              sx={{ width: "100%" }}
               onChange={handleInput}
+              disabled={citizenInfo.age < 15 ? true : false}
               error={errBlur.identifiedCode ? true : false}
               onBlur={() => handleBlur("identifiedCode")}
               onInput={() => handleBlurInput("identifiedCode")}
             />
           </div>
 
-          <div className='field ethnic'>
+          <div className="field ethnic">
             <label className="label-text">Dân tộc</label>
             <Autocomplete
               disablePortal
@@ -320,7 +333,7 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className='field religion'>
+          <div className="field religion">
             <label className="label-text">Tôn giáo</label>
             <Autocomplete
               disablePortal
@@ -344,7 +357,7 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className='field province'>
+          <div className="field province">
             <label className="label-text">
               Tỉnh/Thành phố <span>{"(*)"}</span>
             </label>
@@ -382,7 +395,7 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className='field district'>
+          <div className="field district">
             <label className="label-text">
               Quận/Huyện <span>{"(*)"}</span>
             </label>
@@ -398,7 +411,7 @@ const InputCitizen = () => {
                   ...citizenInfo,
                   district: newInput,
                   ward: "",
-                  ward_key: !citizenInfo.ward_key
+                  ward_key: !citizenInfo.ward_key,
                 });
                 setErrBlur({
                   ...errBlur,
@@ -417,7 +430,7 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className='field ward'>
+          <div className="field ward">
             <label className="label-text">
               Xã/Phường <span>{"(*)"}</span>
             </label>
@@ -446,12 +459,12 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className='field village'>
+          <div className="field village">
             <label className="label-text">Thôn/Xóm/Khu/Ấp</label>
             <TextField
               placeholder="Ví dụ: Ấp Thạnh Vinh"
               name="village"
-              sx={{ width: '100%' }}
+              sx={{ width: "100%" }}
               onChange={(e) =>
                 setCitizenInfo({
                   ...citizenInfo,
@@ -461,54 +474,53 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className='field currentAddress'>
+          <div className="field currentAddress">
             <label className="label-text">Địa chỉ hiện tại</label>
             <TextField
-              className='ta dang o dau'
+              className="ta dang o dau"
               placeholder="Số nhà - Thôn/Xóm/Khu/Ấp - Xã/Phường - Quận/Huyện - Tỉnh/Thành Phố"
               name="currentAddress"
-              sx={{ width: '100%' }}
+              sx={{ width: "100%" }}
               onChange={handleInput}
             />
           </div>
 
-          <div className='field occupation'>
+          <div className="field occupation">
             <label className="label-text">Nghề nghiệp</label>
             <TextField
               placeholder="Ví dụ: Lập trình viên"
               name="occupation"
-              sx={{ width: '100%' }}
+              sx={{ width: "100%" }}
               onChange={handleInput}
             />
           </div>
 
-          <div className='field phone'>
+          <div className="field phone">
             <label className="label-text">Số điện thoại</label>
             <TextField
               placeholder="Ví dụ: 0123456789"
               name="phoneNumber"
-              sx={{ width: '100%' }}
+              sx={{ width: "100%" }}
               onChange={handleInput}
               helperText={errBlur.phoneNumber}
               error={errBlur.phoneNumber ? true : false}
             />
           </div>
 
-          <div className='field email'>
+          <div className="field email">
             <label className="label-text">Email</label>
             <TextField
               placeholder="Ví dụ: nguyenvana@gmail.com"
               helperText={errBlur.email}
-              sx={{ width: '100%' }}
+              sx={{ width: "100%" }}
               error={errBlur.email ? true : false}
               name="email"
               onChange={handleInput}
             />
           </div>
-
         </Box>
 
-        <div className='submit'>
+        <div className="submit">
           <div>
             <button className="submit-button">Gửi dữ liệu</button>
           </div>

@@ -1,26 +1,62 @@
 @use "variable" as v;
 
 .input-citizen {
-    margin-top: 110px;
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 200px;
+  margin-top: 110px;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 200px;
 
+  .title-logo {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 50px;
+
+    .header-form {
+      font-size: x-large;
+      margin-bottom: 20px;
+      font-weight: 500;
+
+      .ministry {
+        margin-bottom: 10px;
+      }
+    }
+
+    .logo {
+      max-width: 80px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 20px;
+
+<<<<<<< HEAD
     @media screen and (max-width: v.$phone-width) {
         width: 90%;
     }
 
     .title-logo {
+=======
+      img {
+>>>>>>> dae2b93de3fa6d731b3ede4dd6476b8d452b9c6b
         width: 100%;
-        text-align: center;
-        margin-bottom: 50px;
+        min-width: 60px;
+      }
+    }
 
-        .header-form {
-            font-size: x-large;
-            margin-bottom: 20px;
-            font-weight: 500;
+    .title {
+      font-size: xx-large;
+      font-weight: bold;
+    }
+  }
 
+  form {
+    .MuiBox-root {
+      display: flex;
+      flex-wrap: wrap;
+
+      .field {
+        margin-bottom: 20px;
+
+<<<<<<< HEAD
             @media screen and (max-width: v.$phone-width) {
                 font-size: large;
             }
@@ -28,20 +64,128 @@
             .ministry {
                 margin-bottom: 10px;
             }
+=======
+        .css-viou3o-MuiAutocomplete-root {
+          width: 100%;
+>>>>>>> dae2b93de3fa6d731b3ede4dd6476b8d452b9c6b
+        }
+      }
+
+      .fullname {
+        flex: 50%;
+        padding-right: 30px;
+      }
+
+      .dateOfBirth {
+        flex: 25%;
+      }
+
+      .gender {
+        flex: 25%;
+        padding-left: 30px;
+      }
+
+      .identifiedCode {
+        flex: 50%;
+        padding-right: 30px;
+      }
+
+      .ethnic {
+        flex: 25%;
+      }
+
+      .religion {
+        flex: 25%;
+        padding-left: 30px;
+      }
+
+      .province {
+        flex: 33.3%;
+        padding-right: 20px;
+      }
+
+      .district {
+        flex: 33.3%;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .ward {
+        flex: 33.3%;
+        padding-left: 20px;
+      }
+
+      .village {
+        flex: 33%;
+        padding-right: 20px;
+      }
+
+      .currentAddress {
+        flex: 66%;
+        padding-left: 10px;
+      }
+
+      .occupation {
+        flex: 33.3%;
+        padding-right: 20px;
+      }
+
+      .phone {
+        flex: 33.3%;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .email {
+        flex: 33.3%;
+        padding-left: 20px;
+      }
+    }
+
+    @media screen and (max-width: v.$tablet-width-2) {
+      .MuiBox-root {
+        display: flex;
+        flex-wrap: wrap;
+
+        .field {
+          margin-bottom: 20px;
+
+          .css-viou3o-MuiAutocomplete-root {
+            width: 100%;
+          }
         }
 
-        .logo {
-            max-width: 80px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 20px;
-
-            img {
-                width: 100%;
-                min-width: 60px;
-            }
+        .fullname {
+          flex: 100%;
+          padding: 0;
         }
 
+        .dateOfBirth {
+          flex: 50%;
+          padding-right: 15px;
+        }
+
+        .gender {
+          flex: 50%;
+          padding-left: 15px;
+        }
+
+        .identifiedCode {
+          flex: 50%;
+          padding-right: 15px;
+        }
+
+        .ethnic {
+          flex: 25%;
+          padding-left: 15px;
+        }
+
+        .religion {
+          flex: 25%;
+          padding-left: 30px;
+        }
+
+<<<<<<< HEAD
         .title {
             font-size: xx-large;
             font-weight: bold;
@@ -49,212 +193,82 @@
             @media screen and (max-width: v.$phone-width) {
                 font-size: x-large;
             }
+=======
+        .province {
+          flex: 50%;
+          padding-right: 15px;
+>>>>>>> dae2b93de3fa6d731b3ede4dd6476b8d452b9c6b
         }
+
+        .district {
+          flex: 50%;
+          padding-left: 15px;
+          padding-right: 0;
+        }
+
+        .ward {
+          flex: 50%;
+          padding-right: 15px;
+          padding-left: 0;
+        }
+
+        .village {
+          flex: 50%;
+          padding-left: 20px;
+          padding-right: 0;
+        }
+
+        .currentAddress {
+          flex: 100%;
+          padding: 0;
+        }
+
+        .occupation {
+          flex: 33.3%;
+          padding-right: 20px;
+        }
+
+        .phone {
+          flex: 33.3%;
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+
+        .email {
+          flex: 33.3%;
+          padding-left: 20px;
+        }
+      }
     }
-    
-    form {
-        .MuiBox-root {
-            display: flex;
-            flex-wrap: wrap;
 
-            .field {
-                margin-bottom: 20px;
+    @media screen and (max-width: v.$phone-width-2) {
+      .MuiBox-root {
+        display: flex;
+        flex-direction: column;
 
-                .css-viou3o-MuiAutocomplete-root {
-                    width: 100%;
-                }
-            }
-
-            .fullname {
-                flex: 50%;
-                padding-right: 30px;
-            }
-
-            .dateOfBirth {
-                flex: 25%;
-            }
-
-            .gender {
-                flex: 25%;
-                padding-left: 30px;
-            }
-
-            .identifiedCode {
-                flex: 50%;
-                padding-right: 30px;
-            }
-
-            .ethnic {
-                flex: 25%;
-            }
-
-            .religion {
-                flex: 25%;
-                padding-left: 30px;
-            }
-
-            .province {
-                flex: 33.3%;
-                padding-right: 20px;
-            }
-
-            .district {
-                flex: 33.3%;
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-
-            .ward {
-                flex: 33.3%;
-                padding-left: 20px;
-            }
-
-            .village {
-                flex: 33%;
-                padding-right: 20px;
-            }
-
-            .currentAddress {
-                flex: 66%;
-                padding-left: 10px;
-            }
-
-            .occupation {
-                flex: 33.3%;
-                padding-right: 20px;
-            }
-
-            .phone {
-                flex: 33.3%;
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-
-            .email {
-                flex: 33.3%;
-                padding-left: 20px;
-            }
-
+        .field {
+          padding: 0;
         }
-
-        @media screen and (max-width: v.$tablet-width-2) {
-            .MuiBox-root {
-                display: flex;
-                flex-wrap: wrap;
-    
-                .field {
-                    margin-bottom: 20px;
-    
-                    .css-viou3o-MuiAutocomplete-root {
-                        width: 100%;
-                    }
-                }
-    
-                .fullname {
-                    flex: 100%;
-                    padding: 0;
-                }
-    
-                .dateOfBirth {
-                    flex: 50%;
-                    padding-right: 15px;
-                }
-    
-                .gender {
-                    flex: 50%;
-                    padding-left: 15px;
-                }
-    
-                .identifiedCode {
-                    flex: 50%;
-                    padding-right: 15px;
-                }
-    
-                .ethnic {
-                    flex: 25%;
-                    padding-left: 15px;
-                }
-    
-                .religion {
-                    flex: 25%;
-                    padding-left: 30px;
-                }
-    
-                .province {
-                    flex: 50%;
-                    padding-right: 15px;
-                }
-    
-                .district {
-                    flex: 50%;
-                    padding-left: 15px;
-                    padding-right: 0;
-                }
-    
-                .ward {
-                    flex: 50%;
-                    padding-right: 15px;
-                    padding-left: 0;
-                }
-    
-                .village {
-                    flex: 50%;
-                    padding-left: 20px;
-                    padding-right: 0;
-                }
-    
-                .currentAddress {
-                    flex: 100%;
-                    padding: 0;
-                }
-    
-                .occupation {
-                    flex: 33.3%;
-                    padding-right: 20px;
-                }
-    
-                .phone {
-                    flex: 33.3%;
-                    padding-left: 10px;
-                    padding-right: 10px;
-                }
-    
-                .email {
-                    flex: 33.3%;
-                    padding-left: 20px;
-                }
-    
-            }
-        }
-
-        @media screen and (max-width: v.$phone-width-2) {
-            .MuiBox-root {
-                display: flex;
-                flex-direction: column;
-
-                .field {
-                    padding: 0;
-                }
-            }
-        }
-
-        .submit {
-            width: 100%;
-            margin-top: 50px;
-            
-            div {
-                max-width: 30%;
-                margin-left: auto;
-                margin-right: auto;
-                display: flex;
-                justify-content: center;
-
-                .submit-button {
-                    width: 100%;
-                    height: 50px;
-                    font-size: large;
-                }
-            }
-        }
+      }
     }
+
+    .submit {
+      width: 100%;
+      margin-top: 50px;
+
+      div {
+        max-width: 30%;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        justify-content: center;
+
+        .submit-button {
+          width: 100%;
+          height: 50px;
+          font-size: large;
+        }
+      }
+    }
+  }
 }

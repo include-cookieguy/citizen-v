@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react'
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,22 +7,47 @@ import {
   Button, DialogContent, Dialog, DialogTitle, DialogActions,
   Autocomplete, TextField, Switch
 } from '@mui/material';
+=======
+import React from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { DataGrid } from "@mui/x-data-grid";
+import {
+  Button,
+  DialogContent,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  Autocomplete,
+  TextField,
+  Switch,
+} from "@mui/material";
+>>>>>>> dae2b93de3fa6d731b3ede4dd6476b8d452b9c6b
 
-import '../styles/newUnit.scss'
-import location from '../data/location.json'
-import { getChildUnit, createUnit, updateUnit, deleteUnit } from '../redux/actions/unitAction';
-import { createUser, getChildUser, updateUserById, getOptions } from '../redux/actions/userAction';
+import "../styles/newUnit.scss";
+import location from "../data/location.json";
+import {
+  getChildUnit,
+  createUnit,
+  updateUnit,
+  deleteUnit,
+} from "../redux/actions/unitAction";
+import {
+  createUser,
+  getChildUser,
+  updateUserById,
+} from "../redux/actions/userAction";
 
 const style = {
-  position: 'absolute',
-  display: 'flex',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '700px',
-  height: '400px',
-  bgcolor: 'background.paper',
-  border: '1px solid #000',
+  position: "absolute",
+  display: "flex",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "700px",
+  height: "400px",
+  bgcolor: "background.paper",
+  border: "1px solid #000",
   boxShadow: 24,
   p: 4,
 };
@@ -58,12 +84,20 @@ export default function NewUnit() {
     editStartTime: null,
     editEndTime: null,
     editActive: null,
+  };
+  const [state, setState] = useState(initState);
 
-  }
-  const [state, setState] = useState(initState)
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getChildUnit());
+    dispatch(getChildUser());
+    let options = location.map((x) => x.label);
+    let cOptions = location.map((x) => ({ label: x.label }));
+    setState({ ...state, select: options, cSelect: cOptions });
+  }, []);
 
+<<<<<<< HEAD
   useEffect(async () => {
     dispatch(getChildUnit())
     dispatch(getChildUser())
@@ -77,39 +111,53 @@ export default function NewUnit() {
   let cRows = useSelector(state => state.unit.allUnit.map((u, idx) => ({ id: idx + 1, _id: u._id, name: u.nameOfUnit, code: u.code })))
   let cChildUser = useSelector(state => state.user.allUser)
 
+=======
+  let cRows = useSelector((state) =>
+    state.unit.allUnit.map((u, idx) => ({
+      id: idx,
+      _id: u._id,
+      name: u.nameOfUnit,
+      code: u.code,
+    }))
+  );
+  let cChildUser = useSelector((state) => state.user.allUser);
+
+>>>>>>> dae2b93de3fa6d731b3ede4dd6476b8d452b9c6b
   //  Compute select
   const computedSelect = (temp) => {
-    return new Promise(next => {
-      let cTemp = temp.map(x => ({ label: x }))
-      next(cTemp)
-    })
-  }
+    let cTemp = temp.map((x) => ({ label: x }));
+    setState({ ...state, select: temp });
+    setState({ ...state, cSelect: cTemp });
+  };
 
   //  New Unit handler
-  const handleOpen = () => setState({ ...state, isModalOpen: true })
-  const handleClose = () => setState({ ...state, isModalOpen: false })
+  const handleOpen = () => setState({ ...state, isModalOpen: true });
+  const handleClose = () => setState({ ...state, isModalOpen: false });
   const handleUnit = (e, v) => {
-    setState({ ...state, newUnit: (v || {}).label })
-  }
-  const handleKeydownUnit = async (e) => {
+    setState({ ...state, newUnit: (v || {}).label });
+  };
+  const handleKeydownUnit = (e) => {
     if (e.keyCode === 13) {
-      let temp = state.select
+      let temp = state.select;
       if (!temp.includes(e.target.value)) {
-        temp.push(e.target.value)
+        temp.push(e.target.value);
       }
-      let cTemp = await computedSelect(temp)
-      setState({ ...state, select: temp, cSelect: cTemp, newUnit: e.target.value })
+      computedSelect(temp);
+      setState({ ...state, newUnit: e.target.value });
     }
-  }
+  };
   const handleCode = (e) => {
-    setState({ ...state, newUnitCode: e.target.value })
-  }
+    setState({ ...state, newUnitCode: e.target.value });
+  };
   const handleSubmit = () => {
-    dispatch(createUnit({ nameOfUnit: state.newUnit, code: state.newUnitCode }))
-    handleClose()
-  }
+    dispatch(
+      createUnit({ nameOfUnit: state.newUnit, code: state.newUnitCode })
+    );
+    handleClose();
+  };
 
   //  New Account handler
+<<<<<<< HEAD
   const handleAccountOpen = (row) => setState({ ...state, isAccountModalOpen: true, newUsername: row.code })
   const handleAccountClose = () => setState({ ...state, isAccountModalOpen: false })
   const handleUsername = (e) => setState({ ...state, newUsername: e.target.value })
@@ -118,6 +166,22 @@ export default function NewUnit() {
     dispatch(createUser({ username: state.newUsername, password: state.newPassword }))
     handleAccountClose()
   }
+=======
+  const handleAccountOpen = (row) =>
+    setState({ ...state, isAccountModalOpen: true, newUsername: row.code });
+  const handleAccountClose = () =>
+    setState({ ...state, isAccountModalOpen: false });
+  const handleUsername = (e) =>
+    setState({ ...state, newUsername: e.target.value });
+  const handlePassword = (e) =>
+    setState({ ...state, newPassword: e.target.value });
+  const handleAccountSubmit = () => {
+    dispatch(
+      createUser({ username: state.newUsername, password: state.newPassword })
+    );
+    handleAccountClose();
+  };
+>>>>>>> dae2b93de3fa6d731b3ede4dd6476b8d452b9c6b
 
   //  Edit Unit handler
   const handleEditOpen = (params) => {
@@ -126,58 +190,63 @@ export default function NewUnit() {
       isEditModalOpen: true,
       editUnit: params.name,
       editUnitCode: params.code,
-      editUnitId: params._id
-    })
-  }
-  const handleEditClose = () => setState({ ...state, isEditModalOpen: false })
+      editUnitId: params._id,
+    });
+  };
+  const handleEditClose = () => setState({ ...state, isEditModalOpen: false });
   const handleEditCode = (e) => {
-    setState({ ...state, editUnitCode: e.target.value })
-  }
+    setState({ ...state, editUnitCode: e.target.value });
+  };
   const handleEditSubmit = () => {
-    dispatch(updateUnit({
-      _id: state.editUnitId,
-      nameOfUnit: state.editUnit,
-      code: state.editUnitCode,
-    }));
-    handleEditClose()
-  }
+    dispatch(
+      updateUnit({
+        _id: state.editUnitId,
+        nameOfUnit: state.editUnit,
+        code: state.editUnitCode,
+      })
+    );
+  };
 
   //  Edit Account handler
   const handleEditAccountOpen = (row) => {
-    let user = cChildUser.filter(u => u.username === row.code)[0]
-    state.editUser = user
-    user.startTime = (user.startTime || "").split('.')[0]
-    user.endTime = (user.endTime || "").split('.')[0]
+    let user = cChildUser.filter((u) => u.username === row.code)[0];
+    state.editUser = user;
     setState({
       ...state,
       isEditAccountModalOpen: true,
       editUsername: user.username,
       editActive: user.active,
-      editStartTime: user.startTime,
-      editEndTime: user.endTime,
-    })
-  }
-  const handleEditAccountClose = () => setState({ ...state, isEditAccountModalOpen: false })
-  const handleEditUsername = (e) => setState({ ...state, editUsername: e.target.value })
-  const handleEditPassword = (e) => setState({ ...state, editPassword: e.target.value })
-  const handleEditActive = () => setState({ ...state, editActive: !state.editActive })
-  const handleEditStartTime = (e) => setState({ ...state, editStartTime: e.target.value })
-  const handleEditEndtTime = (e) => setState({ ...state, editEndTime: e.target.value })
+    });
+  };
+  const handleEditAccountClose = () =>
+    setState({ ...state, isEditAccountModalOpen: false });
+  const handleEditUsername = (e) =>
+    setState({ ...state, editUsername: e.target.value });
+  const handleEditPassword = (e) =>
+    setState({ ...state, editPassword: e.target.value });
+  const handleEditActive = () =>
+    setState({ ...state, editActive: !state.editActive });
+  const handleEditStartTime = (e) =>
+    setState({ ...state, editStartTime: e.target.value });
+  const handleEditEndtTime = (e) =>
+    setState({ ...state, editEndTime: e.target.value });
   const handleEditAccountSubmit = () => {
-    dispatch(updateUserById({
-      _id: state.editUser._id,
-      newPassword: state.editPassword,
-      active: state.editActive,
-      startTime: state.editStartTime,
-      endTime: state.editEndTime
-    }))
-    handleEditAccountClose()
-  }
+    dispatch(
+      updateUserById({
+        _id: state.editUser._id,
+        newPassword: state.editPassword,
+        active: state.editActive,
+        startTime: state.editStartTime,
+        endTime: state.editEndTime,
+      })
+    );
+    handleEditAccountClose();
+  };
 
   //  Delete Unit handler
   const handleDelete = ({ _id }) => {
-    dispatch(deleteUnit({ _id }))
-  }
+    dispatch(deleteUnit({ _id }));
+  };
 
   const columns = [
     { field: 'id', headerName: 'STT', flex: 80, minWidth: 62 },
@@ -190,11 +259,19 @@ export default function NewUnit() {
       minWidth: 154,
       sortable: false,
       renderCell: (params) => {
-        let user = cChildUser.filter(u => u.username === params.row.code)[0]
+        let user = cChildUser.filter((u) => u.username === params.row.code)[0];
         return (
           <>
-            {user && <Button onClick={() => handleEditAccountOpen(params.row)}>Chỉnh sửa</Button>}
-            {!user && <Button onClick={() => handleAccountOpen(params.row)}>Tạo mới</Button>}
+            {user && (
+              <Button onClick={() => handleEditAccountOpen(params.row)}>
+                Chỉnh sửa
+              </Button>
+            )}
+            {!user && (
+              <Button onClick={() => handleAccountOpen(params.row)}>
+                Tạo mới
+              </Button>
+            )}
           </>
         );
       },
@@ -330,12 +407,12 @@ export default function NewUnit() {
           </div>
           <br />
           <br />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <h4>Quyền khai báo</h4>
             <Switch
               checked={state.editActive || false}
               onChange={handleEditActive}
-              inputProps={{ 'aria-label': 'controlled' }}
+              inputProps={{ "aria-label": "controlled" }}
             ></Switch>
           </div>
           <br />
@@ -359,7 +436,6 @@ export default function NewUnit() {
               onChange={handleEditEndtTime}
             ></TextField>
           </div>
-
         </DialogContent>
         <DialogActions>
           <Button style={{ height: 60, }} onClick={handleEditAccountSubmit}>Cập nhật</Button>
@@ -375,7 +451,6 @@ export default function NewUnit() {
         rowsPerPageOptions={[5]}
         checkboxSelection={false}
       />
-
     </div>
-  )
+  );
 }
