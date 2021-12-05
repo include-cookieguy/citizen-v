@@ -3,7 +3,7 @@ import locationData from "../data/location.json";
 import ethnic from "../data/ethnic.json";
 import { postDataAPI } from "../utils/fetchData";
 import { useSelector } from "react-redux";
-import { Box, TextField, Autocomplete } from "@mui/material";
+import { Box, TextField, Autocomplete, Dialog, DialogContent, DialogActions, Button } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { LocalizationProvider, DatePicker } from "@mui/lab";
 import moment from "moment";
@@ -12,6 +12,18 @@ import logoDepartment from "../assets/department-citizen.png";
 import vnLocale from "../data/formatVietnamMonth";
 
 const InputCitizen = () => {
+
+  // alert submit
+  const [open, setOpen] = useState(false);
+  const handleOpenAlert = () => {
+    setOpen(true);
+  }
+  const handleCloseAlert = () => {
+    setOpen(false);
+  }
+
+  const [alertMsg, setAlertMsg] = useState('');
+
   const { auth } = useSelector((state) => state);
   const [citizenInfo, setCitizenInfo] = useState({
     fullName: "",
@@ -238,12 +250,33 @@ const InputCitizen = () => {
       console.log(finalInfo);
       const res = await postDataAPI("citizen", finalInfo, auth.token);
 
-      console.log(res.data);
+      setAlertMsg(res.data.msg);
+
+      handleOpenAlert();
     }
   };
 
   return (
     <div className="input-citizen">
+
+      <Dialog // notification
+        open={open}
+        onClose
+      >
+        <DialogContent style={{ 
+          width: '100%', 
+          display: 'flex', 
+          fontSize: 'x-large', 
+          fontWeight: 400 
+        }}>
+          {alertMsg}
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={handleCloseAlert}>Đóng</Button>
+        </DialogActions>
+      </Dialog>
+
       <div className="title-logo">
         <div className="header-form">
           <div className="ministry">BỘ Y TẾ</div>
