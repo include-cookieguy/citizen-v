@@ -278,7 +278,7 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className="field dateOfBirth">
+          <div className="field date-of-birth">
             <label className="label-text">
               Ngày sinh <span>{"(*)"}</span>
             </label>
@@ -350,7 +350,7 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className="field identifiedCode">
+          <div className="field identified-code">
             <label className="label-text">
               Căn cước công dân/Chứng minh thư{" "}
               {citizenInfo.age > 15 && <span>{"(*)"}</span>}
@@ -557,7 +557,24 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className="field currentAddress">
+          <div className="field current-address">
+            <label className="label-text">
+              Địa chỉ thường trú <span>{"(*)"}</span>
+            </label>
+            <TextField
+              onBlur={() => handleBlur("residentAddress")}
+              onInput={() => handleBlurInput("residentAddress")}
+              error={errBlur.residentAddress ? true : false}
+              helperText={errBlur.residentAddress}
+              className="ta dang o dau"
+              placeholder="Số nhà - Thôn/Xóm/Khu/Ấp - Xã/Phường - Quận/Huyện - Tỉnh/Thành Phố"
+              name="residentAddress"
+              sx={{ width: "100%" }}
+              onChange={handleInput}
+            />
+          </div>
+
+          <div className="field temp-address">
             <label className="label-text">
               Địa chỉ tạm trú <span>{"(*)"}</span>
             </label>
@@ -574,7 +591,7 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className="field village">
+          <div className="field academic-level">
             <label className="label-text">
               Trình độ học vấn <span>{"(*)"}</span>
             </label>
@@ -586,23 +603,6 @@ const InputCitizen = () => {
               value={citizenInfo.educationLevel}
               placeholder="Ví dụ: 12/12"
               name="educationLevel"
-              sx={{ width: "100%" }}
-              onChange={handleInput}
-            />
-          </div>
-
-          <div className="field currentAddress">
-            <label className="label-text">
-              Địa chỉ thường trú <span>{"(*)"}</span>
-            </label>
-            <TextField
-              onBlur={() => handleBlur("residentAddress")}
-              onInput={() => handleBlurInput("residentAddress")}
-              error={errBlur.residentAddress ? true : false}
-              helperText={errBlur.residentAddress}
-              className="ta dang o dau"
-              placeholder="Số nhà - Thôn/Xóm/Khu/Ấp - Xã/Phường - Quận/Huyện - Tỉnh/Thành Phố"
-              name="residentAddress"
               sx={{ width: "100%" }}
               onChange={handleInput}
             />
