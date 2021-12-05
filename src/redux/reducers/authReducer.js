@@ -1,7 +1,8 @@
-import { getToken, GLOBALTYPES } from "../actions/globalTypes";
+import { getToken, getUser, GLOBALTYPES } from "../actions/globalTypes";
 
 const initialState = {
   token: getToken,
+  user: getUser,
 };
 
 const authReducer = (state = initialState, action) => {
