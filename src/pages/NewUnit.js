@@ -11,6 +11,7 @@ import {
   Autocomplete,
   TextField,
   Switch,
+  Stack,
 } from "@mui/material";
 
 import "../styles/newUnit.scss";
@@ -257,11 +258,20 @@ export default function NewUnit() {
     },
   ];
 
+  function NoRowsOverlay() {
+    return (
+      <Stack marginTop='200px' alignItems="center" justifyContent="center">
+        Chưa có đơn vị nào được khai báo
+      </Stack>
+    );
+  }
+
   return (
     <div className="newUnit-body">
       <div className='name-of-official'>
-        <div className='department'></div>
-        <div className='official'></div>
+        <div className='department'>{localStorage['department']}</div>
+        <div className='official'>{localStorage['official']}</div>
+        <div className='start'>* * * * * * *</div>
       </div>
 
       <div className='header'>
@@ -413,6 +423,7 @@ export default function NewUnit() {
         rows={cRows}
         columns={columns}
         pageSize={7}
+        components={{ NoRowsOverlay }}
         rowsPerPageOptions={[5]}
         checkboxSelection={false}
       />

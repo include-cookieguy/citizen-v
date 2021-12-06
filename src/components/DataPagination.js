@@ -12,7 +12,7 @@ const DataPagination = () => {
     if (citizen.searchCitizensList) {
       const mapSearch = citizen.searchCitizensList.map((e, index) => ({
         ...e,
-        id: index,
+        id: index + 1,
         city: e.location.city,
         district: e.location.district,
         ward: e.location.ward,
@@ -39,6 +39,16 @@ const DataPagination = () => {
       sortable: false,
     },
     {
+      field: "ethnic",
+      headerName: "Dân tộc",
+      width: 160,
+    },
+    {
+      field: "religion",
+      headerName: "Tôn giáo",
+      width: 170,
+    },
+    {
       field: "city",
       headerName: "Tỉnh/Thành Phố",
       width: 200,
@@ -54,9 +64,20 @@ const DataPagination = () => {
       width: 200,
     },
     {
+      field: "village",
+      headerName: "Thôn/Xóm/Ấp/Khu",
+      width: 220,
+    },
+    {
       field: "residentAddress",
       headerName: "Địa chỉ thường trú",
-      width: 500,
+      width: 550,
+    },
+    {
+      field: "currentAddress",
+      headerName: "Địa chỉ tạm trú",
+      width: 550,
+      sortable: false,
     },
     {
       field: "educationLevel",
@@ -64,9 +85,9 @@ const DataPagination = () => {
       width: 150,
     },
     {
-      field: "village",
-      headerName: "Thôn/Xóm/Ấp/Khu",
-      width: 200,
+      field: "occupation",
+      headerName: "Nghề nghiệp",
+      width: 160,
     },
     {
       field: "phoneNumber",
@@ -80,40 +101,20 @@ const DataPagination = () => {
       width: 200,
       sortable: false,
     },
-    {
-      field: "occupation",
-      headerName: "Nghề nghiệp",
-      width: 160,
-    },
-    {
-      field: "currentAddress",
-      headerName: "Địa chỉ hiện tại",
-      width: 500,
-      sortable: false,
-    },
-    {
-      field: "ethnic",
-      headerName: "Dân tộc",
-      width: 100,
-    },
-    {
-      field: "religion",
-      headerName: "Tôn giáo",
-      width: 120,
-    },
   ];
 
   function NoRowsOverlay() {
     return (
-      <Stack height="100%" alignItems="center" justifyContent="center">
+      <Stack marginTop='200px' alignItems="center" justifyContent="center">
         Không có công dân nào phù hợp với yêu cầu
       </Stack>
     );
   }
 
   return (
-    <div style={{ height: 600, width: "100%" }}>
+    <div style={{ width: "100%" }}>
       <DataGrid
+        autoHeight
         rows={rowData}
         columns={columns}
         components={{ NoRowsOverlay }}
