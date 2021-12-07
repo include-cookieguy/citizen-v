@@ -6,7 +6,6 @@ import NewUnit from "./pages/NewUnit";
 import Header from "./components/Header";
 import InputCitizen from "./pages/InputCitizen";
 import Alert from "./components/alert/Alert";
-import ShowMessage from "./components/ShowMessage";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { refreshToken } from "./redux/actions/authAction";
@@ -27,7 +26,6 @@ function App() {
   return (
     <Router>
       <Alert />
-      <ShowMessage />
       {auth.token && <Header />}
       <Routes>
         <Route exact path="/" element={auth.token ? <Home /> : <Login />} />
