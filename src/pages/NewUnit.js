@@ -169,6 +169,7 @@ export default function NewUnit() {
         code: state.editUnitCode,
       })
     );
+    handleEditClose()
   };
 
   //  Edit Account handler

@@ -69,7 +69,7 @@ export const createUser = (data) => async (dispatch) => {
     message = res.data.msg || res.data.message || "Success";
   } catch (err) {
     type = "error";
-    message = err.response.msg || err.response.message;
+    message = err.response.data.msg || err.response.data.message || 'Error'
   } finally {
     dispatch({
       type: GLOBALTYPES.SHOW_MESSAGE,
@@ -94,7 +94,7 @@ export const updateUserById = (data) => async (dispatch) => {
     message = res.data.msg || res.data.message || "Success";
   } catch (err) {
     type = "error";
-    message = err.response.msg || err.response.message;
+    message = err.response.data.msg || err.response.data.message || 'Error'
   } finally {
     dispatch({
       type: GLOBALTYPES.SHOW_MESSAGE,
