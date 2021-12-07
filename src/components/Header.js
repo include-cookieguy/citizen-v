@@ -48,6 +48,8 @@ const Header = () => {
 
           </div>
         </div>
+        
+        <ShowMessage />
       </header>
 
       <div className='bottom'>
@@ -71,8 +73,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-
-      <ShowMessage />
     </>
   );
 };
