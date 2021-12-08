@@ -83,7 +83,7 @@ export default function NewUnit() {
   useEffect(async () => {
     dispatch(getChildUnit());
     dispatch(getChildUser());
-    let options = await getOptions()
+    let options = await getOptions() || []
     let cOptions = options.map(x => ({ label: x }))
     setState({ ...state, select: options, cSelect: cOptions });
   }, []);
