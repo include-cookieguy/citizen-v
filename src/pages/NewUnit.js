@@ -86,7 +86,7 @@ export default function NewUnit() {
     await dispatch(getChildUnit());
     await dispatch(getChildUser());
     setState({ ...state, loading: false })
-    let options = await getOptions();
+    let options = await getOptions() || [];
     let cOptions = options.map((x) => ({ label: x }));
     setState({ ...state, select: options, cSelect: cOptions });
   }, []);
