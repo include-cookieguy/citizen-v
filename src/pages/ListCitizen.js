@@ -93,12 +93,36 @@ const ListCitizen = () => {
   useEffect(() => {
     const { city, district, ward, village } = searchQuery;
 
-    const location = {
-      city: typeof city === "string" ? city : city.join(","),
-      district: typeof district === "string" ? district : district.join(","),
-      ward: typeof ward === "string" ? ward : ward.join(","),
-      village,
-    };
+    const { nameOfUnit, nameOfParentUnit, nameOfGrandUnit } = auth.user;
+
+    let location = {};
+
+    if (nameOfGrandUnit) {
+      location = {
+        city: nameOfGrandUnit,
+        district: nameOfParentUnit,
+        ward: nameOfUnit,
+      };
+    } else if (!nameOfGrandUnit && nameOfParentUnit) {
+      location = {
+        city: nameOfParentUnit,
+        district: nameOfUnit,
+        ward: typeof ward === "string" ? ward : ward.join(","),
+      };
+    } else if (!nameOfGrandUnit && !nameOfParentUnit && nameOfUnit) {
+      location = {
+        city: nameOfUnit,
+        district: typeof district === "string" ? district : district.join(","),
+        ward: typeof ward === "string" ? ward : ward.join(","),
+      };
+    } else if (!nameOfGrandUnit && !nameOfParentUnit && !nameOfUnit) {
+      location = {
+        city: typeof city === "string" ? city : city.join(","),
+        district: typeof district === "string" ? district : district.join(","),
+        ward: typeof ward === "string" ? ward : ward.join(","),
+        village,
+      };
+    }
 
     const res_search = {
       ...searchQuery,
@@ -106,7 +130,7 @@ const ListCitizen = () => {
     };
 
     dispatch(listCitizens(res_search, auth));
-  }, []);
+  }, [auth, dispatch]);
 
   useEffect(() => {
     setSearchQuery({
@@ -127,18 +151,18 @@ const ListCitizen = () => {
   }, [user.searchLocation, user.disabledLocation]);
 
   return (
-    <div className='list-citizens'>
-      <div className='list-citizens-container'>
-        <div className='title'>Danh sách công dân theo địa phương</div>
+    <div className="list-citizens">
+      <div className="list-citizens-container">
+        <div className="title">Danh sách công dân theo địa phương</div>
 
         <form onSubmit={handleSubmitSearch} className="list-citizens-search">
           {!disabledLocation.city ? (
             <Autocomplete
-              className='filter city'
+              className="filter city"
               noOptionsText={"Không có lựa chọn phù hợp"}
               options={locationData}
               multiple
-              size='small'
+              size="small"
               key={searchQuery.city_key + "city"}
               onChange={(e, newInput) => {
                 setSearchQuery({
@@ -156,21 +180,21 @@ const ListCitizen = () => {
             />
           ) : (
             <TextField
-              className='filter city'
+              className="filter city"
               value={searchQuery.city}
               variant="outlined"
               disabled={true}
-              size='small'
+              size="small"
             />
           )}
 
           {!disabledLocation.district ? (
             <Autocomplete
-              className='filter district'
+              className="filter district"
               noOptionsText={"Không có lựa chọn phù hợp"}
               options={availableDistricts || []}
               multiple
-              size='small'
+              size="small"
               // key={searchQuery.district_key + "district"}
               // value={searchQuery.district}
               disabled={searchQuery.city ? false : true}
@@ -189,21 +213,21 @@ const ListCitizen = () => {
             />
           ) : (
             <TextField
-              className='filter district'
+              className="filter district"
               value={searchQuery.district}
               variant="outlined"
               disabled={true}
-              size='small'
+              size="small"
             />
           )}
 
           {!disabledLocation.ward ? (
             <Autocomplete
-              className='filter ward'
+              className="filter ward"
               noOptionsText={"Không có lựa chọn phù hợp"}
               options={avaiableWards || []}
               multiple
-              size='small'
+              size="small"
               // value={searchQuery.location.ward}
               // key={searchQuery.ward_key}
               onChange={(e, newInput) => {
@@ -221,18 +245,27 @@ const ListCitizen = () => {
             />
           ) : (
             <TextField
-              className='filter ward'
+              className="filter ward"
               value={searchQuery.ward}
               variant="outlined"
               disabled={true}
-              size='small'
+              size="small"
             />
           )}
 
-          <button className='submit'>Tìm kiếm</button>
+          {auth.user.regency === "B1" && (
+            <TextField
+              className="filter ward"
+              value={searchQuery.ward}
+              variant="outlined"
+              size="small"
+            />
+          )}
+
+          <button className="submit">Tìm kiếm</button>
         </form>
 
-        <div className='list-citizens-result'>
+        <div className="list-citizens-result">
           <DataPagination />
         </div>
       </div>

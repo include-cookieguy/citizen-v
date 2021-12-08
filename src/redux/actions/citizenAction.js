@@ -6,15 +6,10 @@ export const searchCitizens = (data, auth) => async (dispatch) => {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     const res = await postDataAPI("citizen/findCitizens", data, auth.token);
 
-    const mapId = res.data.map((e, i) => ({
-      ...e,
-      id: i,
-    }));
-
     dispatch({
       type: GLOBALTYPES.GET_CITIZENS,
       payload: {
-        searchCitizensList: mapId,
+        searchCitizensList: res.data,
       },
     });
 
