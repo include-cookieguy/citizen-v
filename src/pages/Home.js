@@ -6,10 +6,10 @@ import ListCitizen from "./ListCitizen";
 const Home = () => {
   return (
     <div className="home-container">
-      <div className='home-title'>
-        <div className='department'>{localStorage['department']}</div>
-        <div className='official'>{localStorage['official']}</div>
-        <div className='start'>* * * * * * *</div>
+      <div className="home-title">
+        <div className="department">{localStorage["department"]}</div>
+        <div className="official">{localStorage["official"]}</div>
+        <div className="start">* * * * * * *</div>
       </div>
 
       <div>

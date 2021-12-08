@@ -80,13 +80,37 @@ const SearchCitizen = () => {
 
   useEffect(() => {
     const { city, district, ward, village } = searchQuery;
+    const { nameOfUnit, nameOfParentUnit, nameOfGrandUnit } = auth.user;
 
-    const location = {
-      city,
-      district,
-      ward,
-      village,
-    };
+    let location = {};
+
+    if (nameOfGrandUnit) {
+      location = {
+        city: nameOfGrandUnit,
+        district: nameOfParentUnit,
+        ward: nameOfUnit,
+      };
+    } else if (!nameOfGrandUnit && nameOfParentUnit) {
+      location = {
+        city: nameOfParentUnit,
+        district: nameOfUnit,
+        ward: ward,
+      };
+    } else if (!nameOfGrandUnit && !nameOfParentUnit && nameOfUnit) {
+      location = {
+        city: nameOfUnit,
+        district: district,
+        ward: ward,
+      };
+    } else if (!nameOfGrandUnit && !nameOfParentUnit && !nameOfUnit) {
+      location = {
+        city: city,
+        ward: ward,
+        district: district,
+      };
+    }
+
+    console.log(location);
 
     const res_search = {
       ...searchQuery,
@@ -94,7 +118,7 @@ const SearchCitizen = () => {
     };
 
     dispatch(searchCitizens(res_search, auth));
-  }, []);
+  }, [auth, dispatch, searchQuery]);
 
   useEffect(() => {
     setSearchQuery({

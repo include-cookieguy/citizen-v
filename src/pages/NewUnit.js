@@ -14,7 +14,6 @@ import {
   Stack,
 } from "@mui/material";
 
-import "../styles/newUnit.scss";
 import location from "../data/location.json";
 import {
   getChildUnit,
@@ -169,18 +168,18 @@ export default function NewUnit() {
         code: state.editUnitCode,
       })
     );
-    handleEditClose()
+    handleEditClose();
   };
 
   //  Edit Account handler
   const handleEditAccountOpen = (row) => {
-    let user = cChildUser.filter(u => u.username === row.code)[0]
-    state.editUser = user
-    user.startTime = (user.startTime || "").split('.')[0]
-    user.endTime = (user.endTime || "").split('.')[0]
+    let user = cChildUser.filter((u) => u.username === row.code)[0];
+    state.editUser = user;
+    user.startTime = (user.startTime || "").split(".")[0];
+    user.endTime = (user.endTime || "").split(".")[0];
     setState({
-      ...state, 
-      isEditAccountModalOpen: true, 
+      ...state,
+      isEditAccountModalOpen: true,
       editUsername: user.username,
       editActive: user.active,
       editStartTime: user.startTime,
@@ -218,12 +217,12 @@ export default function NewUnit() {
   };
 
   const columns = [
-    { field: 'id', headerName: 'STT', flex: 80, minWidth: 62 },
-    { field: 'name', headerName: 'Tên đơn vị', flex: 300, minWidth: 231 },
-    { field: 'code', headerName: 'Mã đơn vị', flex: 100, minWidth: 100 },
+    { field: "id", headerName: "STT", flex: 80, minWidth: 62 },
+    { field: "name", headerName: "Tên đơn vị", flex: 300, minWidth: 231 },
+    { field: "code", headerName: "Mã đơn vị", flex: 100, minWidth: 100 },
     {
-      field: 'account',
-      headerName: 'Tài khoản đơn vị',
+      field: "account",
+      headerName: "Tài khoản đơn vị",
       flex: 200,
       minWidth: 154,
       sortable: false,
@@ -246,8 +245,8 @@ export default function NewUnit() {
       },
     },
     {
-      field: 'action',
-      headerName: 'Quản lý mã đơn vị',
+      field: "action",
+      headerName: "Quản lý mã đơn vị",
       flex: 250,
       minWidth: 192,
       sortable: false,
@@ -255,8 +254,11 @@ export default function NewUnit() {
         return (
           <>
             <Button
-              style={{ marginRight: '30px' }}
-              onClick={() => handleEditOpen(params.row)}>Chỉnh sửa</Button>
+              style={{ marginRight: "30px" }}
+              onClick={() => handleEditOpen(params.row)}
+            >
+              Chỉnh sửa
+            </Button>
             <Button onClick={() => handleDelete(params.row)}>Xóa</Button>
           </>
         );
@@ -266,7 +268,7 @@ export default function NewUnit() {
 
   function NoRowsOverlay() {
     return (
-      <Stack marginTop='200px' alignItems="center" justifyContent="center">
+      <Stack marginTop="200px" alignItems="center" justifyContent="center">
         Chưa có đơn vị nào được khai báo
       </Stack>
     );
@@ -274,21 +276,24 @@ export default function NewUnit() {
 
   return (
     <div className="newUnit-body">
-      <div className='name-of-official'>
-        <div className='department'>{localStorage['department']}</div>
-        <div className='official'>{localStorage['official']}</div>
-        <div className='start'>* * * * * * *</div>
+      <div className="name-of-official">
+        <div className="department">{localStorage["department"]}</div>
+        <div className="official">{localStorage["official"]}</div>
+        <div className="start">* * * * * * *</div>
       </div>
 
-      <div className='header'>
-        <div className='header-title'>
+      <div className="header">
+        <div className="header-title">
           <div>Danh sách các đơn vị</div>
         </div>
 
-        <div className='button-new-unit'>
-          <Button style={{ border: '1px solid', margin: '', }}
+        <div className="button-new-unit">
+          <Button
+            style={{ border: "1px solid", margin: "" }}
             onClick={handleOpen}
-          >Khai báo và cấp mã</Button>
+          >
+            Khai báo và cấp mã
+          </Button>
         </div>
       </div>
 
@@ -296,29 +301,32 @@ export default function NewUnit() {
         open={state.isModalOpen}
         onClose={handleClose}
       >
-        <DialogTitle >Khai báo và cấp mã</DialogTitle>
-        <DialogContent style={{ width: '100%', height: 300, display: 'flex', }}>
+        <DialogTitle>Khai báo và cấp mã</DialogTitle>
+        <DialogContent style={{ width: "100%", height: 300, display: "flex" }}>
           <Autocomplete
             disablePortal
             onChange={handleUnit}
             onKeyDown={handleKeydownUnit}
             options={state.cSelect}
-            sx={{ width: 300, marginTop: '10px' }}
-            renderInput={(params) =>
-              <TextField
-                {...params}
-                label="Tên đơn vị"
-              />
-            }
+            sx={{ width: 300, marginTop: "10px" }}
+            renderInput={(params) => (
+              <TextField {...params} label="Tên đơn vị" />
+            )}
           />
-          <TextField label='Mã đơn vị' variant='outlined'
-            style={{ marginLeft: '10px', marginTop: '10px', }}
+          <TextField
+            label="Mã đơn vị"
+            variant="outlined"
+            style={{ marginLeft: "10px", marginTop: "10px" }}
             onChange={handleCode}
           ></TextField>
         </DialogContent>
         <DialogActions>
-          <Button style={{ height: 60, }} onClick={handleSubmit}>Cấp mã</Button>
-          <Button style={{ height: 60, }} onClick={handleClose}>Đóng</Button>
+          <Button style={{ height: 60 }} onClick={handleSubmit}>
+            Cấp mã
+          </Button>
+          <Button style={{ height: 60 }} onClick={handleClose}>
+            Đóng
+          </Button>
         </DialogActions>
       </Dialog>
 
@@ -326,22 +334,30 @@ export default function NewUnit() {
         open={state.isEditModalOpen}
         onClose={handleEditClose}
       >
-        <DialogTitle >Chỉnh sửa mã đơn vị</DialogTitle>
-        <DialogContent style={{ width: '100%', height: 250, display: 'flex', }}>
-          <TextField label='Tên đơn vị' variant='outlined'
-            style={{ marginTop: '10px' }}
+        <DialogTitle>Chỉnh sửa mã đơn vị</DialogTitle>
+        <DialogContent style={{ width: "100%", height: 250, display: "flex" }}>
+          <TextField
+            label="Tên đơn vị"
+            variant="outlined"
+            style={{ marginTop: "10px" }}
             value={state.editUnit}
             disabled
           ></TextField>
-          <TextField label='Mã đơn vị' variant='outlined'
-            style={{ marginLeft: '10px', marginTop: '10px', }}
+          <TextField
+            label="Mã đơn vị"
+            variant="outlined"
+            style={{ marginLeft: "10px", marginTop: "10px" }}
             value={state.editUnitCode}
             onChange={handleEditCode}
           ></TextField>
         </DialogContent>
         <DialogActions>
-          <Button style={{ height: 60, }} onClick={handleEditSubmit}>Cập nhật</Button>
-          <Button style={{ height: 60, }} onClick={handleEditClose}>Đóng</Button>
+          <Button style={{ height: 60 }} onClick={handleEditSubmit}>
+            Cập nhật
+          </Button>
+          <Button style={{ height: 60 }} onClick={handleEditClose}>
+            Đóng
+          </Button>
         </DialogActions>
       </Dialog>
 
@@ -349,22 +365,30 @@ export default function NewUnit() {
         open={state.isAccountModalOpen}
         onClose={handleAccountClose}
       >
-        <DialogTitle >Cấp tài khoản cho đơn vị</DialogTitle>
-        <DialogContent style={{ width: '100%', height: 300, display: 'flex', }}>
-          <TextField label='Mã đơn vị' variant='outlined'
-            style={{ marginLeft: '10px', marginTop: '10px', }}
+        <DialogTitle>Cấp tài khoản cho đơn vị</DialogTitle>
+        <DialogContent style={{ width: "100%", height: 300, display: "flex" }}>
+          <TextField
+            label="Mã đơn vị"
+            variant="outlined"
+            style={{ marginLeft: "10px", marginTop: "10px" }}
             value={state.newUsername}
             onChange={handleUsername}
             disabled
           ></TextField>
-          <TextField label='Mật khẩu' variant='outlined'
-            style={{ marginLeft: '10px', marginTop: '10px', }}
+          <TextField
+            label="Mật khẩu"
+            variant="outlined"
+            style={{ marginLeft: "10px", marginTop: "10px" }}
             onChange={handlePassword}
           ></TextField>
         </DialogContent>
         <DialogActions>
-          <Button style={{ height: 60, }} onClick={handleAccountSubmit}>Tạo</Button>
-          <Button style={{ height: 60, }} onClick={handleAccountClose}>Đóng</Button>
+          <Button style={{ height: 60 }} onClick={handleAccountSubmit}>
+            Tạo
+          </Button>
+          <Button style={{ height: 60 }} onClick={handleAccountClose}>
+            Đóng
+          </Button>
         </DialogActions>
       </Dialog>
 
@@ -372,17 +396,21 @@ export default function NewUnit() {
         open={state.isEditAccountModalOpen}
         onClose={handleEditAccountClose}
       >
-        <DialogTitle >Chỉnh sửa tài khoản</DialogTitle>
-        <DialogContent style={{ width: '100%', minHeight: 300, }}>
-          <div style={{ display: 'flex', width: '100%' }}>
-            <TextField label='Mã đơn vị' variant='outlined'
-              style={{ marginLeft: '10px', marginTop: '10px', }}
+        <DialogTitle>Chỉnh sửa tài khoản</DialogTitle>
+        <DialogContent style={{ width: "100%", minHeight: 300 }}>
+          <div style={{ display: "flex", width: "100%" }}>
+            <TextField
+              label="Mã đơn vị"
+              variant="outlined"
+              style={{ marginLeft: "10px", marginTop: "10px" }}
               value={state.editUsername}
               onChange={handleEditUsername}
               disabled
             ></TextField>
-            <TextField label='Mật khẩu' variant='outlined'
-              style={{ marginLeft: '10px', marginTop: '10px', }}
+            <TextField
+              label="Mật khẩu"
+              variant="outlined"
+              style={{ marginLeft: "10px", marginTop: "10px" }}
               onChange={handleEditPassword}
             ></TextField>
           </div>
@@ -400,27 +428,35 @@ export default function NewUnit() {
           <br />
           <div>
             <h3>Thời gian khai báo</h3>
-            <TextField label='Thời gian bắt đầu' variant='standard'
+            <TextField
+              label="Thời gian bắt đầu"
+              variant="standard"
               defaultValue={state.editStartTime}
               InputLabelProps={{ shrink: true, style: {} }}
-              style={{ marginLeft: '10px', marginTop: '10px', }}
-              type='datetime-local'
+              style={{ marginLeft: "10px", marginTop: "10px" }}
+              type="datetime-local"
               onChange={handleEditStartTime}
             ></TextField>
             <br />
             <br />
-            <TextField label='Thời gian kết thúc' variant='standard'
+            <TextField
+              label="Thời gian kết thúc"
+              variant="standard"
               defaultValue={state.editEndTime}
               InputLabelProps={{ shrink: true, style: {} }}
-              style={{ marginLeft: '10px', marginTop: '10px', }}
-              type='datetime-local'
+              style={{ marginLeft: "10px", marginTop: "10px" }}
+              type="datetime-local"
               onChange={handleEditEndtTime}
             ></TextField>
           </div>
         </DialogContent>
         <DialogActions>
-          <Button style={{ height: 60, }} onClick={handleEditAccountSubmit}>Cập nhật</Button>
-          <Button style={{ height: 60, }} onClick={handleEditAccountClose}>Đóng</Button>
+          <Button style={{ height: 60 }} onClick={handleEditAccountSubmit}>
+            Cập nhật
+          </Button>
+          <Button style={{ height: 60 }} onClick={handleEditAccountClose}>
+            Đóng
+          </Button>
         </DialogActions>
       </Dialog>
 
