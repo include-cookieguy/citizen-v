@@ -44,6 +44,8 @@ const style = {
 
 export default function NewUnit() {
   const initState = {
+    loading: false,
+
     // Dropdown options
     select: [],
     cSelect: [],
@@ -80,9 +82,11 @@ export default function NewUnit() {
   const dispatch = useDispatch();
 
   useEffect(async () => {
-    dispatch(getChildUnit());
-    dispatch(getChildUser());
-    let options = await getOptions();
+    setState({ ...state, loading: true })
+    await dispatch(getChildUnit());
+    await dispatch(getChildUser());
+    setState({ ...state, loading: false })
+    let options = await getOptions() || [];
     let cOptions = options.map((x) => ({ label: x }));
     setState({ ...state, select: options, cSelect: cOptions });
   }, []);
@@ -98,8 +102,8 @@ export default function NewUnit() {
   let cChildUser = useSelector((state) => state.user.allUser);
 
   //  Compute select
-  const computedSelect = (temp) => {
-    let cTemp = temp.map((x) => ({ label: x }));
+  const computedSelect = async (temp) => {
+    let cTemp = await Promise.all(temp.map((x) => ({ label: x })));
     setState({ ...state, select: temp });
     setState({ ...state, cSelect: cTemp });
   };
@@ -468,6 +472,7 @@ export default function NewUnit() {
         components={{ NoRowsOverlay }}
         rowsPerPageOptions={[5]}
         checkboxSelection={false}
+        loading={state.loading}
       />
     </div>
   );
