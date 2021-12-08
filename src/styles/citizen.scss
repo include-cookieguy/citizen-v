@@ -20,14 +20,17 @@ a:focus {
   color: #475f7b;
   overflow: hidden;
 }
+
 .table-filter-info {
   padding: 15px;
 }
+
 .thead-primary tr th {
   background-color: #5a8dee;
   border-color: #5a8dee;
   color: #fff;
 }
+
 .dt-pagination-ul {
   display: flex;
   align-items: center;
@@ -108,15 +111,58 @@ a:focus {
   }
 }
 
-.search-citizen {
-  display: flex;
-  justify-content: space-around;
+/* List of citizens */
+.list-citizens {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(38,56,150,.1411764705882353);
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 4px 12px 0 rgb(34 41 47 / 12%);
 
-  .fullname-search {
-    width: 300px;
+  @media screen and (max-width: 1118px) {
+    width: 100%;
   }
 
-  input {
-    padding: 0px 10px;
+  .list-citizens-container {
+    width: 100%;
+
+    .title {
+      font-size: x-large;
+      font-weight: 500;
+      padding-bottom: 30px;
+    }
+
+    .list-citizens-search {
+      width: 100%;
+      margin-bottom: 20px;
+      align-items: flex-start;
+      display: flex;
+
+      @media screen and (max-width: 1009px) {
+        flex-direction: column;
+      }
+
+      .filter {
+        margin-right: 20px;
+        width: 250px;
+
+        @media screen and (max-width: 1009px) {
+          width: 100%;
+          margin-right: 0;
+          margin-bottom: 20px;
+        }
+      }
+
+      .submit {
+        border-radius: 8px 8px 8px 0!important;
+        padding: 0.5rem 2rem;
+        font-size: medium;
+        background-color: v.$base-color;
+        color: v.$text-color;
+      }
+    }
+
   }
 }

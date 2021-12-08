@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/actions/authAction";
-import { Link } from "react-router-dom";
-import homeIcon from '../assets/home.png';
+import { Link } from "react-router-dom"
+import ShowMessage from "./ShowMessage"
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -48,6 +48,8 @@ const Header = () => {
 
           </div>
         </div>
+        
+        <ShowMessage />
       </header>
 
       <div className='bottom'>

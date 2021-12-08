@@ -16,7 +16,7 @@ export const getAllUnit = () => async (dispatch) => {
     message = res.data.msg || res.data.message || 'success'
   } catch (err) {
     type = 'error'
-    message = err.response.msg || err.response.message
+    message = err.response.data.msg || err.response.data.message
   } finally {
     
   }
@@ -32,7 +32,7 @@ export const getChildUnit = () => async (dispatch) => {
     message = res.data.msg || res.data.message || 'Success'
   } catch (err) {
     type = 'error'
-    message = err.response.msg || err.response.message
+    message = err.response.data.msg || err.response.data.message || 'Error'
   } finally {
     
   }
@@ -48,7 +48,7 @@ export const createUnit = (data) => async (dispatch) => {
     message = res.data.msg || res.data.message || 'Success'
   } catch (err) {
     type = 'error'
-    message = err.response.msg || err.response.message
+    message = err.response.data.msg || err.response.data.message || 'Error'
   } finally {
     dispatch({ 
       type: GLOBALTYPES.SHOW_MESSAGE, 
@@ -68,12 +68,15 @@ export const updateUnit = (data) => async (dispatch) => {
   let message = null
   try {
     let res = await putDataAPI(`/unit/${data._id}`, data);
-    dispatch({ type: GLOBALTYPES.UPDATE_UNIT, payload: res.data });
+    let unit = await getDataAPI('/unit/child')
+    let user = await getDataAPI('/user/child')
+    dispatch({ type: GLOBALTYPES.GET_ALL_UNIT, payload: unit.data });
+    dispatch({ type: GLOBALTYPES.GET_CHILD_USER, payload: user.data })
     type = 'success'
     message = res.data.msg || res.data.message || 'Success'
   } catch (err) {
     type = 'error'
-    message = err.response.msg || err.response.message
+    message = err.response.data.msg || err.response.data.message || 'Error'
   } finally {
     dispatch({ 
       type: GLOBALTYPES.SHOW_MESSAGE, 
@@ -101,7 +104,7 @@ export const deleteUnit =
       message = res.data.msg || res.data.message || 'Success'
     } catch (err) {
       type = 'error'
-      message = err.response.msg || err.response.message
+      message = err.response.data.msg || err.response.data.message || 'Error'
     } finally {
       dispatch({ 
         type: GLOBALTYPES.SHOW_MESSAGE, 

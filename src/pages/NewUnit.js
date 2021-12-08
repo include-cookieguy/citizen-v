@@ -11,6 +11,7 @@ import {
   Autocomplete,
   TextField,
   Switch,
+  Stack,
 } from "@mui/material";
 
 import location from "../data/location.json";
@@ -24,6 +25,7 @@ import {
   createUser,
   getChildUser,
   updateUserById,
+  getOptions,
 } from "../redux/actions/userAction";
 
 const style = {
@@ -77,11 +79,11 @@ export default function NewUnit() {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useEffect(async () => {
     dispatch(getChildUnit());
     dispatch(getChildUser());
-    let options = location.map((x) => x.label);
-    let cOptions = location.map((x) => ({ label: x.label }));
+    let options = await getOptions();
+    let cOptions = options.map((x) => ({ label: x }));
     setState({ ...state, select: options, cSelect: cOptions });
   }, []);
 
@@ -166,17 +168,22 @@ export default function NewUnit() {
         code: state.editUnitCode,
       })
     );
+    handleEditClose();
   };
 
   //  Edit Account handler
   const handleEditAccountOpen = (row) => {
     let user = cChildUser.filter((u) => u.username === row.code)[0];
     state.editUser = user;
+    user.startTime = (user.startTime || "").split(".")[0];
+    user.endTime = (user.endTime || "").split(".")[0];
     setState({
       ...state,
       isEditAccountModalOpen: true,
       editUsername: user.username,
       editActive: user.active,
+      editStartTime: user.startTime,
+      editEndTime: user.endTime,
     });
   };
   const handleEditAccountClose = () =>
@@ -259,8 +266,22 @@ export default function NewUnit() {
     },
   ];
 
+  function NoRowsOverlay() {
+    return (
+      <Stack marginTop="200px" alignItems="center" justifyContent="center">
+        Chưa có đơn vị nào được khai báo
+      </Stack>
+    );
+  }
+
   return (
     <div className="newUnit-body">
+      <div className="name-of-official">
+        <div className="department">{localStorage["department"]}</div>
+        <div className="official">{localStorage["official"]}</div>
+        <div className="start">* * * * * * *</div>
+      </div>
+
       <div className="header">
         <div className="header-title">
           <div>Danh sách các đơn vị</div>
@@ -444,6 +465,7 @@ export default function NewUnit() {
         rows={cRows}
         columns={columns}
         pageSize={7}
+        components={{ NoRowsOverlay }}
         rowsPerPageOptions={[5]}
         checkboxSelection={false}
       />

@@ -1,3 +1,23 @@
 .home-container {
   margin-top: 90px;
+  width: 100%;
+  margin-bottom: 200px;
+
+  .home-title {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-top: 5px;
+
+    div {
+      padding-bottom: 5px;
+      font-size: x-large;
+      font-weight: 400;
+    }
+
+    .title {
+      font-size: xx-large;
+      font-weight: 500;
+    }
+  }
+
 }

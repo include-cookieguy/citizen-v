@@ -3,7 +3,7 @@ import locationData from "../data/location.json";
 import ethnic from "../data/ethnic.json";
 import { postDataAPI } from "../utils/fetchData";
 import { useSelector } from "react-redux";
-import { Box, TextField, Autocomplete } from "@mui/material";
+import { Box, TextField, Autocomplete, Dialog, DialogContent, DialogActions, Button } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { LocalizationProvider, DatePicker } from "@mui/lab";
 import moment from "moment";
@@ -12,6 +12,18 @@ import logoDepartment from "../assets/department-citizen.png";
 import vnLocale from "../data/formatVietnamMonth";
 
 const InputCitizen = () => {
+
+  // alert submit
+  const [open, setOpen] = useState(false);
+  const handleOpenAlert = () => {
+    setOpen(true);
+  }
+  const handleCloseAlert = () => {
+    setOpen(false);
+  }
+
+  const [alertMsg, setAlertMsg] = useState('');
+
   const { auth } = useSelector((state) => state);
   const [citizenInfo, setCitizenInfo] = useState({
     fullName: "",
@@ -238,12 +250,33 @@ const InputCitizen = () => {
       console.log(finalInfo);
       const res = await postDataAPI("citizen", finalInfo, auth.token);
 
-      console.log(res.data);
+      setAlertMsg(res.data.msg);
+
+      handleOpenAlert();
     }
   };
 
   return (
     <div className="input-citizen">
+
+      <Dialog // notification
+        open={open}
+        onClose
+      >
+        <DialogContent style={{ 
+          width: '100%', 
+          display: 'flex', 
+          fontSize: 'x-large', 
+          fontWeight: 400 
+        }}>
+          {alertMsg}
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={handleCloseAlert}>Đóng</Button>
+        </DialogActions>
+      </Dialog>
+
       <div className="title-logo">
         <div className="header-form">
           <div className="ministry">BỘ Y TẾ</div>
@@ -278,7 +311,7 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className="field dateOfBirth">
+          <div className="field date-of-birth">
             <label className="label-text">
               Ngày sinh <span>{"(*)"}</span>
             </label>
@@ -350,7 +383,7 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className="field identifiedCode">
+          <div className="field identified-code">
             <label className="label-text">
               Căn cước công dân/Chứng minh thư{" "}
               {citizenInfo.age > 15 && <span>{"(*)"}</span>}
@@ -557,7 +590,24 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className="field currentAddress">
+          <div className="field current-address">
+            <label className="label-text">
+              Địa chỉ thường trú <span>{"(*)"}</span>
+            </label>
+            <TextField
+              onBlur={() => handleBlur("residentAddress")}
+              onInput={() => handleBlurInput("residentAddress")}
+              error={errBlur.residentAddress ? true : false}
+              helperText={errBlur.residentAddress}
+              className="ta dang o dau"
+              placeholder="Số nhà - Thôn/Xóm/Khu/Ấp - Xã/Phường - Quận/Huyện - Tỉnh/Thành Phố"
+              name="residentAddress"
+              sx={{ width: "100%" }}
+              onChange={handleInput}
+            />
+          </div>
+
+          <div className="field temp-address">
             <label className="label-text">
               Địa chỉ tạm trú <span>{"(*)"}</span>
             </label>
@@ -574,7 +624,7 @@ const InputCitizen = () => {
             />
           </div>
 
-          <div className="field village">
+          <div className="field academic-level">
             <label className="label-text">
               Trình độ học vấn <span>{"(*)"}</span>
             </label>
@@ -586,23 +636,6 @@ const InputCitizen = () => {
               value={citizenInfo.educationLevel}
               placeholder="Ví dụ: 12/12"
               name="educationLevel"
-              sx={{ width: "100%" }}
-              onChange={handleInput}
-            />
-          </div>
-
-          <div className="field currentAddress">
-            <label className="label-text">
-              Địa chỉ thường trú <span>{"(*)"}</span>
-            </label>
-            <TextField
-              onBlur={() => handleBlur("residentAddress")}
-              onInput={() => handleBlurInput("residentAddress")}
-              error={errBlur.residentAddress ? true : false}
-              helperText={errBlur.residentAddress}
-              className="ta dang o dau"
-              placeholder="Số nhà - Thôn/Xóm/Khu/Ấp - Xã/Phường - Quận/Huyện - Tỉnh/Thành Phố"
-              name="residentAddress"
               sx={{ width: "100%" }}
               onChange={handleInput}
             />

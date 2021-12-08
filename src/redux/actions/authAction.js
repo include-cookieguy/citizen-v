@@ -18,6 +18,34 @@ export const login = (data) => async (dispatch) => {
       localStorage.setItem("token", res.data.access_token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
+      const regency = res.data.user.regency;
+      const unit = res.data.user.nameOfUnit;
+      switch (regency) {
+        case 'A1':
+          localStorage.setItem('department', 'BỘ Y TẾ');
+          localStorage.setItem('official', 'TỔNG CỤC DÂN SỐ');
+          break;
+
+        case 'A2':
+          localStorage.setItem('department', `Sở Y tế ${unit}`.toUpperCase());
+          localStorage.setItem('official', 'CHI CỤC DÂN SỐ');
+          break;
+
+        case 'A3':
+          localStorage.setItem('department', `Phòng Y tế ${unit}`.toUpperCase());
+          localStorage.setItem('official', '');
+          break;
+
+        case 'B1':
+          localStorage.setItem('department', `Trạm Y tế ${unit}`.toUpperCase());
+          localStorage.setItem('official', '');
+          break;
+
+        default:
+          localStorage.setItem('department', `${unit}`.toUpperCase());
+          localStorage.setItem('official', '');
+      }
+
       dispatch({
         type: GLOBALTYPES.ALERT,
         payload: {
@@ -87,6 +115,9 @@ export const logout = () => async (dispatch) => {
     localStorage.removeItem("firstLogin");
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("department");
+    localStorage.removeItem("official");
+
     await postDataAPI("logout");
     window.location.href = "/";
   } catch (err) {

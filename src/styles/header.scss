@@ -150,7 +150,8 @@ header {
     @media screen and (max-width: v.$phone-width) {
       display: flex;
       justify-content: center;
-      width: 400px;
+      max-width: 400px;
+      width: 90%;
       margin-left: auto;
       margin-right: auto;
       border-radius: 10px;
