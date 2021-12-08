@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <div>
-        <ListCitizen />
+        <SearchCitizen />
       </div>
       <div>
         <Link to="/input-citizen">
