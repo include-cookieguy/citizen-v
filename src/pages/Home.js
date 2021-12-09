@@ -20,6 +20,10 @@ const Home = () => {
           <ListCitizen />
         </div>
       )}
+
+      <div>
+        <SearchCitizen />
+      </div>
     </div>
   );
 };
