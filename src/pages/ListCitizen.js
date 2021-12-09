@@ -4,6 +4,7 @@ import DataPagination from "../components/DataPagination";
 import { listCitizens } from "../redux/actions/citizenAction";
 import { Autocomplete, TextField } from "@mui/material";
 import locationData from "../data/location.json";
+import { postDataAPI } from "../utils/fetchData";
 
 const ListCitizen = () => {
   const { auth, user } = useSelector((state) => state);
@@ -14,18 +15,52 @@ const ListCitizen = () => {
     ward: [],
     village: [],
     //  Key
-    city_key: true,
-    district_key: true,
-    ward_key: true,
+    // city_key: true,
+    // district_key: true,
+    // ward_key: true,
+    // village_key: true,
   });
 
   const [disabledLocation, setDisabledLocation] = useState({
     city: false,
     district: false,
     ward: false,
+    village: false,
   });
 
+  const [availableVillages, setAvailableVillages] = useState([]);
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (searchQuery.ward) {
+      const getVillages = async () => {
+        let locaWard = {
+          ward: "",
+        };
+
+        if (searchQuery.ward.length === 1) {
+          locaWard = {
+            ...locaWard,
+            ward: searchQuery.ward[0],
+          };
+        }
+
+        if (typeof searchQuery.ward === "string") {
+          locaWard = {
+            ...locaWard,
+            ward: searchQuery.ward,
+          };
+        }
+
+        const res = await postDataAPI("unit/getVillage", locaWard);
+
+        setAvailableVillages(res.data);
+      };
+
+      getVillages();
+    }
+  }, [searchQuery.ward]);
 
   const availableDistricts = useMemo(() => {
     if (searchQuery.city.length === 1) {
@@ -79,7 +114,7 @@ const ListCitizen = () => {
       city: typeof city === "string" ? city : city.join(","),
       district: typeof district === "string" ? district : district.join(","),
       ward: typeof ward === "string" ? ward : ward.join(","),
-      village,
+      village: typeof village === "string" ? village : village.join(","),
     };
 
     const res_search = {
@@ -93,34 +128,59 @@ const ListCitizen = () => {
   useEffect(() => {
     const { city, district, ward, village } = searchQuery;
 
-    const { nameOfUnit, nameOfParentUnit, nameOfGrandUnit } = auth.user;
+    const {
+      nameOfUnit,
+      nameOfParentUnit,
+      nameOfGrandUnit,
+      nameOfGreatGrandUnit,
+    } = auth.user;
 
     let location = {};
 
-    if (nameOfGrandUnit) {
+    if (nameOfGreatGrandUnit) {
       location = {
-        city: nameOfGrandUnit,
-        district: nameOfParentUnit,
-        ward: nameOfUnit,
+        city: nameOfGreatGrandUnit,
+        district: nameOfGrandUnit,
+        ward: nameOfParentUnit,
+        village: nameOfUnit,
       };
-    } else if (!nameOfGrandUnit && nameOfParentUnit) {
+    } else if (!nameOfGreatGrandUnit && nameOfGrandUnit) {
       location = {
-        city: nameOfParentUnit,
-        district: nameOfUnit,
-        ward: typeof ward === "string" ? ward : ward.join(","),
+        city: typeof city === "string" ? city : city.join(","),
+        district: nameOfGrandUnit,
+        ward: nameOfParentUnit,
+        village: nameOfUnit,
       };
-    } else if (!nameOfGrandUnit && !nameOfParentUnit && nameOfUnit) {
+    } else if (!nameOfGreatGrandUnit && !nameOfGrandUnit && nameOfParentUnit) {
       location = {
-        city: nameOfUnit,
+        city: typeof city === "string" ? city : city.join(","),
         district: typeof district === "string" ? district : district.join(","),
-        ward: typeof ward === "string" ? ward : ward.join(","),
+        ward: nameOfParentUnit,
+        village: nameOfUnit,
       };
-    } else if (!nameOfGrandUnit && !nameOfParentUnit && !nameOfUnit) {
+    } else if (
+      !nameOfGreatGrandUnit &&
+      !nameOfGrandUnit &&
+      !nameOfParentUnit &&
+      nameOfUnit
+    ) {
       location = {
         city: typeof city === "string" ? city : city.join(","),
         district: typeof district === "string" ? district : district.join(","),
         ward: typeof ward === "string" ? ward : ward.join(","),
-        village,
+        village: nameOfUnit,
+      };
+    } else if (
+      !nameOfGreatGrandUnit &&
+      !nameOfGrandUnit &&
+      !nameOfParentUnit &&
+      !nameOfUnit
+    ) {
+      location = {
+        city: typeof city === "string" ? city : city.join(","),
+        district: typeof district === "string" ? district : district.join(","),
+        ward: typeof ward === "string" ? ward : ward.join(","),
+        village: typeof village === "string" ? village : village.join(","),
       };
     }
 
@@ -140,6 +200,7 @@ const ListCitizen = () => {
         ? user.searchLocation.district
         : [],
       ward: user.searchLocation.ward ? user.searchLocation.ward : [],
+      village: user.searchLocation.village ? user.searchLocation.village : [],
     });
 
     setDisabledLocation({
@@ -147,6 +208,7 @@ const ListCitizen = () => {
       city: user.disabledLocation.city,
       district: user.disabledLocation.district,
       ward: user.disabledLocation.ward,
+      village: user.disabledLocation.village,
     });
   }, [user.searchLocation, user.disabledLocation]);
 
@@ -163,15 +225,17 @@ const ListCitizen = () => {
               options={locationData}
               multiple
               size="small"
-              key={searchQuery.city_key + "city"}
+              // key={searchQuery.city_key + "city"}
               onChange={(e, newInput) => {
                 setSearchQuery({
                   ...searchQuery,
                   city: newInput.map((e) => e.label),
                   district: [],
                   ward: [],
-                  district_key: !searchQuery.district_key,
-                  ward_key: !searchQuery.ward_key,
+                  village: [],
+                  // district_key: !searchQuery.district_key,
+                  // ward_key: !searchQuery.ward_key,
+                  // village_key: !searchQuery.village_key,
                 });
               }}
               renderInput={(params) => (
@@ -203,8 +267,10 @@ const ListCitizen = () => {
                   ...searchQuery,
                   district: newInput.map((e) => e.label),
                   ward: [],
-                  district_key: !searchQuery.district_key,
-                  ward_key: !searchQuery.ward_key,
+                  village: [],
+                  // district_key: !searchQuery.district_key,
+                  // ward_key: !searchQuery.ward_key,
+                  // village_key: !searchQuery.village_key,
                 });
               }}
               renderInput={(params) => (
@@ -234,8 +300,8 @@ const ListCitizen = () => {
                 setSearchQuery({
                   ...searchQuery,
                   ward: newInput.map((e) => e.label),
-                  district_key: !searchQuery.district_key,
-                  ward_key: !searchQuery.ward_key,
+                  // district_key: !searchQuery.district_key,
+                  // ward_key: !searchQuery.ward_key,
                 });
               }}
               disabled={searchQuery.district ? false : true}
@@ -253,14 +319,39 @@ const ListCitizen = () => {
             />
           )}
 
-          {auth.user.regency === "B1" && (
-            <TextField
-              className="filter ward"
-              value={searchQuery.ward}
-              variant="outlined"
-              size="small"
-            />
-          )}
+          {auth.user.regency === "B1" &&
+            (!disabledLocation.village ? (
+              <Autocomplete
+                className="filter ward"
+                noOptionsText={"Không có lựa chọn phù hợp"}
+                options={availableVillages || []}
+                multiple
+                size="small"
+                // value={searchQuery.location.ward}
+                // key={searchQuery.ward_key}
+                getOptionLabel={(option) => option.nameOfUnit}
+                onChange={(e, newInput) => {
+                  setSearchQuery({
+                    ...searchQuery,
+                    village: newInput.map((e) => e.nameOfUnit),
+                    // district_key: !searchQuery.district_key,
+                    // ward_key: !searchQuery.ward_key,
+                  });
+                }}
+                disabled={searchQuery.ward ? false : true}
+                renderInput={(params) => (
+                  <TextField {...params} label="Thôn/Bản/Khu/Tổ dân phố" />
+                )}
+              />
+            ) : (
+              <TextField
+                className="filter ward"
+                value={searchQuery.village}
+                variant="outlined"
+                disabled={true}
+                size="small"
+              />
+            ))}
 
           <button className="submit">Tìm kiếm</button>
         </form>

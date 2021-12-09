@@ -116,7 +116,7 @@ a:focus {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid rgba(38,56,150,.1411764705882353);
+  border: 1px solid rgba(38, 56, 150, 0.1411764705882353);
   border-radius: 10px;
   padding: 24px;
   box-shadow: 0 4px 12px 0 rgb(34 41 47 / 12%);
@@ -156,13 +156,20 @@ a:focus {
       }
 
       .submit {
-        border-radius: 8px 8px 8px 0!important;
+        outline: none;
+        border: 2px solid rgba(0, 0, 0, 0);
+        border-radius: 8px 8px 8px 0 !important;
         padding: 0.5rem 2rem;
         font-size: medium;
         background-color: v.$base-color;
         color: v.$text-color;
+        transition: all 0.3s;
+
+        &:hover {
+          background-color: v.$hover-color;
+          color: v.$text-color;
+        }
       }
     }
-
   }
 }

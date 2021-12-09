@@ -4,6 +4,7 @@ import DataPagination from "../components/DataPagination";
 import { searchCitizens } from "../redux/actions/citizenAction";
 import { Autocomplete, TextField } from "@mui/material";
 import locationData from "../data/location.json";
+import { postDataAPI } from "../utils/fetchData";
 
 const SearchCitizen = () => {
   const { auth, user } = useSelector((state) => state);
@@ -18,12 +19,16 @@ const SearchCitizen = () => {
     city_key: true,
     district_key: true,
     ward_key: true,
+    village_key: true,
   });
+
+  const [availableVillages, setAvailableVillages] = useState([]);
 
   const [disabledLocation, setDisabledLocation] = useState({
     city: false,
     district: false,
     ward: false,
+    village: false,
   });
 
   const dispatch = useDispatch();
@@ -79,34 +84,75 @@ const SearchCitizen = () => {
   };
 
   useEffect(() => {
+    if (searchQuery.ward) {
+      const getVillages = async () => {
+        const locaWard = {
+          ward: searchQuery.ward,
+        };
+        const res = await postDataAPI("unit/getVillage", locaWard);
+
+        setAvailableVillages(res.data);
+      };
+
+      getVillages();
+    }
+  }, [searchQuery.ward]);
+
+  useEffect(() => {
     const { city, district, ward, village } = searchQuery;
-    const { nameOfUnit, nameOfParentUnit, nameOfGrandUnit } = auth.user;
+    const {
+      nameOfUnit,
+      nameOfParentUnit,
+      nameOfGrandUnit,
+      nameOfGreatGrandUnit,
+    } = auth.user;
 
     let location = {};
 
-    if (nameOfGrandUnit) {
+    if (nameOfGreatGrandUnit) {
       location = {
-        city: nameOfGrandUnit,
-        district: nameOfParentUnit,
-        ward: nameOfUnit,
+        city: nameOfGreatGrandUnit,
+        district: nameOfGrandUnit,
+        ward: nameOfParentUnit,
+        village: nameOfUnit,
       };
-    } else if (!nameOfGrandUnit && nameOfParentUnit) {
-      location = {
-        city: nameOfParentUnit,
-        district: nameOfUnit,
-        ward: ward,
-      };
-    } else if (!nameOfGrandUnit && !nameOfParentUnit && nameOfUnit) {
-      location = {
-        city: nameOfUnit,
-        district: district,
-        ward: ward,
-      };
-    } else if (!nameOfGrandUnit && !nameOfParentUnit && !nameOfUnit) {
+    } else if (!nameOfGreatGrandUnit && nameOfGrandUnit) {
       location = {
         city: city,
-        ward: ward,
+        district: nameOfGrandUnit,
+        ward: nameOfParentUnit,
+        village: nameOfUnit,
+      };
+    } else if (!nameOfGreatGrandUnit && !nameOfGrandUnit && nameOfParentUnit) {
+      location = {
+        city: city,
         district: district,
+        ward: nameOfParentUnit,
+        village: nameOfUnit,
+      };
+    } else if (
+      !nameOfGreatGrandUnit &&
+      !nameOfGrandUnit &&
+      !nameOfParentUnit &&
+      nameOfUnit
+    ) {
+      location = {
+        city: city,
+        district: district,
+        ward: ward,
+        village: nameOfUnit,
+      };
+    } else if (
+      !nameOfGreatGrandUnit &&
+      !nameOfGrandUnit &&
+      !nameOfParentUnit &&
+      !nameOfUnit
+    ) {
+      location = {
+        city: city,
+        district: district,
+        ward: ward,
+        village: village,
       };
     }
 
@@ -126,6 +172,7 @@ const SearchCitizen = () => {
       city: user.searchLocation.city,
       district: user.searchLocation.district,
       ward: user.searchLocation.ward,
+      village: user.searchLocation.village,
     });
 
     setDisabledLocation({
@@ -133,6 +180,7 @@ const SearchCitizen = () => {
       city: user.disabledLocation.city,
       district: user.disabledLocation.district,
       ward: user.disabledLocation.ward,
+      village: user.disabledLocation.village,
     });
   }, [user.searchLocation, user.disabledLocation]);
 
@@ -156,8 +204,10 @@ const SearchCitizen = () => {
                 city: newInput,
                 district: "",
                 ward: "",
+                village: "",
                 district_key: !searchQuery.district_key,
                 ward_key: !searchQuery.ward_key,
+                village_key: !searchQuery.village_key,
               });
             }}
             renderInput={(params) => (
@@ -184,8 +234,10 @@ const SearchCitizen = () => {
               setSearchQuery({
                 ...searchQuery,
                 district: newInput,
-                ward_key: !searchQuery.ward_key,
                 ward: "",
+                village: "",
+                ward_key: !searchQuery.ward_key,
+                village_key: !searchQuery.village_key,
               });
             }}
             renderInput={(params) => (
@@ -206,11 +258,13 @@ const SearchCitizen = () => {
             options={avaiableWards}
             sx={{ width: 300 }}
             // value={searchQuery.location.ward}
-            key={searchQuery.ward_key}
+            key={searchQuery.ward_key + "ward"}
             onInputChange={(e, newInput) => {
               setSearchQuery({
                 ...searchQuery,
                 ward: newInput,
+                village: "",
+                village_key: !searchQuery.village_key,
               });
             }}
             disabled={searchQuery.district ? false : true}
@@ -225,6 +279,25 @@ const SearchCitizen = () => {
             disabled={true}
           />
         )}
+
+        <Autocomplete
+          noOptionsText={"Không có lựa chọn phù hợp"}
+          options={availableVillages}
+          sx={{ width: 300 }}
+          // value={searchQuery.location.ward}
+          getOptionLabel={(option) => option.nameOfUnit}
+          key={searchQuery.village_key}
+          onInputChange={(e, newInput) => {
+            setSearchQuery({
+              ...searchQuery,
+              village: newInput,
+            });
+          }}
+          disabled={searchQuery.ward ? false : true}
+          renderInput={(params) => (
+            <TextField {...params} label="Thôn/Bản/Khu/Tổ dân phố" />
+          )}
+        />
 
         <button>Tìm kiếm</button>
       </form>

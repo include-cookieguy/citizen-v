@@ -24,12 +24,14 @@ export const getSearchInit = (auth) => async (dispatch) => {
       city: "",
       district: "",
       ward: "",
+      village: "",
     };
 
     const disabledLocation = {
       city: false,
       district: false,
       ward: false,
+      village: false,
     };
 
     if (regency === "A2") {
@@ -40,13 +42,22 @@ export const getSearchInit = (auth) => async (dispatch) => {
       disabledLocation.district = true;
       searchLocation.city = nameOfParentUnit;
       searchLocation.district = nameOfUnit;
-    } else if (["B1", "B2"].includes(regency)) {
+    } else if (regency === "B1") {
       disabledLocation.city = true;
       disabledLocation.district = true;
       disabledLocation.ward = true;
       searchLocation.city = nameOfGrandUnit;
       searchLocation.district = nameOfParentUnit;
       searchLocation.ward = nameOfUnit;
+    } else if (regency === "B2") {
+      disabledLocation.city = true;
+      disabledLocation.district = true;
+      disabledLocation.ward = true;
+      disabledLocation.village = true;
+      searchLocation.city = nameOfGreatGrandUnit;
+      searchLocation.district = nameOfGrandUnit;
+      searchLocation.ward = nameOfParentUnit;
+      searchLocation.village = nameOfUnit;
     }
 
     dispatch({ type: GLOBALTYPES.GET_SEARCH_INIT, payload: searchLocation });
@@ -66,10 +77,12 @@ export const createUser = (data) => async (dispatch) => {
     let res = await postDataAPI("/user", data);
     dispatch({ type: GLOBALTYPES.CREATE_USER, payload: res.data });
     type = "success";
-    message = res.data.msg || res.data.message || "Success";
+    message =
+      res.data.msg || res.data.message || "Tạo mới tài khoản đơn vị thành công";
   } catch (err) {
     type = "error";
-    message = err.response.data.msg || err.response.data.message || 'Error'
+    message =
+      err.response.data.msg || err.response.data.message || "Đã xảy ra lỗi";
   } finally {
     dispatch({
       type: GLOBALTYPES.SHOW_MESSAGE,
@@ -91,10 +104,14 @@ export const updateUserById = (data) => async (dispatch) => {
     let res = await putDataAPI(`/user/${data._id}`, data);
     dispatch(getChildUser());
     type = "success";
-    message = res.data.msg || res.data.message || "Success";
+    message =
+      res.data.msg ||
+      res.data.message ||
+      "Chỉnh sửa tài khoản đơn vị thành công";
   } catch (err) {
     type = "error";
-    message = err.response.data.msg || err.response.data.message || 'Error'
+    message =
+      err.response.data.msg || err.response.data.message || "Đã xảy ra lỗi";
   } finally {
     dispatch({
       type: GLOBALTYPES.SHOW_MESSAGE,

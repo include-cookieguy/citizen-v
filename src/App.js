@@ -9,7 +9,7 @@ import Alert from "./components/alert/Alert";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { refreshToken } from "./redux/actions/authAction";
-import { getSearchInit } from "./redux/actions/userAction";
+import { getSearchInit, getVillages } from "./redux/actions/userAction";
 
 function App() {
   const { auth } = useSelector((state) => state);
