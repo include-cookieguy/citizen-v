@@ -3,7 +3,17 @@ import locationData from "../data/location.json";
 import ethnic from "../data/ethnic.json";
 import { postDataAPI } from "../utils/fetchData";
 import { useSelector } from "react-redux";
-import { Box, TextField, Autocomplete, Dialog, DialogContent, DialogActions, Button } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPrint } from "@fortawesome/free-solid-svg-icons";
+import {
+  Box,
+  TextField,
+  Autocomplete,
+  Dialog,
+  DialogContent,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { LocalizationProvider, DatePicker } from "@mui/lab";
 import moment from "moment";
@@ -12,17 +22,16 @@ import logoDepartment from "../assets/department-citizen.png";
 import vnLocale from "../data/formatVietnamMonth";
 
 const InputCitizen = () => {
-
   // alert submit
   const [open, setOpen] = useState(false);
   const handleOpenAlert = () => {
     setOpen(true);
-  }
+  };
   const handleCloseAlert = () => {
     setOpen(false);
-  }
+  };
 
-  const [alertMsg, setAlertMsg] = useState('');
+  const [alertMsg, setAlertMsg] = useState("");
 
   const { auth } = useSelector((state) => state);
   const [citizenInfo, setCitizenInfo] = useState({
@@ -200,6 +209,17 @@ const InputCitizen = () => {
     }
   };
 
+  function printImage() {
+    const image = document.querySelector(".form-nhap");
+    const printWindow = window.open("", "Print Window", "height=400,width=600");
+    printWindow.document.write("<html><head><title>Print Window</title>");
+    printWindow.document.write("</head><body ><img src='");
+    printWindow.document.write(image.src);
+    printWindow.document.write("' /></body></html>");
+    printWindow.document.close();
+    printWindow.print();
+  }
+
   function validateID(ID) {
     const re = /^!*(\d!*){9,}$/;
     return re.test(ID);
@@ -258,17 +278,18 @@ const InputCitizen = () => {
 
   return (
     <div className="input-citizen">
-
       <Dialog // notification
         open={open}
         onClose
       >
-        <DialogContent style={{ 
-          width: '100%', 
-          display: 'flex', 
-          fontSize: 'x-large', 
-          fontWeight: 400 
-        }}>
+        <DialogContent
+          style={{
+            width: "100%",
+            display: "flex",
+            fontSize: "x-large",
+            fontWeight: 400,
+          }}
+        >
           {alertMsg}
         </DialogContent>
 
@@ -289,6 +310,13 @@ const InputCitizen = () => {
       </div>
 
       <form onSubmit={handleSubmit}>
+        <FontAwesomeIcon icon={faPrint} onClick={() => printImage()} />
+        <img
+          src="https://res.cloudinary.com/dyywecvyl/image/upload/v1639024401/samples/phieu-dien_4_w9gr5d.png"
+          alt="form-nhap"
+          className="form-nhap"
+          style={{ display: "none" }}
+        />
         <Box
           sx={{
             "& .MuiTextField-root": { m: 1 },

@@ -8,7 +8,7 @@ import formatLong from "date-fns/locale/ru/_lib/formatLong";
 const monthValues = {
   narrow: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
   abbreviated: [
-    "Thg Một",
+    "Tháng Một",
     "Tháng Hai",
     "Tháng Ba",
     "Tháng Tư",

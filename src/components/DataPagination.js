@@ -105,7 +105,7 @@ const DataPagination = () => {
 
   function NoRowsOverlay() {
     return (
-      <Stack marginTop='200px' alignItems="center" justifyContent="center">
+      <Stack marginTop="200px" alignItems="center" justifyContent="center">
         Không có công dân nào phù hợp với yêu cầu
       </Stack>
     );
