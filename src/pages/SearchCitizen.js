@@ -185,125 +185,142 @@ const SearchCitizen = () => {
   }, [user.searchLocation, user.disabledLocation]);
 
   return (
-    <div>
-      <form onSubmit={handleSubmitSearch} className="search-citizen">
-        <TextField
-          name="fullName"
-          sx={{ width: "50%" }}
-          onChange={handleSearchQuery}
-        />
-        {!disabledLocation.city ? (
-          <Autocomplete
-            noOptionsText={"Không có lựa chọn phù hợp"}
-            options={locationData}
-            sx={{ width: 300 }}
-            key={searchQuery.city_key + "city"}
-            onInputChange={(e, newInput) => {
-              setSearchQuery({
-                ...searchQuery,
-                city: newInput,
-                district: "",
-                ward: "",
-                village: "",
-                district_key: !searchQuery.district_key,
-                ward_key: !searchQuery.ward_key,
-                village_key: !searchQuery.village_key,
-              });
-            }}
-            renderInput={(params) => (
-              <TextField {...params} label="Tỉnh/Thành Phố" />
-            )}
-          />
-        ) : (
-          <TextField
-            value={searchQuery.city}
-            variant="outlined"
-            disabled={true}
-          />
-        )}
+    <div className="list-citizens">
+      <div className="list-citizens-container">
+        <div className="title">Tìm kiếm công dân</div>
 
-        {!disabledLocation.district ? (
-          <Autocomplete
-            noOptionsText={"Không có lựa chọn phù hợp"}
-            options={availableDistricts}
-            sx={{ width: 300 }}
-            // value={searchQuery.district}
-            key={searchQuery.district_key + "district"}
-            disabled={searchQuery.city ? false : true}
-            onInputChange={(e, newInput) => {
-              setSearchQuery({
-                ...searchQuery,
-                district: newInput,
-                ward: "",
-                village: "",
-                ward_key: !searchQuery.ward_key,
-                village_key: !searchQuery.village_key,
-              });
-            }}
-            renderInput={(params) => (
-              <TextField {...params} label="Quận/Huyện" />
-            )}
-          />
-        ) : (
+        <form onSubmit={handleSubmitSearch} className="list-citizens-search search">
           <TextField
-            value={searchQuery.district}
-            variant="outlined"
-            disabled={true}
+            className="filter name"
+            name="fullName"
+            placeholder="Tên công dân"
+            sx={{ width: "50%" }}
+            onChange={handleSearchQuery}
+            size="small"
           />
-        )}
-
-        {!disabledLocation.ward ? (
-          <Autocomplete
-            noOptionsText={"Không có lựa chọn phù hợp"}
-            options={avaiableWards}
-            sx={{ width: 300 }}
-            // value={searchQuery.location.ward}
-            key={searchQuery.ward_key + "ward"}
-            onInputChange={(e, newInput) => {
-              setSearchQuery({
-                ...searchQuery,
-                ward: newInput,
-                village: "",
-                village_key: !searchQuery.village_key,
-              });
-            }}
-            disabled={searchQuery.district ? false : true}
-            renderInput={(params) => (
-              <TextField {...params} label="Xã/Phường" />
-            )}
-          />
-        ) : (
-          <TextField
-            value={searchQuery.ward}
-            variant="outlined"
-            disabled={true}
-          />
-        )}
-
-        <Autocomplete
-          noOptionsText={"Không có lựa chọn phù hợp"}
-          options={availableVillages}
-          sx={{ width: 300 }}
-          // value={searchQuery.location.ward}
-          getOptionLabel={(option) => option.nameOfUnit}
-          key={searchQuery.village_key}
-          onInputChange={(e, newInput) => {
-            setSearchQuery({
-              ...searchQuery,
-              village: newInput,
-            });
-          }}
-          disabled={searchQuery.ward ? false : true}
-          renderInput={(params) => (
-            <TextField {...params} label="Thôn/Bản/Khu/Tổ dân phố" />
+          {!disabledLocation.city ? (
+            <Autocomplete
+              className="filter city"
+              noOptionsText={"Không có lựa chọn phù hợp"}
+              options={locationData}
+              size="small"
+              key={searchQuery.city_key + "city"}
+              onInputChange={(e, newInput) => {
+                setSearchQuery({
+                  ...searchQuery,
+                  city: newInput,
+                  district: "",
+                  ward: "",
+                  village: "",
+                  district_key: !searchQuery.district_key,
+                  ward_key: !searchQuery.ward_key,
+                  village_key: !searchQuery.village_key,
+                });
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label="Tỉnh/Thành Phố" />
+              )}
+            />
+          ) : (
+            <TextField
+              className="filter city"
+              value={searchQuery.city}
+              variant="outlined"
+              disabled={true}
+              size="small"
+            />
           )}
-        />
 
-        <button>Tìm kiếm</button>
-      </form>
+          {!disabledLocation.district ? (
+            <Autocomplete
+              className="filter district"
+              noOptionsText={"Không có lựa chọn phù hợp"}
+              options={availableDistricts}
+              size="small"
+              // value={searchQuery.district}
+              key={searchQuery.district_key + "district"}
+              disabled={searchQuery.city ? false : true}
+              onInputChange={(e, newInput) => {
+                setSearchQuery({
+                  ...searchQuery,
+                  district: newInput,
+                  ward: "",
+                  village: "",
+                  ward_key: !searchQuery.ward_key,
+                  village_key: !searchQuery.village_key,
+                });
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label="Quận/Huyện" />
+              )}
+            />
+          ) : (
+            <TextField
+              className="filter district"
+              value={searchQuery.district}
+              variant="outlined"
+              disabled={true}
+              size="small"
+            />
+          )}
 
-      <div>
-        <DataPagination />
+          {!disabledLocation.ward ? (
+            <Autocomplete
+              className="filter ward"
+              noOptionsText={"Không có lựa chọn phù hợp"}
+              options={avaiableWards}
+              size="small"
+              // value={searchQuery.location.ward}
+              key={searchQuery.ward_key + "ward"}
+              onInputChange={(e, newInput) => {
+                setSearchQuery({
+                  ...searchQuery,
+                  ward: newInput,
+                  village: "",
+                  village_key: !searchQuery.village_key,
+                });
+              }}
+              disabled={searchQuery.district ? false : true}
+              renderInput={(params) => (
+                <TextField {...params} label="Xã/Phường" />
+              )}
+            />
+          ) : (
+            <TextField
+              className="filter ward"
+              value={searchQuery.ward}
+              variant="outlined"
+              disabled={true}
+              size="small"
+            />
+          )}
+
+          <Autocomplete
+            className="filter village"
+            noOptionsText={"Không có lựa chọn phù hợp"}
+            options={availableVillages}
+            size="small"
+            // value={searchQuery.location.ward}
+            getOptionLabel={(option) => option.nameOfUnit}
+            key={searchQuery.village_key}
+            onInputChange={(e, newInput) => {
+              setSearchQuery({
+                ...searchQuery,
+                village: newInput,
+              });
+            }}
+            disabled={searchQuery.ward ? false : true}
+            renderInput={(params) => (
+              <TextField {...params} label="Thôn/Bản/Khu/Tổ dân phố" />
+            )}
+          />
+
+          <button className="submit">Tìm kiếm</button>
+        </form>
+
+        <div className="list-citizens-result">
+          <DataPagination />
+        </div>
       </div>
     </div>
   );

@@ -111,7 +111,7 @@ a:focus {
   }
 }
 
-/* List of citizens */
+/* List of citizens & Search citizens*/
 .list-citizens {
   width: 90%;
   margin-left: auto;
@@ -134,6 +134,16 @@ a:focus {
       padding-bottom: 30px;
     }
 
+    .search {
+      flex-wrap: wrap;
+
+      .filter {
+        @media screen and (max-width: 1629px) {
+          padding-bottom: 15px;
+        }   
+      }
+    }
+
     .list-citizens-search {
       width: 100%;
       margin-bottom: 20px;
@@ -146,17 +156,18 @@ a:focus {
 
       .filter {
         margin-right: 20px;
-        width: 250px;
+        width: 240px;
 
         @media screen and (max-width: 1009px) {
           width: 100%;
           margin-right: 0;
           margin-bottom: 20px;
+          padding-bottom: 0;
         }
       }
 
       .submit {
-        padding: 0.5rem 2rem;
+        padding: 0.5rem 1rem;
         font-size: medium;
         background-color: v.$base-color;
         color: v.$text-color;

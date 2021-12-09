@@ -322,7 +322,7 @@ const ListCitizen = () => {
           {auth.user.regency === "B1" &&
             (!disabledLocation.village ? (
               <Autocomplete
-                className="filter ward"
+                className="filter village"
                 noOptionsText={"Không có lựa chọn phù hợp"}
                 options={availableVillages || []}
                 multiple
