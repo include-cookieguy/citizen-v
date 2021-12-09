@@ -118,7 +118,7 @@ const SearchCitizen = () => {
     };
 
     dispatch(searchCitizens(res_search, auth));
-  }, [auth, dispatch, searchQuery]);
+  }, [auth, dispatch]);
 
   useEffect(() => {
     setSearchQuery({

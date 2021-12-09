@@ -156,11 +156,20 @@ a:focus {
       }
 
       .submit {
-        border-radius: 8px 8px 8px 0!important;
         padding: 0.5rem 2rem;
         font-size: medium;
         background-color: v.$base-color;
         color: v.$text-color;
+        border-radius: 8px 8px 8px 0;
+        border: 2px solid rgba(0, 0, 0, 0);
+        font-weight: 700;
+        transition: all 0.3s;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0);
+          border: 2px solid v.$base-color;
+          color: v.$base-color;
+        }
       }
     }
 

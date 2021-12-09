@@ -15,6 +15,10 @@ const Home = () => {
       <div>
         <ListCitizen />
       </div>
+
+      {/* <div>
+        <SearchCitizen />
+      </div> */}
     </div>
   );
 };
