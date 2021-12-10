@@ -1,14 +1,17 @@
 import { Autocomplete, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import locationData from "../data/location.json";
+import { GLOBALTYPES } from "../redux/actions/globalTypes";
 import { getDataAPI, postDataAPI } from "../utils/fetchData";
+import ChartMonitor from "./ChartMonitor";
 
 const Monitor = () => {
   const [units, setUnits] = useState([]);
   const { auth, user } = useSelector((state) => state);
   const [currentUnit, setCurrentUnit] = useState("");
   const [numberCitizens, setNumberCitizens] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const unitDistricts = user.searchLocation.city
@@ -60,6 +63,7 @@ const Monitor = () => {
 
   return (
     <div>
+      <h1>Theo dõi tình hình/tiến độ nhập liệu</h1>
       <Autocomplete
         className="filter city"
         noOptionsText={"Không có lựa chọn phù hợp"}
@@ -71,7 +75,15 @@ const Monitor = () => {
         renderInput={(params) => <TextField {...params} label="Địa phương" />}
       />
 
-      <span>{numberCitizens}</span>
+      {currentUnit && (
+        <div>
+          {" "}
+          <span>
+            Tổng số công dân đã khai báo của {currentUnit} là: {numberCitizens}
+          </span>
+          <ChartMonitor currentUnit={currentUnit} />{" "}
+        </div>
+      )}
     </div>
   );
 };
