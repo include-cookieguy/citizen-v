@@ -312,7 +312,7 @@ const InputCitizen = () => {
       <form onSubmit={handleSubmit}>
         <FontAwesomeIcon icon={faPrint} onClick={() => printImage()} />
         <img
-          src="https://res.cloudinary.com/dyywecvyl/image/upload/v1639024401/samples/phieu-dien_4_w9gr5d.png"
+          src="https://res.cloudinary.com/dyywecvyl/image/upload/v1639054815/samples/Phi%E1%BA%BFu_%C4%91i%E1%BB%81n_th%C3%B4ng_tin_c%C3%B4ng_d%C3%A2n_1_dyjy8c.png"
           alt="form-nhap"
           className="form-nhap"
           style={{ display: "none" }}
