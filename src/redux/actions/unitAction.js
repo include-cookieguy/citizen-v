@@ -45,10 +45,10 @@ export const createUnit = (data) => async (dispatch) => {
     let res = await postDataAPI("/unit", data);
     dispatch({ type: GLOBALTYPES.CREATE_UNIT, payload: res.data });
     type = 'success'
-    message = res.data.msg || res.data.message || 'Success'
+    message = res.data.msg || res.data.message || 'Cấp mã thành công!'
   } catch (err) {
     type = 'error'
-    message = err.response.data.msg || err.response.data.message || 'Error'
+    message = err.response.data.msg || err.response.data.message || 'Cấp mã thất bại. Đã xảy ra lỗi!'
   } finally {
     dispatch({ 
       type: GLOBALTYPES.SHOW_MESSAGE, 
@@ -101,10 +101,10 @@ export const deleteUnit =
       let res = await getDataAPI("/unit/child");
       dispatch({ type: GLOBALTYPES.GET_ALL_UNIT, payload: res.data });
       type = 'success'
-      message = res.data.msg || res.data.message || 'Success'
+      message = res.data.msg || res.data.message || 'Xóa thành công!'
     } catch (err) {
       type = 'error'
-      message = err.response.data.msg || err.response.data.message || 'Error'
+      message = err.response.data.msg || err.response.data.message || 'Xóa thất bại. Đã xảy ra lỗi!'
     } finally {
       dispatch({ 
         type: GLOBALTYPES.SHOW_MESSAGE, 

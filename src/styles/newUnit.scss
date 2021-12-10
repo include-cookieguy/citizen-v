@@ -1,35 +1,44 @@
 @use "variable" as v;
 
+.name-of-official {
+  margin-top: 100px;
+  text-align: center;
+  font-size: x-large;
+  font-weight: 400;
+  padding-bottom: 5px;
+  padding-top: 5px;
+
+  @media screen and (max-width: v.$phone-width) {
+    font-size: large;
+  }
+
+  div {
+    margin-bottom: 5px;
+  }
+
+  .start {
+    font-size: large;
+  }
+}
+
 .newUnit-body {
-  width: 55.9%;
+  width: 65%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 100px;
   margin-bottom: 200px;
   font-size: 1.6rem;
+  border: 1px solid rgba(38, 56, 150, 0.1411764705882353);
+  border-radius: 10px;
+  padding: 24px;
+  padding-top: 0;
+  box-shadow: 0 4px 12px 0 rgb(34 41 47 / 12%);
 
-  @media screen and (max-width: v.$tablet-width-3) {
+  @media screen and (max-width: 1229px) {
     width: 90%;
   }
 
-  .name-of-official {
-    text-align: center;
-    font-size: x-large;
-    font-weight: 400;
-    padding-bottom: 5px;
-    padding-top: 5px;
-
-    @media screen and (max-width: v.$phone-width) {
-      font-size: large;
-    }
-
-    div {
-      margin-bottom: 5px;
-    }
-
-    .start {
-      font-size: large;
-    }
+  @media screen and (max-width: v.$phone-width) {
+    width: 100%;
   }
 
   .header {
@@ -56,6 +65,101 @@
       flex: 1;
       display: flex;
       justify-content: right;
+
+      button {
+        border-radius: 8px 8px 8px 0;
+
+        @media screen and (max-width: v.$phone-width) {
+          font-size: small;
+        }
+      }
     }
+  }
+}
+
+.dialog-delete {
+  .content-container {
+    width: 100%;
+    display: flex;
+
+    .img-alert {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+
+      div {
+        width: 70%;
+        min-width: 60px;
+        padding-right: 10px;
+
+        img {
+          width: 100%;
+        }
+      }
+    }
+
+    .msg-alert {
+      flex: 4;
+      margin-top: 5px;
+      text-align: left;
+      font-size: x-large;
+      font-weight: 600;
+
+      @media screen and (max-width: 575px) {
+        // margin-top: 0;
+        font-size: large;
+      }
+    }
+  }
+
+  .button-action {
+    .delete {
+      color: rgb(255, 0, 0);
+
+      &:hover {
+        border-radius: 8px 8px 8px 0;
+        background-color: rgb(255, 79, 79);
+        color: #fff;
+      }
+    }
+
+    
+  }
+}
+
+button.close {
+  color: rgb(112, 112, 112);
+  padding-left: 1.7em;
+  padding-right: 1.7em;
+
+  &:hover {
+    border-radius: 8px 8px 8px 0;
+    background-color: rgb(161, 161, 161);
+    color: #fff;
+  }
+}
+
+button.update {
+  color: rgb(92, 151, 92);
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+
+  &:hover {
+    border-radius: 8px 8px 8px 0;
+    color: #fff;
+    background-color: rgb(92, 151, 92);
+  }
+}
+
+button.create {
+  color: rgb(251, 108, 82);
+  font-weight: 900;
+  padding-left: 2em;
+  padding-right: 2em;
+
+  &:hover {
+    border-radius: 8px 8px 8px 0;
+    color: #fff;
+    background-color: rgb(251, 108, 82);
   }
 }
