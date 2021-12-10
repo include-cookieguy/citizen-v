@@ -28,6 +28,8 @@ import {
   getOptions,
 } from "../redux/actions/userAction";
 
+import alertDelete from '../assets/alert-delete.jpg'
+
 const style = {
   position: "absolute",
   display: "flex",
@@ -43,6 +45,7 @@ const style = {
 };
 
 export default function NewUnit() {
+
   const initState = {
     loading: false,
 
@@ -76,6 +79,10 @@ export default function NewUnit() {
     editStartTime: null,
     editEndTime: null,
     editActive: null,
+
+    // Delete Unit
+    deleteId: 0,
+    isDeleteMsgOpen: false,
   };
   const [state, setState] = useState(initState);
 
@@ -216,8 +223,17 @@ export default function NewUnit() {
   };
 
   //  Delete Unit handler
-  const handleDelete = ({ _id }) => {
-    dispatch(deleteUnit({ _id }));
+  const handleDeleteMsgOpen = ({ _id }) =>
+    setState({ ...state, isDeleteMsgOpen: true, deleteId: _id });
+
+  const handleDeleteMsgClose = () =>
+    setState({ ...state, isDeleteMsgOpen: false });
+
+  const handleDelete = () => {
+    dispatch(deleteUnit({
+      _id: state.deleteId,
+    }));
+    setState({ ...state, isDeleteMsgOpen: false });
   };
 
   const columns = [
@@ -263,7 +279,7 @@ export default function NewUnit() {
             >
               Chỉnh sửa
             </Button>
-            <Button onClick={() => handleDelete(params.row)}>Xóa</Button>
+            <Button style={{ color: 'red' }} onClick={() => handleDeleteMsgOpen(params.row)}>Xóa</Button>
           </>
         );
       },
@@ -279,201 +295,238 @@ export default function NewUnit() {
   }
 
   return (
-    <div className="newUnit-body">
+    <>
       <div className="name-of-official">
         <div className="department">{localStorage["department"]}</div>
         <div className="official">{localStorage["official"]}</div>
         <div className="start">* * * * * * *</div>
       </div>
+      
+      <div className="newUnit-body">
 
-      <div className="header">
-        <div className="header-title">
-          <div>Danh sách các đơn vị</div>
+        <div className="header">
+          <div className="header-title">
+            <div>Danh sách các đơn vị</div>
+          </div>
+
+          <div className="button-new-unit">
+            <Button
+              style={{ border: "1px solid" }}
+              onClick={handleOpen}
+            >
+              Khai báo và cấp mã
+            </Button>
+          </div>
         </div>
 
-        <div className="button-new-unit">
-          <Button
-            style={{ border: "1px solid", margin: "" }}
-            onClick={handleOpen}
-          >
-            Khai báo và cấp mã
-          </Button>
-        </div>
-      </div>
-
-      <Dialog // New Unit dialog
-        open={state.isModalOpen}
-        onClose={handleClose}
-      >
-        <DialogTitle>Khai báo và cấp mã</DialogTitle>
-        <DialogContent style={{ width: "100%", height: 300, display: "flex" }}>
-          <Autocomplete
-            disablePortal
-            onChange={handleUnit}
-            onKeyDown={handleKeydownUnit}
-            options={state.cSelect}
-            sx={{ width: 300, marginTop: "10px" }}
-            renderInput={(params) => (
-              <TextField {...params} label="Tên đơn vị" />
-            )}
-          />
-          <TextField
-            label="Mã đơn vị"
-            variant="outlined"
-            style={{ marginLeft: "10px", marginTop: "10px" }}
-            onChange={handleCode}
-          ></TextField>
-        </DialogContent>
-        <DialogActions>
-          <Button style={{ height: 60 }} onClick={handleSubmit}>
-            Cấp mã
-          </Button>
-          <Button style={{ height: 60 }} onClick={handleClose}>
-            Đóng
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog // Edit Unit dialog
-        open={state.isEditModalOpen}
-        onClose={handleEditClose}
-      >
-        <DialogTitle>Chỉnh sửa mã đơn vị</DialogTitle>
-        <DialogContent style={{ width: "100%", height: 250, display: "flex" }}>
-          <TextField
-            label="Tên đơn vị"
-            variant="outlined"
-            style={{ marginTop: "10px" }}
-            value={state.editUnit}
-            disabled
-          ></TextField>
-          <TextField
-            label="Mã đơn vị"
-            variant="outlined"
-            style={{ marginLeft: "10px", marginTop: "10px" }}
-            value={state.editUnitCode}
-            onChange={handleEditCode}
-          ></TextField>
-        </DialogContent>
-        <DialogActions>
-          <Button style={{ height: 60 }} onClick={handleEditSubmit}>
-            Cập nhật
-          </Button>
-          <Button style={{ height: 60 }} onClick={handleEditClose}>
-            Đóng
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog // New Account dialog
-        open={state.isAccountModalOpen}
-        onClose={handleAccountClose}
-      >
-        <DialogTitle>Cấp tài khoản cho đơn vị</DialogTitle>
-        <DialogContent style={{ width: "100%", height: 300, display: "flex" }}>
-          <TextField
-            label="Mã đơn vị"
-            variant="outlined"
-            style={{ marginLeft: "10px", marginTop: "10px" }}
-            value={state.newUsername}
-            onChange={handleUsername}
-            disabled
-          ></TextField>
-          <TextField
-            label="Mật khẩu"
-            variant="outlined"
-            style={{ marginLeft: "10px", marginTop: "10px" }}
-            onChange={handlePassword}
-          ></TextField>
-        </DialogContent>
-        <DialogActions>
-          <Button style={{ height: 60 }} onClick={handleAccountSubmit}>
-            Tạo
-          </Button>
-          <Button style={{ height: 60 }} onClick={handleAccountClose}>
-            Đóng
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog // Edit Account dialog
-        open={state.isEditAccountModalOpen}
-        onClose={handleEditAccountClose}
-      >
-        <DialogTitle>Chỉnh sửa tài khoản</DialogTitle>
-        <DialogContent style={{ width: "100%", minHeight: 300 }}>
-          <div style={{ display: "flex", width: "100%" }}>
+        <Dialog // New Unit dialog
+          open={state.isModalOpen}
+          onClose={handleClose}
+        >
+          <DialogTitle>Khai báo và cấp mã</DialogTitle>
+          <DialogContent style={{ width: "100%", height: 300, display: "flex" }}>
+            <Autocomplete
+              disablePortal
+              onChange={handleUnit}
+              onKeyDown={handleKeydownUnit}
+              options={state.cSelect}
+              sx={{ width: 300, marginTop: "10px" }}
+              renderInput={(params) => (
+                <TextField {...params} label="Tên đơn vị" />
+              )}
+            />
             <TextField
               label="Mã đơn vị"
               variant="outlined"
               style={{ marginLeft: "10px", marginTop: "10px" }}
-              value={state.editUsername}
-              onChange={handleEditUsername}
+              onChange={handleCode}
+            ></TextField>
+          </DialogContent>
+          <DialogActions>
+            <Button className="create" onClick={handleSubmit}>
+              Cấp mã
+            </Button>
+            <Button className="close" onClick={handleClose}>
+              Đóng
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog // Edit Unit dialog
+          open={state.isEditModalOpen}
+          onClose={handleEditClose}
+          className='dialog-edit-code'
+        >
+          <DialogTitle>Chỉnh sửa mã đơn vị</DialogTitle>
+          <DialogContent style={{ width: "100%", height: 250, display: "flex" }}>
+            <TextField
+              label="Tên đơn vị"
+              variant="outlined"
+              style={{ marginTop: "10px" }}
+              value={state.editUnit}
+              disabled
+            ></TextField>
+            <TextField
+              label="Mã đơn vị"
+              variant="outlined"
+              style={{ marginLeft: "10px", marginTop: "10px" }}
+              value={state.editUnitCode}
+              onChange={handleEditCode}
+            ></TextField>
+          </DialogContent>
+          <DialogActions className='button-action'>
+            <Button className="update" onClick={handleEditSubmit}>
+              Cập nhật
+            </Button>
+            <Button className="close" onClick={handleEditClose}>
+              Đóng
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog // New Account dialog
+          open={state.isAccountModalOpen}
+          onClose={handleAccountClose}
+        >
+          <DialogTitle>Cấp tài khoản cho đơn vị</DialogTitle>
+          <DialogContent style={{ width: "100%", height: 300, display: "flex" }}>
+            <TextField
+              label="Mã đơn vị"
+              variant="outlined"
+              style={{ marginLeft: "10px", marginTop: "10px" }}
+              value={state.newUsername}
+              onChange={handleUsername}
               disabled
             ></TextField>
             <TextField
               label="Mật khẩu"
               variant="outlined"
               style={{ marginLeft: "10px", marginTop: "10px" }}
-              onChange={handleEditPassword}
+              onChange={handlePassword}
             ></TextField>
-          </div>
-          <br />
-          <br />
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <h4>Quyền khai báo</h4>
-            <Switch
-              checked={state.editActive || false}
-              onChange={handleEditActive}
-              inputProps={{ "aria-label": "controlled" }}
-            ></Switch>
-          </div>
-          <br />
-          <br />
-          <div>
-            <h3>Thời gian khai báo</h3>
-            <TextField
-              label="Thời gian bắt đầu"
-              variant="standard"
-              defaultValue={state.editStartTime}
-              InputLabelProps={{ shrink: true, style: {} }}
-              style={{ marginLeft: "10px", marginTop: "10px" }}
-              type="datetime-local"
-              onChange={handleEditStartTime}
-            ></TextField>
-            <br />
-            <br />
-            <TextField
-              label="Thời gian kết thúc"
-              variant="standard"
-              defaultValue={state.editEndTime}
-              InputLabelProps={{ shrink: true, style: {} }}
-              style={{ marginLeft: "10px", marginTop: "10px" }}
-              type="datetime-local"
-              onChange={handleEditEndtTime}
-            ></TextField>
-          </div>
-        </DialogContent>
-        <DialogActions>
-          <Button style={{ height: 60 }} onClick={handleEditAccountSubmit}>
-            Cập nhật
-          </Button>
-          <Button style={{ height: 60 }} onClick={handleEditAccountClose}>
-            Đóng
-          </Button>
-        </DialogActions>
-      </Dialog>
+          </DialogContent>
+          <DialogActions>
+            <Button className="create" onClick={handleAccountSubmit}>
+              Tạo
+            </Button>
+            <Button className="close" onClick={handleAccountClose}>
+              Đóng
+            </Button>
+          </DialogActions>
+        </Dialog>
 
-      <DataGrid
-        autoHeight
-        rows={cRows}
-        columns={columns}
-        pageSize={7}
-        components={{ NoRowsOverlay }}
-        rowsPerPageOptions={[5]}
-        checkboxSelection={false}
-        loading={state.loading}
-      />
-    </div>
+        <Dialog // Edit Account dialog
+          open={state.isEditAccountModalOpen}
+          onClose={handleEditAccountClose}
+        >
+          <DialogTitle>Chỉnh sửa tài khoản</DialogTitle>
+          <DialogContent style={{ width: "100%", minHeight: 300 }}>
+            <div style={{ display: "flex", width: "100%" }}>
+              <TextField
+                label="Mã đơn vị"
+                variant="outlined"
+                style={{ marginLeft: "10px", marginTop: "10px" }}
+                value={state.editUsername}
+                onChange={handleEditUsername}
+                disabled
+              ></TextField>
+              <TextField
+                label="Mật khẩu"
+                variant="outlined"
+                style={{ marginLeft: "10px", marginTop: "10px" }}
+                onChange={handleEditPassword}
+              ></TextField>
+            </div>
+            <br />
+            <br />
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <h4>Quyền khai báo</h4>
+              <Switch
+                checked={state.editActive || false}
+                onChange={handleEditActive}
+                inputProps={{ "aria-label": "controlled" }}
+              ></Switch>
+            </div>
+            <br />
+            <br />
+            <div>
+              <h3>Thời gian khai báo</h3>
+              <TextField
+                label="Thời gian bắt đầu"
+                variant="standard"
+                defaultValue={state.editStartTime}
+                InputLabelProps={{ shrink: true, style: {} }}
+                style={{ marginLeft: "10px", marginTop: "10px" }}
+                type="datetime-local"
+                onChange={handleEditStartTime}
+              ></TextField>
+              <br />
+              <br />
+              <TextField
+                label="Thời gian kết thúc"
+                variant="standard"
+                defaultValue={state.editEndTime}
+                InputLabelProps={{ shrink: true, style: {} }}
+                style={{ marginLeft: "10px", marginTop: "10px" }}
+                type="datetime-local"
+                onChange={handleEditEndtTime}
+              ></TextField>
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button className="update" onClick={handleEditAccountSubmit}>
+              Cập nhật
+            </Button>
+            <Button className="close" onClick={handleEditAccountClose}>
+              Đóng
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog // Message before delete something...
+          open={state.isDeleteMsgOpen}
+          onClose={handleDeleteMsgClose}
+          className='dialog-delete'
+        >
+          <DialogContent>
+            <div className="content-container">
+              <div className="img-alert">
+                <div>
+                  <img src={alertDelete} />
+                </div>
+              </div>
+              <div className="msg-alert">Bạn có chắc chắn muốn xóa đơn vị này không?</div>
+            </div>
+          </DialogContent>
+
+          <DialogActions className='button-action'>
+            <Button
+              className="delete"
+              onClick={handleDelete}
+            >
+              Tiếp tục xóa
+            </Button>
+
+            <Button
+              className="close"
+              onClick={handleDeleteMsgClose}
+            >
+              Hủy
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <DataGrid
+          autoHeight
+          rows={cRows}
+          columns={columns}
+          pageSize={7}
+          components={{ NoRowsOverlay }}
+          rowsPerPageOptions={[5]}
+          checkboxSelection={false}
+          loading={state.loading}
+        />
+      </div>
+    </>
   );
 }
