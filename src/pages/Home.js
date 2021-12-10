@@ -3,6 +3,7 @@ import ChartCitizen from "../components/ChartCitizen";
 import SearchCitizen from "./SearchCitizen";
 import ListCitizen from "./ListCitizen";
 import { useSelector } from "react-redux";
+import Monitor from "../components/Monitor";
 
 const Home = () => {
   const { auth } = useSelector((state) => state);
@@ -15,15 +16,7 @@ const Home = () => {
         <div className="start">* * * * * * *</div>
       </div>
 
-      {auth.user.regency !== "B2" && (
-        <div>
-          <ListCitizen />
-        </div>
-      )}
-
-      <div>
-        <SearchCitizen />
-      </div>
+      <Monitor />
     </div>
   );
 };

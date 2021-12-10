@@ -118,17 +118,17 @@ const SearchCitizen = () => {
       };
     } else if (!nameOfGreatGrandUnit && nameOfGrandUnit) {
       location = {
-        city: city,
-        district: nameOfGrandUnit,
-        ward: nameOfParentUnit,
-        village: nameOfUnit,
+        city: nameOfGrandUnit,
+        district: nameOfParentUnit,
+        ward: nameOfUnit,
+        village: village,
       };
     } else if (!nameOfGreatGrandUnit && !nameOfGrandUnit && nameOfParentUnit) {
       location = {
-        city: city,
-        district: district,
-        ward: nameOfParentUnit,
-        village: nameOfUnit,
+        city: nameOfParentUnit,
+        district: nameOfUnit,
+        ward: ward,
+        village: village,
       };
     } else if (
       !nameOfGreatGrandUnit &&
@@ -137,10 +137,10 @@ const SearchCitizen = () => {
       nameOfUnit
     ) {
       location = {
-        city: city,
+        city: nameOfUnit,
         district: district,
         ward: ward,
-        village: nameOfUnit,
+        village: village,
       };
     } else if (
       !nameOfGreatGrandUnit &&
@@ -189,7 +189,10 @@ const SearchCitizen = () => {
       <div className="list-citizens-container">
         <div className="title">Tìm kiếm công dân</div>
 
-        <form onSubmit={handleSubmitSearch} className="list-citizens-search search">
+        <form
+          onSubmit={handleSubmitSearch}
+          className="list-citizens-search search"
+        >
           <TextField
             className="filter name"
             name="fullName"

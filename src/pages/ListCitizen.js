@@ -146,17 +146,17 @@ const ListCitizen = () => {
       };
     } else if (!nameOfGreatGrandUnit && nameOfGrandUnit) {
       location = {
-        city: typeof city === "string" ? city : city.join(","),
-        district: nameOfGrandUnit,
-        ward: nameOfParentUnit,
-        village: nameOfUnit,
+        city: nameOfGrandUnit,
+        district: nameOfParentUnit,
+        ward: nameOfUnit,
+        village: typeof village === "string" ? village : village.join(","),
       };
     } else if (!nameOfGreatGrandUnit && !nameOfGrandUnit && nameOfParentUnit) {
       location = {
-        city: typeof city === "string" ? city : city.join(","),
-        district: typeof district === "string" ? district : district.join(","),
-        ward: nameOfParentUnit,
-        village: nameOfUnit,
+        city: nameOfParentUnit,
+        district: nameOfUnit,
+        ward: typeof ward === "string" ? ward : ward.join(","),
+        village: typeof village === "string" ? village : village.join(","),
       };
     } else if (
       !nameOfGreatGrandUnit &&
@@ -165,10 +165,10 @@ const ListCitizen = () => {
       nameOfUnit
     ) {
       location = {
-        city: typeof city === "string" ? city : city.join(","),
+        city: nameOfUnit,
         district: typeof district === "string" ? district : district.join(","),
         ward: typeof ward === "string" ? ward : ward.join(","),
-        village: nameOfUnit,
+        village: typeof village === "string" ? village : village.join(","),
       };
     } else if (
       !nameOfGreatGrandUnit &&

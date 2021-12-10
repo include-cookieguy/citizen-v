@@ -83,6 +83,17 @@ a:focus {
 }
 
 .input-citizen form {
+  position: relative;
+  .print {
+    position: absolute;
+    right: 0;
+    top: -40px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
   .submit-button {
     border-radius: 8px 8px 8px 0;
     border: 2px solid rgba(0, 0, 0, 0);
@@ -114,8 +125,8 @@ a:focus {
 /* List of citizens & Search citizens*/
 .list-citizens {
   width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
+  margin-top: 150px;
   border: 1px solid rgba(38, 56, 150, 0.1411764705882353);
   border-radius: 10px;
   padding: 24px;
@@ -140,7 +151,7 @@ a:focus {
       .filter {
         @media screen and (max-width: 1629px) {
           padding-bottom: 15px;
-        }   
+        }
       }
     }
 
