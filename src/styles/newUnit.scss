@@ -1,26 +1,5 @@
 @use "variable" as v;
 
-.name-of-official {
-  margin-top: 100px;
-  text-align: center;
-  font-size: x-large;
-  font-weight: 400;
-  padding-bottom: 5px;
-  padding-top: 5px;
-
-  @media screen and (max-width: v.$phone-width) {
-    font-size: large;
-  }
-
-  div {
-    margin-bottom: 5px;
-  }
-
-  .start {
-    font-size: large;
-  }
-}
-
 .newUnit-body {
   width: 65%;
   margin-left: auto;
@@ -100,13 +79,13 @@
 
     .msg-alert {
       flex: 4;
-      margin-top: 5px;
       text-align: left;
       font-size: x-large;
       font-weight: 600;
+      display: flex;
+      align-items: center;
 
       @media screen and (max-width: 575px) {
-        // margin-top: 0;
         font-size: large;
       }
     }

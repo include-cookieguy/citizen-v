@@ -126,7 +126,7 @@ a:focus {
 .list-citizens {
   width: 90%;
   margin: auto;
-  margin-top: 150px;
+  margin-bottom: 100px;
   border: 1px solid rgba(38, 56, 150, 0.1411764705882353);
   border-radius: 10px;
   padding: 24px;
@@ -145,7 +145,7 @@ a:focus {
       padding-bottom: 30px;
     }
 
-    .search {
+    .search, .list {
       flex-wrap: wrap;
 
       .filter {

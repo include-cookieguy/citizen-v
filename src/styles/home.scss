@@ -1,23 +1,111 @@
 .home-container {
-  margin-top: 90px;
   width: 100%;
   margin-bottom: 200px;
 
-  .home-title {
-    text-align: center;
-    margin-bottom: 30px;
-    padding-top: 5px;
+  .sum-overall {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 150px;
+    margin-bottom: 50px;
+    background-color: #f7fbfe;
+    border: 1px solid rgba(38, 56, 150, 0.1411764705882353);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 4px 12px 0 rgb(34 41 47 / 12%);
 
-    div {
-      padding-bottom: 5px;
-      font-size: x-large;
-      font-weight: 400;
-    }
+    .overall-container {
+      width: 40%;
+      height: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
 
-    .title {
-      font-size: xx-large;
-      font-weight: 500;
+      @media screen and (max-width: 1249px) {
+        width: 60%;
+      }
+
+      .overall-cover {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .citizen-icon {
+          flex: 1;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+
+          img {
+            width: 100%;
+            max-width: 70px;
+          }
+        }
+
+        .overall-info {
+          flex: 3;
+
+          .title {
+            font-size: large;
+            font-weight: 900;
+            padding-bottom: 10px;
+          }
+
+          .sum {
+            display: flex;
+
+            .number {
+              font-size: xx-large;
+              font-weight: 900;
+            }
+
+            .unit {
+              font-size: medium;
+              font-style: italic;
+              display: flex;
+              align-items: center;
+              padding-left: 10px;
+            }
+          }
+        }
+      }
     }
   }
 
+  .monitor-process {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    border: 1px solid rgba(38, 56, 150, 0.1411764705882353);
+    padding: 24px;
+    box-shadow: 0 4px 12px 0 rgb(34 41 47 / 12%);
+
+    .title {
+      font-size: x-large;
+      font-weight: 900;
+      margin-bottom: 30px;
+    }
+
+    .filter {
+      margin-bottom: 30px;
+    }
+
+    .result {
+      .total-result {
+        font-size: large;
+        font-weight: 500;
+        margin-bottom: 30px;
+      }
+
+      .chart-result {
+        display: flex;
+        justify-content: center;
+
+      }
+    }
+  }
 }

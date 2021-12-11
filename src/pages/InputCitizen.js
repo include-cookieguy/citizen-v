@@ -20,16 +20,20 @@ import moment from "moment";
 import { validateCitizen } from "../utils/validateCitizen";
 import logoDepartment from "../assets/department-citizen.png";
 import vnLocale from "../data/formatVietnamMonth";
+import greenTick from '../assets/green-tick.png';
+import redX from '../assets/red-x.png';
 
 const InputCitizen = () => {
   // alert submit
   const [open, setOpen] = useState(false);
-  const handleOpenAlert = () => {
-    setOpen(true);
-  };
-  const handleCloseAlert = () => {
-    setOpen(false);
-  };
+  const [openFailed, setOpenFailed] = useState(false);
+
+  const handleOpenAlert = () => setOpen(true);
+  const handleOpenFailAlert = () => setOpenFailed(true);
+
+  const handleCloseAlert = () => setOpen(false);
+  const handleCloseFailedAlert = () => setOpenFailed(false);
+
 
   const [alertMsg, setAlertMsg] = useState("");
 
@@ -272,29 +276,61 @@ const InputCitizen = () => {
 
       setAlertMsg(res.data.msg);
 
-      handleOpenAlert();
+      res.data.success ? handleOpenAlert() : handleOpenFailAlert();
     }
   };
 
   return (
     <div className="input-citizen">
-      <Dialog // notification
+      <Dialog // successful notification
         open={open}
-        onClose
+        onClose={handleCloseAlert}
+        className='dialog-after-input'
       >
-        <DialogContent
-          style={{
-            width: "100%",
-            display: "flex",
-            fontSize: "x-large",
-            fontWeight: 400,
-          }}
-        >
-          {alertMsg}
+        <DialogContent>
+          <div className="content-container">
+            <div className="img-alert">
+              <div>
+                <img src={greenTick} />
+              </div>
+            </div>
+
+            <div className="msg-alert">
+              <div>
+                {alertMsg}
+              </div>
+            </div>
+          </div>
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleCloseAlert}>Đóng</Button>
+          <Button className="msg-submit" onClick={handleCloseAlert}>Đóng</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog // failed notification
+        open={openFailed}
+        onClose={handleCloseFailedAlert}
+        className='dialog-after-input'
+      >
+        <DialogContent>
+          <div className="content-container">
+            <div className="img-alert">
+              <div>
+                <img src={redX} />
+              </div>
+            </div>
+
+            <div className="msg-alert">
+              <div>
+                {alertMsg}
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+
+        <DialogActions>
+          <Button className="msg-submit" onClick={handleCloseFailedAlert}>Đóng</Button>
         </DialogActions>
       </Dialog>
 
@@ -319,6 +355,7 @@ const InputCitizen = () => {
           className="form-nhap"
           style={{ display: "none" }}
         />
+
         <Box
           sx={{
             "& .MuiTextField-root": { m: 1 },
