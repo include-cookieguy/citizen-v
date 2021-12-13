@@ -136,3 +136,19 @@ export const getOptions = () => {
     }
   });
 };
+
+export const getTotalCitizens = (nameOfUnit) => async (dispatch) => {
+  try {
+    const res = await getDataAPI(
+      `user/totalCitizens${nameOfUnit ? "?unit=" + nameOfUnit : ""}`
+    );
+    dispatch({ type: GLOBALTYPES.TOTAL_CITIZENS, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        error: err.response.data.msg,
+      },
+    });
+  }
+};

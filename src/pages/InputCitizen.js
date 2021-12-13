@@ -20,8 +20,8 @@ import moment from "moment";
 import { validateCitizen } from "../utils/validateCitizen";
 import logoDepartment from "../assets/department-citizen.png";
 import vnLocale from "../data/formatVietnamMonth";
-import greenTick from '../assets/green-tick.png';
-import redX from '../assets/red-x.png';
+import greenTick from "../assets/green-tick.png";
+import redX from "../assets/red-x.png";
 
 const InputCitizen = () => {
   // alert submit
@@ -34,10 +34,9 @@ const InputCitizen = () => {
   const handleCloseAlert = () => setOpen(false);
   const handleCloseFailedAlert = () => setOpenFailed(false);
 
-
   const [alertMsg, setAlertMsg] = useState("");
 
-  const { auth } = useSelector((state) => state);
+  const { auth, socket, user } = useSelector((state) => state);
   const [citizenInfo, setCitizenInfo] = useState({
     fullName: "",
     dateOfBirth: new Date(),
@@ -60,6 +59,7 @@ const InputCitizen = () => {
     city_key: true,
     district_key: true,
     ward_key: true,
+    village_key: true,
   });
 
   const [errBlur, setErrBlur] = useState({
@@ -70,6 +70,7 @@ const InputCitizen = () => {
     city: "",
     district: "",
     ward: "",
+    village: "",
     ethnic: "",
     occupation: "",
     phoneNumber: "",
@@ -189,6 +190,12 @@ const InputCitizen = () => {
             [type]: "Vui lòng chọn Xã/Phường của công dân.",
           });
           break;
+        case "village":
+          setErrBlur({
+            ...errBlur,
+            [type]: "Vui lòng chọn nhập/chọn Thôn/Xóm/Khu/Ấp của công dân.",
+          });
+          break;
         default:
           break;
       }
@@ -272,7 +279,13 @@ const InputCitizen = () => {
       };
 
       console.log(finalInfo);
-      const res = await postDataAPI("citizen", finalInfo, auth.token);
+      const res = await postDataAPI("citizen", finalInfo);
+
+      socket.emit("increaseCitizen", {
+        regencyCur: auth.user.regency,
+        check: res.data.success,
+        locationCur: user.searchLocation,
+      });
 
       setAlertMsg(res.data.msg);
 
@@ -285,52 +298,52 @@ const InputCitizen = () => {
       <Dialog // successful notification
         open={open}
         onClose={handleCloseAlert}
-        className='dialog-after-input'
+        className="dialog-after-input"
       >
         <DialogContent>
           <div className="content-container">
             <div className="img-alert">
               <div>
-                <img src={greenTick} />
+                <img src={greenTick} alt="print" />
               </div>
             </div>
 
             <div className="msg-alert">
-              <div>
-                {alertMsg}
-              </div>
+              <div>{alertMsg}</div>
             </div>
           </div>
         </DialogContent>
 
         <DialogActions>
-          <Button className="msg-submit" onClick={handleCloseAlert}>Đóng</Button>
+          <Button className="msg-submit" onClick={handleCloseAlert}>
+            Đóng
+          </Button>
         </DialogActions>
       </Dialog>
 
       <Dialog // failed notification
         open={openFailed}
         onClose={handleCloseFailedAlert}
-        className='dialog-after-input'
+        className="dialog-after-input"
       >
         <DialogContent>
           <div className="content-container">
             <div className="img-alert">
               <div>
-                <img src={redX} />
+                <img src={redX} alt="alert" />
               </div>
             </div>
 
             <div className="msg-alert">
-              <div>
-                {alertMsg}
-              </div>
+              <div>{alertMsg}</div>
             </div>
           </div>
         </DialogContent>
 
         <DialogActions>
-          <Button className="msg-submit" onClick={handleCloseFailedAlert}>Đóng</Button>
+          <Button className="msg-submit" onClick={handleCloseFailedAlert}>
+            Đóng
+          </Button>
         </DialogActions>
       </Dialog>
 
@@ -558,6 +571,7 @@ const InputCitizen = () => {
                   ward: "",
                   district_key: !citizenInfo.district_key,
                   ward_key: !citizenInfo.ward_key,
+                  village_key: !citizenInfo.village_key,
                 });
 
                 setErrBlur({
@@ -594,6 +608,7 @@ const InputCitizen = () => {
                   district: newInput,
                   ward: "",
                   ward_key: !citizenInfo.ward_key,
+                  village_key: !citizenInfo.village_key,
                 });
                 setErrBlur({
                   ...errBlur,
@@ -620,13 +635,14 @@ const InputCitizen = () => {
               noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
               options={avaiableWards}
-              key={citizenInfo.ward_key}
+              key={citizenInfo.ward_key + "ward"}
               sx={{ width: 300 }}
               onInputChange={(e, newInput) => {
                 setCitizenInfo({ ...citizenInfo, ward: newInput });
                 setErrBlur({
                   ...errBlur,
                   ward: "",
+                  village_key: !citizenInfo.village_key,
                 });
               }}
               onBlur={() => handleBlur("ward")}
@@ -646,7 +662,13 @@ const InputCitizen = () => {
             <label className="label-text">
               Thôn/Xóm/Khu/Ấp <span>{"(*)"}</span>
             </label>
+
             <TextField
+              error={errBlur.village ? true : false}
+              value={citizenInfo.village}
+              onBlur={() => handleBlur("village")}
+              onInput={() => handleBlurInput("village")}
+              helperText={errBlur.village}
               placeholder="Ví dụ: Ấp Thạnh Vinh"
               name="village"
               sx={{ width: "100%" }}

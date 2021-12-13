@@ -17,9 +17,13 @@ export const GLOBALTYPES = {
   CREATE_USER: "CREATE_USER",
   UPDATE_USER_BY_ID: "UPDATE_USER_BY_ID",
   DELETE_USER_BY_ID: "DELETE_USER_BY_ID",
+  TOTAL_CITIZENS: "TOTAL_CITIZENS",
 
   // Show message
   SHOW_MESSAGE: "SHOW_MESSAGE",
+
+  // Socket
+  SOCKET: "SOCKET",
 };
 
 export const getToken = localStorage.getItem("token");

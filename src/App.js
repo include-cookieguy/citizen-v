@@ -8,10 +8,10 @@ import InputCitizen from "./pages/InputCitizen";
 import Alert from "./components/alert/Alert";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import { refreshToken } from "./redux/actions/authAction";
-import { getSearchInit, getVillages } from "./redux/actions/userAction";
+import { getSearchInit, getTotalCitizens } from "./redux/actions/userAction";
 import SearchCitizen from "./pages/SearchCitizen";
 import ListCitizen from "./pages/ListCitizen";
+import SocketClient from "./SocketClient";
 
 function App() {
   const { auth } = useSelector((state) => state);
@@ -22,16 +22,20 @@ function App() {
   // }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getSearchInit(auth));
+    if (auth.token) {
+      dispatch(getSearchInit(auth));
+      dispatch(getTotalCitizens(auth.user.nameOfUnit));
+    }
   }, [dispatch, auth]);
 
   return (
     <Router>
       <Alert />
       {auth.token && <Header />}
+      {auth.token && <SocketClient />}
       <Routes>
         <Route exact path="/" element={auth.token ? <Home /> : <Login />} />
-        {auth.token && (
+        {auth.token && ["B1", "B2"].includes(auth.user.regency) && (
           <Route exact path="/input-citizen" element={<InputCitizen />} />
         )}
         {auth.token && auth.user.regency !== "B2" && (

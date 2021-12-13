@@ -9,6 +9,7 @@ export const validateCitizen = (info) => {
     city,
     district,
     ward,
+    village,
     age,
     ethnic,
     religion,
@@ -45,6 +46,10 @@ export const validateCitizen = (info) => {
 
   if (!ward) {
     err.ward = "Vui lòng chọn Xã/Phường của công dân.";
+  }
+
+  if (!village) {
+    err.village = "Vui lòng chọn/nhập Thôn/Xóm/Khu/Ấp của công dân.";
   }
 
   if (!gender) {

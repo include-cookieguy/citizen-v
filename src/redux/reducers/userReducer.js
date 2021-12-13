@@ -8,6 +8,7 @@ const initialState = {
     ward: "",
   },
   disabledLocation: { city: false, district: false, ward: false },
+  totalCitizen: 0,
 };
 
 const unitReducer = (state = initialState, action) => {
@@ -22,6 +23,8 @@ const unitReducer = (state = initialState, action) => {
       let temp = state.allUser;
       temp.push(action.payload);
       return { ...state, allUser: temp };
+    case GLOBALTYPES.TOTAL_CITIZENS:
+      return { ...state, totalCitizen: state.totalCitizen + action.payload };
     default:
       return state;
   }

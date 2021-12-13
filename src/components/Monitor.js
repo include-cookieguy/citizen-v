@@ -4,24 +4,24 @@ import { useDispatch, useSelector } from "react-redux";
 import locationData from "../data/location.json";
 import { getDataAPI, postDataAPI } from "../utils/fetchData";
 import ChartMonitor from "./ChartMonitor";
-import citizenIcon from '../assets/list-citizens.png';
+import citizenIcon from "../assets/list-citizens.png";
+import { getTotalCitizens } from "../redux/actions/userAction";
 
 const Monitor = () => {
   const [units, setUnits] = useState([]);
   const { auth, user } = useSelector((state) => state);
   const [currentUnit, setCurrentUnit] = useState("");
   const [numberCitizens, setNumberCitizens] = useState(null);
-  const [totalNumberCitizens, setTotalNumberCitizens] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const unitDistricts = user.searchLocation.city
       ? locationData.filter((e) => e.label === user.searchLocation.city)[0]
-        .Districts
+          .Districts
       : [];
     const unitWards = user.searchLocation.district
       ? unitDistricts.filter((e) => e.label === user.searchLocation.district)[0]
-        .Wards
+          .Wards
       : [];
 
     const getVillage = async () => {
@@ -50,43 +50,19 @@ const Monitor = () => {
     }
   }, [auth.user.regency, user.searchLocation]);
 
-  useEffect(() => {
-    const getCount = async () => {
-      const res = await getDataAPI(
-        `user/monitor${currentUnit ? "?unit=" + currentUnit : ""}`
-      );
-      setNumberCitizens(res.data);
-    };
-
-    getCount();
-
-  }, [currentUnit]);
-
-  useEffect(() => {
-    const getTotal = async () => {
-      const res = await getDataAPI(
-        `user/totalCitizens${auth.user.nameOfUnit ? '?unit=' + auth.user.nameOfUnit : ''}`
-      );
-      setTotalNumberCitizens(res.data);
-    };
-
-    getTotal();
-
-  }, []);
-
   return (
     <>
       <div className="sum-overall">
         <div className="overall-container">
           <div className="overall-cover">
             <div className="citizen-icon">
-              <img src={citizenIcon} />
+              <img src={citizenIcon} alt="citizen-icon" />
             </div>
 
             <div className="overall-info">
               <div className="title">Tổng số công dân đã khai báo</div>
               <div className="sum">
-                <div className="number">{totalNumberCitizens}</div>
+                <div className="number">{user.totalCitizen}</div>
                 <div className="unit">(người)</div>
               </div>
             </div>
@@ -95,7 +71,9 @@ const Monitor = () => {
       </div>
 
       <div className="monitor-process">
-        <div className="title">Theo dõi tình hình/tiến độ nhập liệu của các địa phương</div>
+        <div className="title">
+          Theo dõi tình hình/tiến độ nhập liệu của các địa phương
+        </div>
         <Autocomplete
           className="filter city"
           noOptionsText={"Không có lựa chọn phù hợp"}
@@ -112,7 +90,8 @@ const Monitor = () => {
             {" "}
             <div className="total-result">
               <span>
-                Tổng số công dân đã khai báo của {currentUnit} là: {numberCitizens}
+                Tổng số công dân đã khai báo của {currentUnit} là:{" "}
+                {numberCitizens}
               </span>
             </div>
             <ChartMonitor currentUnit={currentUnit} />{" "}
@@ -120,7 +99,6 @@ const Monitor = () => {
         )}
       </div>
     </>
-
   );
 };
 
