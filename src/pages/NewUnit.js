@@ -296,12 +296,6 @@ export default function NewUnit() {
 
   return (
     <>
-      <div className="name-of-official">
-        <div className="department">{localStorage["department"]}</div>
-        <div className="official">{localStorage["official"]}</div>
-        <div className="start">* * * * * * *</div>
-      </div>
-      
       <div className="newUnit-body">
 
         <div className="header">
@@ -495,7 +489,11 @@ export default function NewUnit() {
                   <img src={alertDelete} />
                 </div>
               </div>
-              <div className="msg-alert">Bạn có chắc chắn muốn xóa đơn vị này không?</div>
+              <div className="msg-alert">
+                <div>
+                  Bạn có chắc chắn muốn xóa đơn vị này không?
+                </div>
+              </div>
             </div>
           </DialogContent>
 

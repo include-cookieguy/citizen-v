@@ -2,25 +2,26 @@ import { Autocomplete, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import locationData from "../data/location.json";
-import { GLOBALTYPES } from "../redux/actions/globalTypes";
 import { getDataAPI, postDataAPI } from "../utils/fetchData";
 import ChartMonitor from "./ChartMonitor";
+import citizenIcon from '../assets/list-citizens.png';
 
 const Monitor = () => {
   const [units, setUnits] = useState([]);
   const { auth, user } = useSelector((state) => state);
   const [currentUnit, setCurrentUnit] = useState("");
   const [numberCitizens, setNumberCitizens] = useState(null);
+  const [totalNumberCitizens, setTotalNumberCitizens] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const unitDistricts = user.searchLocation.city
       ? locationData.filter((e) => e.label === user.searchLocation.city)[0]
-          .Districts
+        .Districts
       : [];
     const unitWards = user.searchLocation.district
       ? unitDistricts.filter((e) => e.label === user.searchLocation.district)[0]
-          .Wards
+        .Wards
       : [];
 
     const getVillage = async () => {
@@ -54,37 +55,72 @@ const Monitor = () => {
       const res = await getDataAPI(
         `user/monitor${currentUnit ? "?unit=" + currentUnit : ""}`
       );
-
       setNumberCitizens(res.data);
     };
 
     getCount();
+
   }, [currentUnit]);
 
-  return (
-    <div>
-      <h1>Theo dõi tình hình/tiến độ nhập liệu</h1>
-      <Autocomplete
-        className="filter city"
-        noOptionsText={"Không có lựa chọn phù hợp"}
-        options={units}
-        size="small"
-        onChange={(e, newInput) => {
-          setCurrentUnit(newInput);
-        }}
-        renderInput={(params) => <TextField {...params} label="Địa phương" />}
-      />
+  useEffect(() => {
+    const getTotal = async () => {
+      const res = await getDataAPI(
+        `user/totalCitizens${auth.user.nameOfUnit ? '?unit=' + auth.user.nameOfUnit : ''}`
+      );
+      setTotalNumberCitizens(res.data);
+    };
 
-      {currentUnit && (
-        <div>
-          {" "}
-          <span>
-            Tổng số công dân đã khai báo của {currentUnit} là: {numberCitizens}
-          </span>
-          <ChartMonitor currentUnit={currentUnit} />{" "}
+    getTotal();
+
+  }, []);
+
+  return (
+    <>
+      <div className="sum-overall">
+        <div className="overall-container">
+          <div className="overall-cover">
+            <div className="citizen-icon">
+              <img src={citizenIcon} />
+            </div>
+
+            <div className="overall-info">
+              <div className="title">Tổng số công dân đã khai báo</div>
+              <div className="sum">
+                <div className="number">{totalNumberCitizens}</div>
+                <div className="unit">(người)</div>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
-    </div>
+      </div>
+
+      <div className="monitor-process">
+        <div className="title">Theo dõi tình hình/tiến độ nhập liệu của các địa phương</div>
+        <Autocomplete
+          className="filter city"
+          noOptionsText={"Không có lựa chọn phù hợp"}
+          options={units}
+          size="small"
+          onChange={(e, newInput) => {
+            setCurrentUnit(newInput);
+          }}
+          renderInput={(params) => <TextField {...params} label="Địa phương" />}
+        />
+
+        {currentUnit && (
+          <div className="result">
+            {" "}
+            <div className="total-result">
+              <span>
+                Tổng số công dân đã khai báo của {currentUnit} là: {numberCitizens}
+              </span>
+            </div>
+            <ChartMonitor currentUnit={currentUnit} />{" "}
+          </div>
+        )}
+      </div>
+    </>
+
   );
 };
 

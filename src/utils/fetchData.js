@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useDispatch } from 'react-redux'
 import { refreshToken } from '../redux/actions/authAction'
 
 axios.interceptors.request.use(function (req) {

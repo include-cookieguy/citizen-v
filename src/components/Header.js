@@ -4,6 +4,11 @@ import { logout } from "../redux/actions/authAction";
 import { Link } from "react-router-dom";
 import ShowMessage from "./ShowMessage";
 
+import homeIcon from '../assets/home.png';
+import locationIcon from '../assets/location.png';
+import citizenIcon from '../assets/list-citizens.png';
+import searchIcon from '../assets/search.png';
+
 const Header = () => {
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -62,23 +67,55 @@ const Header = () => {
         <ShowMessage />
       </header>
 
+      <div className="title-all-page">
+        <div className="home-title">
+          <div className="department">{localStorage["department"]}</div>
+          <div className="official">{localStorage["official"]}</div>
+          <div className="start">* * * * * * *</div>
+        </div>
+      </div>
+
       <div className="bottom">
         <div className="nav-bar-bottom">
           <div className="nav-bar-bottom-container">
             <div className="nav-bar-option">
-              <div className="opt-nav-bar home">
+
+              <div className="opt-nav-bar">
                 <Link to="/" className="header-link">
-                  <div className="icon">{/* <img src={homeIcon} /> */}</div>
+                  <div className="img">
+                    <img src={homeIcon} />
+                  </div>
                   <div>Trang chủ</div>
                 </Link>
               </div>
+
               <div className="opt-nav-bar">
                 <Link to="/newUnit" className="header-link">
-                  Đơn vị
+                  <div className="img">
+                    <img src={locationIcon} />
+                  </div>
+                  <div>Đơn vị</div>
                 </Link>
               </div>
-              <div className="opt-nav-bar">Option</div>
-              <div className="opt-nav-bar">Option</div>
+
+              <div className="opt-nav-bar">
+                <Link to="/list" className="header-link">
+                  <div className="img">
+                    <img src={citizenIcon} />
+                  </div>
+                  <div>Danh sách</div>
+                </Link>
+              </div>
+
+              <div className="opt-nav-bar">
+                <Link to="/search" className="header-link">
+                  <div className="img">
+                    <img src={searchIcon} />
+                  </div>
+                  <div>Tìm kiếm</div>
+                </Link>
+              </div>
+
             </div>
           </div>
         </div>

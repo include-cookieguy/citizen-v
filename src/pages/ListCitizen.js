@@ -217,7 +217,10 @@ const ListCitizen = () => {
       <div className="list-citizens-container">
         <div className="title">Danh sách công dân theo địa phương</div>
 
-        <form onSubmit={handleSubmitSearch} className="list-citizens-search">
+        <form 
+          onSubmit={handleSubmitSearch} 
+          className="list-citizens-search list"
+        >
           {!disabledLocation.city ? (
             <Autocomplete
               className="filter city"
