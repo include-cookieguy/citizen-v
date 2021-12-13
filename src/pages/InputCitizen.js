@@ -606,7 +606,9 @@ const InputCitizen = () => {
           </div>
 
           <div className="field village">
-            <label className="label-text">Thôn/Xóm/Khu/Ấp</label>
+            <label className="label-text">
+              Thôn/Xóm/Khu/Ấp <span>{"(*)"}</span>
+            </label>
             <TextField
               placeholder="Ví dụ: Ấp Thạnh Vinh"
               name="village"
