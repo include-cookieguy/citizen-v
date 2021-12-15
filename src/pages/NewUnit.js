@@ -186,8 +186,10 @@ export default function NewUnit() {
   const handleEditAccountOpen = (row) => {
     let user = cChildUser.filter((u) => u.username === row.code)[0];
     state.editUser = user;
-    user.startTime = (user.startTime || "").split(".")[0];
-    user.endTime = (user.endTime || "").split(".")[0];
+    console.log(user.startTime)
+    console.log(user.endTime)
+    user.startTime = (new Date(parseInt(user.startTime) || new Date().getTime())).toISOString().split('.')[0]
+    user.endTime = (new Date(parseInt(user.endTime) || new Date().getTime())).toISOString().split('.')[0]
     setState({
       ...state,
       isEditAccountModalOpen: true,
