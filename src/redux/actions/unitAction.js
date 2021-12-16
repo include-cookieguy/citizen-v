@@ -1,4 +1,4 @@
-import { GLOBALTYPES } from "./globalTypes";
+import { getUser, gGetUnit, GLOBALTYPES } from "./globalTypes";
 import {
   deleteDataAPI,
   getDataAPI,
@@ -21,6 +21,19 @@ export const getAllUnit = () => async (dispatch) => {
     
   }
 };
+
+export const getUnit = (data) => async (dispatch) => {
+  let message = null
+  let type = null
+  try {
+    const unit = await getDataAPI(`unit/code/${data.username}`)
+    localStorage.setItem('unit', JSON.stringify(unit.data))
+    dispatch({ type: GLOBALTYPES.GET_UNIT, payload: unit.data })
+  } catch(err) {
+    type = 'error'
+    message = err.response.data.msg || err.response.data.message
+  }
+}
 
 export const getChildUnit = () => async (dispatch) => {
   let type = null
@@ -62,6 +75,34 @@ export const createUnit = (data) => async (dispatch) => {
     }, 4000);
   }
 };
+
+export const updateUnitStatus = (status, idUnit) => async (dispatch) => {
+  let type = null
+  let message = null
+  try {
+    let res = await putDataAPI(`unit/status/${idUnit}`, {status})
+    let user = JSON.parse(localStorage.getItem('user'))
+    const unit = await getDataAPI(`unit/code/${user.username}`)
+    localStorage.setItem('unit', JSON.stringify(unit.data))
+    dispatch({ type: GLOBALTYPES.GET_UNIT, payload: unit.data })
+    type = 'success'
+    message = res.data.msg || res.data.message || 'Cấp mã thành công!'
+  } catch(err) {
+    type = 'error'
+    message = err.response.data.msg || err.response.data.message || 'Error'
+  }  finally {
+    dispatch({ 
+      type: GLOBALTYPES.SHOW_MESSAGE, 
+      payload: { isShow: true, type, message } 
+    })
+    setTimeout(() => {
+      dispatch({ 
+        type: GLOBALTYPES.SHOW_MESSAGE, 
+        payload: { isShow: false, type: null, message: null } 
+      })
+    }, 4000);
+  }
+}
 
 export const updateUnit = (data) => async (dispatch) => {
   let type = null
