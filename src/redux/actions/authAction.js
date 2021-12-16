@@ -1,5 +1,5 @@
 import { GLOBALTYPES } from "./globalTypes";
-import { postDataAPI } from "../../utils/fetchData";
+import { getDataAPI, postDataAPI } from "../../utils/fetchData";
 
 export const login = (data) => async (dispatch) => {
   try {
@@ -115,6 +115,7 @@ export const logout = () => async (dispatch) => {
     localStorage.removeItem("firstLogin");
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("unit");
     localStorage.removeItem("department");
     localStorage.removeItem("official");
 

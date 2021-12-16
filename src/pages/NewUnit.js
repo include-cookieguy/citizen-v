@@ -97,14 +97,18 @@ export default function NewUnit() {
     setState({ ...state, select: options, cSelect: cOptions });
   }, []);
 
-  let cRows = useSelector((state) =>
-    state.unit.allUnit.map((u, idx) => ({
+  const regency = useSelector(state => state.auth.user.regency)
+
+  let cRows = useSelector((state) => {
+    console.log('all unit: ', state.unit.allUnit)
+    return state.unit.allUnit.map((u, idx) => ({
       id: idx + 1,
       _id: u._id,
       name: u.nameOfUnit,
       code: u.code,
+      status: u.status === true ? "Đã hoàn thành" : "Chưa hoàn thành",
     }))
-  );
+  });
   let cChildUser = useSelector((state) => state.user.allUser);
 
   //  Compute select
@@ -185,8 +189,10 @@ export default function NewUnit() {
   const handleEditAccountOpen = (row) => {
     let user = cChildUser.filter((u) => u.username === row.code)[0];
     state.editUser = user;
-    user.startTime = (user.startTime || "").split(".")[0];
-    user.endTime = (user.endTime || "").split(".")[0];
+    console.log(user.startTime)
+    console.log(user.endTime)
+    user.startTime = (new Date(parseInt(user.startTime) || new Date().getTime())).toISOString().split('.')[0]
+    user.endTime = (new Date(parseInt(user.endTime) || new Date().getTime())).toISOString().split('.')[0]
     setState({
       ...state,
       isEditAccountModalOpen: true,
@@ -286,6 +292,57 @@ export default function NewUnit() {
             >
               Xóa
             </Button>
+          </>
+        );
+      },
+    },
+  ];
+
+  const A3_columns = [
+    { field: "id", headerName: "STT", flex: 80, minWidth: 62 },
+    { field: "name", headerName: "Tên đơn vị", flex: 300, minWidth: 231 },
+    { field: "code", headerName: "Mã đơn vị", flex: 100, minWidth: 100 },
+    { field: "status", headerName: "Trạng thái khai báo", flex: 100, minWidth: 150 },
+    {
+      field: "account",
+      headerName: "Tài khoản đơn vị",
+      flex: 200,
+      minWidth: 154,
+      sortable: false,
+      renderCell: (params) => {
+        let user = cChildUser.filter((u) => u.username === params.row.code)[0];
+        return (
+          <>
+            {user && (
+              <Button onClick={() => handleEditAccountOpen(params.row)}>
+                Chỉnh sửa
+              </Button>
+            )}
+            {!user && (
+              <Button onClick={() => handleAccountOpen(params.row)}>
+                Tạo mới
+              </Button>
+            )}
+          </>
+        );
+      },
+    },
+    {
+      field: "action",
+      headerName: "Quản lý mã đơn vị",
+      flex: 250,
+      minWidth: 192,
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <>
+            <Button
+              style={{ marginRight: "30px" }}
+              onClick={() => handleEditOpen(params.row)}
+            >
+              Chỉnh sửa
+            </Button>
+            <Button style={{ color: 'red' }} onClick={() => handleDeleteMsgOpen(params.row)}>Xóa</Button>
           </>
         );
       },
@@ -517,7 +574,7 @@ export default function NewUnit() {
         <DataGrid
           autoHeight
           rows={cRows}
-          columns={columns}
+          columns={regency === 'A3' ? A3_columns : columns}
           pageSize={7}
           components={{ NoRowsOverlay }}
           rowsPerPageOptions={[5]}

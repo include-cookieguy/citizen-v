@@ -4,6 +4,7 @@ export const GLOBALTYPES = {
 
   // Unit
   GET_ALL_UNIT: "GET_ALL_UNIT",
+  GET_UNIT: "GET_UNIT",
   CREATE_UNIT: "CREATE_UNIT",
 
   // Citizen
@@ -29,3 +30,5 @@ export const GLOBALTYPES = {
 export const getToken = localStorage.getItem("token");
 
 export const getUser = JSON.parse(localStorage.getItem("user"));
+
+export const gGetUnit = JSON.parse(localStorage.getItem("unit"));
