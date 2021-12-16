@@ -193,7 +193,7 @@ const InputCitizen = () => {
         case "village":
           setErrBlur({
             ...errBlur,
-            [type]: "Vui lòng chọn nhập/chọn Thôn/Xóm/Khu/Ấp của công dân.",
+            [type]: "Vui lòng chọn nhập Thôn/Xóm/Khu/Ấp của công dân.",
           });
           break;
         default:
@@ -669,6 +669,7 @@ const InputCitizen = () => {
               onBlur={() => handleBlur("village")}
               onInput={() => handleBlurInput("village")}
               helperText={errBlur.village}
+              disabled={citizenInfo.ward ? false : true}
               placeholder="Ví dụ: Ấp Thạnh Vinh"
               name="village"
               sx={{ width: "100%" }}

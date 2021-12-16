@@ -123,7 +123,7 @@ const Login = () => {
           )}
         </div>
         <small className="error">{errBlur.password}</small>
-        <div className="forgot-pass">Quên mật khẩu</div>
+
         {alert.error && <div className="error-submit">{alert.error}</div>}
         <button>Đăng nhập</button>
       </form>

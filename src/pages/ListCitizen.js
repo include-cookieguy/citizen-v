@@ -6,6 +6,7 @@ import { Autocomplete, TextField, Button, Switch } from "@mui/material";
 import locationData from "../data/location.json";
 import { postDataAPI } from "../utils/fetchData";
 import { updateUnitStatus } from "../redux/actions/unitAction";
+import { GLOBALTYPES } from "../redux/actions/globalTypes"
 
 const ListCitizen = () => {
   const { auth, user } = useSelector((state) => state);
@@ -218,7 +219,11 @@ const ListCitizen = () => {
   console.log('unit status: ', unitStatus)
   let idUnit = useSelector(state => (state.auth.unit || {})._id)
   const handleUnitStatus = (status) => {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } })
     dispatch(updateUnitStatus(status, idUnit))
+    setTimeout(() => {
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } })
+    }, 4000);
   } 
 
   return (
