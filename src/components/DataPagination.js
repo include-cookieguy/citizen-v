@@ -121,6 +121,7 @@ const DataPagination = () => {
         pageSize={10}
         rowsPerPageOptions={[10]}
         checkboxSelection={false}
+        disableSelectionOnClick={true}
       />
     </div>
   );

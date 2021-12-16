@@ -49,7 +49,7 @@ export const validateCitizen = (info) => {
   }
 
   if (!village) {
-    err.village = "Vui lòng chọn/nhập Thôn/Xóm/Khu/Ấp của công dân.";
+    err.village = "Vui lòng nhập Thôn/Xóm/Khu/Ấp của công dân.";
   }
 
   if (!gender) {

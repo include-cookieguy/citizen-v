@@ -28,7 +28,7 @@ import {
   getOptions,
 } from "../redux/actions/userAction";
 
-import alertDelete from '../assets/alert-delete.jpg'
+import alertDelete from "../assets/alert-delete.jpg";
 
 const style = {
   position: "absolute",
@@ -45,7 +45,6 @@ const style = {
 };
 
 export default function NewUnit() {
-
   const initState = {
     loading: false,
 
@@ -89,11 +88,11 @@ export default function NewUnit() {
   const dispatch = useDispatch();
 
   useEffect(async () => {
-    setState({ ...state, loading: true })
+    setState({ ...state, loading: true });
     await dispatch(getChildUnit());
     await dispatch(getChildUser());
-    setState({ ...state, loading: false })
-    let options = await getOptions() || [];
+    setState({ ...state, loading: false });
+    let options = (await getOptions()) || [];
     let cOptions = options.map((x) => ({ label: x }));
     setState({ ...state, select: options, cSelect: cOptions });
   }, []);
@@ -230,9 +229,11 @@ export default function NewUnit() {
     setState({ ...state, isDeleteMsgOpen: false });
 
   const handleDelete = () => {
-    dispatch(deleteUnit({
-      _id: state.deleteId,
-    }));
+    dispatch(
+      deleteUnit({
+        _id: state.deleteId,
+      })
+    );
     setState({ ...state, isDeleteMsgOpen: false });
   };
 
@@ -279,7 +280,12 @@ export default function NewUnit() {
             >
               Chỉnh sửa
             </Button>
-            <Button style={{ color: 'red' }} onClick={() => handleDeleteMsgOpen(params.row)}>Xóa</Button>
+            <Button
+              style={{ color: "red" }}
+              onClick={() => handleDeleteMsgOpen(params.row)}
+            >
+              Xóa
+            </Button>
           </>
         );
       },
@@ -297,17 +303,13 @@ export default function NewUnit() {
   return (
     <>
       <div className="newUnit-body">
-
         <div className="header">
           <div className="header-title">
             <div>Danh sách các đơn vị</div>
           </div>
 
           <div className="button-new-unit">
-            <Button
-              style={{ border: "1px solid" }}
-              onClick={handleOpen}
-            >
+            <Button style={{ border: "1px solid" }} onClick={handleOpen}>
               Khai báo và cấp mã
             </Button>
           </div>
@@ -318,7 +320,9 @@ export default function NewUnit() {
           onClose={handleClose}
         >
           <DialogTitle>Khai báo và cấp mã</DialogTitle>
-          <DialogContent style={{ width: "100%", height: 300, display: "flex" }}>
+          <DialogContent
+            style={{ width: "100%", height: 300, display: "flex" }}
+          >
             <Autocomplete
               disablePortal
               onChange={handleUnit}
@@ -349,10 +353,12 @@ export default function NewUnit() {
         <Dialog // Edit Unit dialog
           open={state.isEditModalOpen}
           onClose={handleEditClose}
-          className='dialog-edit-code'
+          className="dialog-edit-code"
         >
           <DialogTitle>Chỉnh sửa mã đơn vị</DialogTitle>
-          <DialogContent style={{ width: "100%", height: 250, display: "flex" }}>
+          <DialogContent
+            style={{ width: "100%", height: 250, display: "flex" }}
+          >
             <TextField
               label="Tên đơn vị"
               variant="outlined"
@@ -368,7 +374,7 @@ export default function NewUnit() {
               onChange={handleEditCode}
             ></TextField>
           </DialogContent>
-          <DialogActions className='button-action'>
+          <DialogActions className="button-action">
             <Button className="update" onClick={handleEditSubmit}>
               Cập nhật
             </Button>
@@ -383,7 +389,9 @@ export default function NewUnit() {
           onClose={handleAccountClose}
         >
           <DialogTitle>Cấp tài khoản cho đơn vị</DialogTitle>
-          <DialogContent style={{ width: "100%", height: 300, display: "flex" }}>
+          <DialogContent
+            style={{ width: "100%", height: 300, display: "flex" }}
+          >
             <TextField
               label="Mã đơn vị"
               variant="outlined"
@@ -480,7 +488,7 @@ export default function NewUnit() {
         <Dialog // Message before delete something...
           open={state.isDeleteMsgOpen}
           onClose={handleDeleteMsgClose}
-          className='dialog-delete'
+          className="dialog-delete"
         >
           <DialogContent>
             <div className="content-container">
@@ -490,25 +498,17 @@ export default function NewUnit() {
                 </div>
               </div>
               <div className="msg-alert">
-                <div>
-                  Bạn có chắc chắn muốn xóa đơn vị này không?
-                </div>
+                <div>Bạn có chắc chắn muốn xóa đơn vị này không?</div>
               </div>
             </div>
           </DialogContent>
 
-          <DialogActions className='button-action'>
-            <Button
-              className="delete"
-              onClick={handleDelete}
-            >
+          <DialogActions className="button-action">
+            <Button className="delete" onClick={handleDelete}>
               Tiếp tục xóa
             </Button>
 
-            <Button
-              className="close"
-              onClick={handleDeleteMsgClose}
-            >
+            <Button className="close" onClick={handleDeleteMsgClose}>
               Hủy
             </Button>
           </DialogActions>
@@ -523,6 +523,7 @@ export default function NewUnit() {
           rowsPerPageOptions={[5]}
           checkboxSelection={false}
           loading={state.loading}
+          disableSelectionOnClick={true}
         />
       </div>
     </>

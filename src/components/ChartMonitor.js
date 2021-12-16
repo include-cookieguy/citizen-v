@@ -36,8 +36,8 @@ const ChartMonitor = ({ currentUnit }) => {
   }, [currentUnit]);
 
   return (
-    <div className="chart-result">
-      <div className="container-chart">
+    <div style={{ width: "100%", height: 300 }}>
+      <ResponsiveContainer>
         <LineChart
           width={800}
           height={300}
@@ -56,7 +56,7 @@ const ChartMonitor = ({ currentUnit }) => {
           <Legend />
           <Line name="Đã nhập" dataKey="numberOfCitizens" stroke="#82ca9d" />
         </LineChart>
-      </div>
+      </ResponsiveContainer>
     </div>
   );
 };
