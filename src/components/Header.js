@@ -78,45 +78,45 @@ const Header = () => {
       <div className="bottom">
         <div className="nav-bar-bottom">
           <div className="nav-bar-bottom-container">
-            <div className="nav-bar-option">
+            <ul className="nav-bar-option">
 
-              <div className="opt-nav-bar">
+              <li className="opt-nav-bar">
                 <Link to="/" className="header-link">
                   <div className="img">
                     <img src={homeIcon} />
                   </div>
-                  <div>Trang chủ</div>
+                  <div className="text">Trang chủ</div>
                 </Link>
-              </div>
+              </li>
 
-              <div className="opt-nav-bar">
+              <li className="opt-nav-bar">
                 <Link to="/newUnit" className="header-link">
                   <div className="img">
                     <img src={locationIcon} />
                   </div>
-                  <div>Đơn vị</div>
+                  <div className="text">Đơn vị</div>
                 </Link>
-              </div>
+              </li>
 
-              <div className="opt-nav-bar">
+              <li className="opt-nav-bar">
                 <Link to="/list" className="header-link">
                   <div className="img">
                     <img src={citizenIcon} />
                   </div>
-                  <div>Danh sách</div>
+                  <div className="text">Danh sách</div>
                 </Link>
-              </div>
+              </li>
 
-              <div className="opt-nav-bar">
+              <li className="opt-nav-bar">
                 <Link to="/search" className="header-link">
                   <div className="img">
                     <img src={searchIcon} />
                   </div>
-                  <div>Tìm kiếm</div>
+                  <div className="text">Tìm kiếm</div>
                 </Link>
-              </div>
+              </li>
 
-            </div>
+            </ul>
           </div>
         </div>
       </div>
