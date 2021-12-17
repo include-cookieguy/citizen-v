@@ -51,11 +51,11 @@ const ChartMonitor = ({ currentUnit }) => {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" domain={[0, 10]} fontSize={13} tickMargin={15} />
+            <XAxis dataKey="name" domain={[0, 10]} fontSize={13} tickMargin={10} />
             <YAxis allowDecimals={false} />
             <Tooltip />
             <Legend />
-            <Line type='tone' strokeWidth={3.5}  name="Đã nhập" dataKey="numberOfCitizens" stroke="#446282" />
+            <Line type='tone' strokeWidth={3.5} name="Đã nhập" dataKey="numberOfCitizens" stroke="#446282" />
           </LineChart>
         </ResponsiveContainer>
       </div>
