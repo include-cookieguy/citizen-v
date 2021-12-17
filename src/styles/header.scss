@@ -101,9 +101,9 @@ header {
               margin-left: 20px;
               margin-right: 20px;
 
-              &:hover {
-                height: 50%;
-                border-radius: 10px;
+              &:hover  {
+                transform: translateY(-5px);
+                transition: 0.5s;
               }
 
               .header-link {
@@ -208,15 +208,28 @@ header {
             cursor: pointer;
             flex: 1;
             text-align: center;
+            list-style: none;
 
-            &:hover {
-              background-color: rgb(235, 235, 235);
-              border-radius: 10px;
-              height: 95%;
+            &:hover .header-link .img {
+              transform: translateY(-20px);
+            }
+
+            &:hover .header-link .text {
+              transform: translateY(-5px);
             }
 
             .header-link {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              flex-direction: column;
+              font-weight: 600;
+              color: #4a85c4;
+              
               .img {
+                top: 10px;
+                display: block;
+                transition: 0.5s;
                 width: 40px;
                 margin-right: auto;
                 margin-left: auto;
@@ -224,7 +237,11 @@ header {
                   width: 100%;
                 }
               }
-              color: #4a85c4;
+
+              .text {
+                letter-spacing: 0.05em;
+                transition: 0.5s;
+              }
             }
           }
 

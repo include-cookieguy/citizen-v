@@ -88,35 +88,44 @@ const Header = () => {
                   <div className="img">
                     <img src={homeIcon} alt="icon" />
                   </div>
-                  <div>Trang chủ</div>
+                  <div className="text">Trang chủ</div>
                 </Link>
-              </div>
 
-              <div className="opt-nav-bar">
-                <Link to="/newUnit" className="header-link">
-                  <div className="img">
-                    <img src={locationIcon} alt="icon" />
-                  </div>
-                  <div>Đơn vị</div>
-                </Link>
-              </div>
+                <li className="opt-nav-bar">
+                  <Link to="/newUnit" className="header-link">
+                    <div className="img">
+                      <img src={locationIcon} alt="icon" />
+                    </div>
+                    <div className="text">Đơn vị</div>
+                  </Link>
+                </li>
 
-              <div className="opt-nav-bar">
-                <Link to="/list" className="header-link">
-                  <div className="img">
-                    <img src={citizenIcon} alt="icon" />
-                  </div>
-                  <div>Danh sách</div>
-                </Link>
-              </div>
+                <li className="opt-nav-bar">
+                  <Link to="/list" className="header-link">
+                    <div className="img">
+                      <img src={citizenIcon} alt="icon" />
+                    </div>
+                    <div className="text">Danh sách</div>
+                  </Link>
+                </li>
 
-              <div className="opt-nav-bar">
-                <Link to="/search" className="header-link">
-                  <div className="img">
-                    <img src={searchIcon} alt="icon" />
-                  </div>
-                  <div>Tìm kiếm</div>
-                </Link>
+                <li className="opt-nav-bar">
+                  <Link to="/search" className="header-link">
+                    <div className="img">
+                      <img src={searchIcon} alt="icon" />
+                    </div>
+                    <div className="text">Tìm kiếm</div>
+                  </Link>
+                </li>
+
+                <li className="opt-nav-bar">
+                  <Link to="/monitor" className="header-link">
+                    <div className="img">
+                      <img src={searchIcon} alt="icon" />
+                    </div>
+                    <div className="text">Theo dõi</div>
+                  </Link>
+                </li>
               </div>
             </div>
           </div>
