@@ -156,6 +156,46 @@
     },
     {
         "id": "40",
+        "label": "Kiểm sát"
+    },
+    {
+        "id": "41",
+        "label": "Toà án"
+    },
+    {
+        "id": "42",
+        "label": "Nhân viên bán hàng"
+    },
+    {
+        "id": "43",
+        "label": "Kỹ sư"
+    },
+    {
+        "id": "44",
+        "label": "Nhà văn - nhà thơ"
+    },
+    {
+        "id": "45",
+        "label": "Điện tử - Viễn thông"
+    },
+    {
+        "id": "46",
+        "label": "Học sinh"
+    },
+    {
+        "id": "47",
+        "label": "Sinh viên"
+    },
+    {
+        "id": "48",
+        "label": "Công nhân"
+    },
+    {
+        "id": "49",
+        "label": "Hoạt động giải trí"
+    },
+    {
+        "id": "50",
         "label": "Tự do"
     }
 ]
