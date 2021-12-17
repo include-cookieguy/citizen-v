@@ -36,29 +36,38 @@ const ChartMonitor = ({ currentUnit }) => {
   }, [currentUnit]);
 
   return (
-    <div className="chart-result">
-      <div className="chart-container">
-        <ResponsiveContainer>
-          <LineChart
-            width={800}
-            height={300}
-            data={data}
-            margin={{
-              top: 5,
-              right: 10,
-              left: -40,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" domain={[0, 10]} fontSize={13} tickMargin={15} />
-            <YAxis allowDecimals={false} />
-            <Tooltip />
-            <Legend />
-            <Line type='tone' strokeWidth={3.5}  name="Đã nhập" dataKey="numberOfCitizens" stroke="#446282" />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+    <div style={{ width: "80%", height: "300px" }}>
+      <ResponsiveContainer>
+        <LineChart
+          width={800}
+          height={300}
+          data={data}
+          margin={{
+            top: 5,
+            right: 10,
+            left: -40,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis
+            dataKey="name"
+            domain={[0, 10]}
+            fontSize={13}
+            tickMargin={15}
+          />
+          <YAxis allowDecimals={false} />
+          <Tooltip />
+          <Legend />
+          <Line
+            type="tone"
+            strokeWidth={3.5}
+            name="Đã nhập"
+            dataKey="numberOfCitizens"
+            stroke="#446282"
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 };

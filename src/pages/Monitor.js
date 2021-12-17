@@ -27,7 +27,7 @@ const Monitor = () => {
       const res = await postDataAPI("unit/getVillage", {
         ward: user.searchLocation.ward,
       });
-
+      console.log(res.data);
       return res.data;
     };
 
@@ -42,7 +42,9 @@ const Monitor = () => {
         setUnits(unitWards.map((e) => e.label));
         break;
       case "B1":
-        getVillage().then((data) => setUnits(data.map((e) => e.nameOfUnit)));
+        if (user.searchLocation.ward) {
+          getVillage().then((data) => setUnits(data.map((e) => e.nameOfUnit)));
+        }
         break;
       default:
         break;
