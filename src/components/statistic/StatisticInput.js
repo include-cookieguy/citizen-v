@@ -138,149 +138,160 @@ const StatisticInput = () => {
       village: user.disabledLocation.village,
     });
   }, [user.searchLocation, user.disabledLocation]);
+
   return (
-    <div>
-      <form onSubmit={handleSubmitSearch} className="list-citizens-search list">
-        {!disabledLocation.city ? (
-          <Autocomplete
-            className="filter city"
-            noOptionsText={"Không có lựa chọn phù hợp"}
-            options={locationData}
-            multiple
-            size="small"
-            // key={searchQuery.city_key + "city"}
-            onChange={(e, newInput) => {
-              setSearchQuery({
-                ...searchQuery,
-                city: newInput.map((e) => e.label),
-                district: [],
-                ward: [],
-                village: "",
-                // district_key: !searchQuery.district_key,
-                // ward_key: !searchQuery.ward_key,
-                // village_key: !searchQuery.village_key,
-              });
-            }}
-            renderInput={(params) => (
-              <TextField {...params} label="Tỉnh/Thành Phố" />
+    <div className="statistic">
+      <div className="statistic-container">
+        <div className="stats-title">
+          Các thống kê và phân tích số liệu về dân cư
+        </div>
+
+        <div className="stats-filter">
+          <form onSubmit={handleSubmitSearch} className="list-citizens-search list">
+            {!disabledLocation.city ? (
+              <Autocomplete
+                className="filter city"
+                noOptionsText={"Không có lựa chọn phù hợp"}
+                options={locationData}
+                multiple
+                size="small"
+                // key={searchQuery.city_key + "city"}
+                onChange={(e, newInput) => {
+                  setSearchQuery({
+                    ...searchQuery,
+                    city: newInput.map((e) => e.label),
+                    district: [],
+                    ward: [],
+                    village: "",
+                    // district_key: !searchQuery.district_key,
+                    // ward_key: !searchQuery.ward_key,
+                    // village_key: !searchQuery.village_key,
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Tỉnh/Thành Phố" />
+                )}
+              />
+            ) : (
+              <TextField
+                className="filter city"
+                value={searchQuery.city}
+                variant="outlined"
+                disabled={true}
+                size="small"
+              />
             )}
-          />
-        ) : (
-          <TextField
-            className="filter city"
-            value={searchQuery.city}
-            variant="outlined"
-            disabled={true}
-            size="small"
-          />
-        )}
 
-        {!disabledLocation.district ? (
-          <Autocomplete
-            className="filter district"
-            noOptionsText={"Không có lựa chọn phù hợp"}
-            options={availableDistricts || []}
-            multiple
-            size="small"
-            // key={searchQuery.district_key + "district"}
-            // value={searchQuery.district}
-            disabled={searchQuery.city ? false : true}
-            onChange={(e, newInput) => {
-              setSearchQuery({
-                ...searchQuery,
-                district: newInput.map((e) => e.label),
-                ward: [],
-                village: "",
-                // district_key: !searchQuery.district_key,
-                // ward_key: !searchQuery.ward_key,
-                // village_key: !searchQuery.village_key,
-              });
-            }}
-            renderInput={(params) => (
-              <TextField {...params} label="Quận/Huyện" />
+            {!disabledLocation.district ? (
+              <Autocomplete
+                className="filter district"
+                noOptionsText={"Không có lựa chọn phù hợp"}
+                options={availableDistricts || []}
+                multiple
+                size="small"
+                // key={searchQuery.district_key + "district"}
+                // value={searchQuery.district}
+                disabled={searchQuery.city ? false : true}
+                onChange={(e, newInput) => {
+                  setSearchQuery({
+                    ...searchQuery,
+                    district: newInput.map((e) => e.label),
+                    ward: [],
+                    village: "",
+                    // district_key: !searchQuery.district_key,
+                    // ward_key: !searchQuery.ward_key,
+                    // village_key: !searchQuery.village_key,
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Quận/Huyện" />
+                )}
+              />
+            ) : (
+              <TextField
+                className="filter district"
+                value={searchQuery.district}
+                variant="outlined"
+                disabled={true}
+                size="small"
+              />
             )}
-          />
-        ) : (
-          <TextField
-            className="filter district"
-            value={searchQuery.district}
-            variant="outlined"
-            disabled={true}
-            size="small"
-          />
-        )}
 
-        {!disabledLocation.ward ? (
-          <Autocomplete
-            className="filter ward"
-            noOptionsText={"Không có lựa chọn phù hợp"}
-            options={avaiableWards || []}
-            multiple
-            size="small"
-            // value={searchQuery.location.ward}
-            // key={searchQuery.ward_key}
-            onChange={(e, newInput) => {
-              setSearchQuery({
-                ...searchQuery,
-                ward: newInput.map((e) => e.label),
-                // district_key: !searchQuery.district_key,
-                // ward_key: !searchQuery.ward_key,
-              });
-            }}
-            disabled={searchQuery.district ? false : true}
-            renderInput={(params) => (
-              <TextField {...params} label="Xã/Phường" />
+            {!disabledLocation.ward ? (
+              <Autocomplete
+                className="filter ward"
+                noOptionsText={"Không có lựa chọn phù hợp"}
+                options={avaiableWards || []}
+                multiple
+                size="small"
+                // value={searchQuery.location.ward}
+                // key={searchQuery.ward_key}
+                onChange={(e, newInput) => {
+                  setSearchQuery({
+                    ...searchQuery,
+                    ward: newInput.map((e) => e.label),
+                    // district_key: !searchQuery.district_key,
+                    // ward_key: !searchQuery.ward_key,
+                  });
+                }}
+                disabled={searchQuery.district ? false : true}
+                renderInput={(params) => (
+                  <TextField {...params} label="Xã/Phường" />
+                )}
+              />
+            ) : (
+              <TextField
+                className="filter ward"
+                value={searchQuery.ward}
+                variant="outlined"
+                disabled={true}
+                size="small"
+              />
             )}
-          />
-        ) : (
-          <TextField
-            className="filter ward"
-            value={searchQuery.ward}
-            variant="outlined"
-            disabled={true}
-            size="small"
-          />
-        )}
 
-        {auth.user.regency === "B1" &&
-          (!disabledLocation.village ? (
-            <Autocomplete
-              className="filter village"
-              noOptionsText={"Không có lựa chọn phù hợp"}
-              options={availableVillages || []}
-              size="small"
-              // value={searchQuery.location.ward}
-              // key={searchQuery.ward_key}
-              getOptionLabel={(option) => option.nameOfUnit}
-              onInputChange={(e, newInput) => {
-                setSearchQuery({
-                  ...searchQuery,
-                  village: newInput,
-                  // district_key: !searchQuery.district_key,
-                  // ward_key: !searchQuery.ward_key,
-                });
-              }}
-              disabled={searchQuery.ward ? false : true}
-              renderInput={(params) => (
-                <TextField {...params} label="Thôn/Bản/Khu/Tổ dân phố" />
-              )}
-            />
-          ) : (
-            <TextField
-              className="filter ward"
-              value={searchQuery.village}
-              variant="outlined"
-              disabled={true}
-              size="small"
-            />
-          ))}
+            {auth.user.regency === "B1" &&
+              (!disabledLocation.village ? (
+                <Autocomplete
+                  className="filter village"
+                  noOptionsText={"Không có lựa chọn phù hợp"}
+                  options={availableVillages || []}
+                  size="small"
+                  // value={searchQuery.location.ward}
+                  // key={searchQuery.ward_key}
+                  getOptionLabel={(option) => option.nameOfUnit}
+                  onInputChange={(e, newInput) => {
+                    setSearchQuery({
+                      ...searchQuery,
+                      village: newInput,
+                      // district_key: !searchQuery.district_key,
+                      // ward_key: !searchQuery.ward_key,
+                    });
+                  }}
+                  disabled={searchQuery.ward ? false : true}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Thôn/Bản/Khu/Tổ dân phố" />
+                  )}
+                />
+              ) : (
+                <TextField
+                  className="filter ward"
+                  value={searchQuery.village}
+                  variant="outlined"
+                  disabled={true}
+                  size="small"
+                />
+              ))}
 
-        <button className="submit">Thống kê phân tích</button>
-      </form>
+            <button className="submit">Thống kê phân tích</button>
+          </form>
+        </div>
 
-      {Object.keys(resQuery).length !== 0 && (
-        <StatisticAge location={resQuery} />
-      )}
+        <div className="stats-result">
+          {Object.keys(resQuery).length !== 0 && (
+            <StatisticAge location={resQuery} />
+          )}
+        </div>
+      </div>
     </div>
   );
 };

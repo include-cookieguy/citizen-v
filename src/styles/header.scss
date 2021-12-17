@@ -40,7 +40,7 @@ header {
         flex: 6;
 
         @media screen and (max-width: v.$tablet-width) {
-          flex: 5;
+          flex: 9;
         }
 
         @media screen and (max-width: v.$phone-width) {
@@ -48,12 +48,12 @@ header {
         }
 
         .title-logo {
-          flex: 1;
+          flex: 2;
           display: flex;
           align-items: center;
 
           @media screen and (max-width: v.$phone-width) {
-            flex: 10;
+            flex: 20;
           }
 
           .header-link {
@@ -79,7 +79,7 @@ header {
         }
 
         .nav-bar {
-          flex: 1;
+          flex: 3.5;
           display: flex;
           justify-content: right;
           height: 50px;
@@ -115,12 +115,13 @@ header {
       }
 
       .logout {
-        flex: 1.5;
+        flex: 1;
         display: flex;
         justify-content: left;
 
         @media screen and (max-width: v.$tablet-width) {
           justify-content: right;
+          flex: 1.5;
         }
 
         button {
@@ -171,7 +172,7 @@ header {
 
 .bottom {
   z-index: 999;
-  font-size: 15px;
+  font-size: 11px;
   position: fixed;
   bottom: 20px;
   width: 100%;
@@ -182,8 +183,8 @@ header {
     @media screen and (max-width: v.$phone-width) {
       display: flex;
       justify-content: center;
-      max-width: 400px;
-      width: 90%;
+      max-width: 430px;
+      width: 95%;
       margin-left: auto;
       margin-right: auto;
       border-radius: 10px;
@@ -211,11 +212,13 @@ header {
             list-style: none;
 
             &:hover .header-link .img {
-              transform: translateY(-20px);
+              transform: translateY(-18px);
+              width: 45px;
             }
 
             &:hover .header-link .text {
-              transform: translateY(-5px);
+              transform: translateY(-10px);
+              font-size: 13px;
             }
 
             .header-link {
@@ -223,7 +226,7 @@ header {
               justify-content: center;
               align-items: center;
               flex-direction: column;
-              font-weight: 600;
+              font-weight: 500;
               color: #4a85c4;
               
               .img {
@@ -239,6 +242,7 @@ header {
               }
 
               .text {
+                padding-top: 2.5px;
                 letter-spacing: 0.05em;
                 transition: 0.5s;
               }

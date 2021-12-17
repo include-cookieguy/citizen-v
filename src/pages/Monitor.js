@@ -2,7 +2,7 @@ import { Autocomplete, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import locationData from "../data/location.json";
-import { postDataAPI } from "../utils/fetchData";
+import { postDataAPI, getDataAPI } from "../utils/fetchData";
 import ChartMonitor from "../components/ChartMonitor";
 import citizenIcon from "../assets/list-citizens.png";
 
@@ -48,6 +48,18 @@ const Monitor = () => {
         break;
     }
   }, [auth.user.regency, user.searchLocation]);
+
+  useEffect(() => {
+    const getCitizensCurrent = async () => {
+      const res = await getDataAPI(
+        `user/monitor${currentUnit ? "?unit=" + currentUnit : ""}`
+      );
+
+      setNumberCitizens(res.data);
+    };
+
+    getCitizensCurrent();
+  }, [currentUnit, dispatch]);
 
   return (
     <>
