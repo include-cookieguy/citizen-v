@@ -3,11 +3,10 @@ import { useDispatch } from "react-redux";
 import { logout } from "../redux/actions/authAction";
 import { Link } from "react-router-dom";
 import ShowMessage from "./ShowMessage";
-
-import homeIcon from '../assets/home.png';
-import locationIcon from '../assets/location.png';
-import citizenIcon from '../assets/list-citizens.png';
-import searchIcon from '../assets/search.png';
+import homeIcon from "../assets/home.png";
+import locationIcon from "../assets/location.png";
+import citizenIcon from "../assets/list-citizens.png";
+import searchIcon from "../assets/search.png";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -54,6 +53,11 @@ const Header = () => {
                       Tìm kiếm
                     </Link>
                   </div>
+                  <div className="opt-nav-bar">
+                    <Link to="/monitor" className="header-link">
+                      Theo dõi
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -79,11 +83,10 @@ const Header = () => {
         <div className="nav-bar-bottom">
           <div className="nav-bar-bottom-container">
             <div className="nav-bar-option">
-
               <div className="opt-nav-bar">
                 <Link to="/" className="header-link">
                   <div className="img">
-                    <img src={homeIcon} />
+                    <img src={homeIcon} alt="icon" />
                   </div>
                   <div>Trang chủ</div>
                 </Link>
@@ -92,7 +95,7 @@ const Header = () => {
               <div className="opt-nav-bar">
                 <Link to="/newUnit" className="header-link">
                   <div className="img">
-                    <img src={locationIcon} />
+                    <img src={locationIcon} alt="icon" />
                   </div>
                   <div>Đơn vị</div>
                 </Link>
@@ -101,7 +104,7 @@ const Header = () => {
               <div className="opt-nav-bar">
                 <Link to="/list" className="header-link">
                   <div className="img">
-                    <img src={citizenIcon} />
+                    <img src={citizenIcon} alt="icon" />
                   </div>
                   <div>Danh sách</div>
                 </Link>
@@ -110,12 +113,11 @@ const Header = () => {
               <div className="opt-nav-bar">
                 <Link to="/search" className="header-link">
                   <div className="img">
-                    <img src={searchIcon} />
+                    <img src={searchIcon} alt="icon" />
                   </div>
                   <div>Tìm kiếm</div>
                 </Link>
               </div>
-
             </div>
           </div>
         </div>

@@ -24,7 +24,11 @@ const unitReducer = (state = initialState, action) => {
       temp.push(action.payload);
       return { ...state, allUser: temp };
     case GLOBALTYPES.TOTAL_CITIZENS:
-      return { ...state, totalCitizen: state.totalCitizen + action.payload };
+      if (action.payload !== state.totalCitizen) {
+        return { ...state, totalCitizen: state.totalCitizen + action.payload };
+      } else {
+        return { ...state, totalCitizen: state.totalCitizen };
+      }
     default:
       return state;
   }

@@ -12,6 +12,7 @@ import { getSearchInit, getTotalCitizens } from "./redux/actions/userAction";
 import SearchCitizen from "./pages/SearchCitizen";
 import ListCitizen from "./pages/ListCitizen";
 import SocketClient from "./SocketClient";
+import Monitor from "./pages/Monitor";
 
 function App() {
   const { auth } = useSelector((state) => state);
@@ -46,6 +47,9 @@ function App() {
         )}
         {auth.token && auth.user.regency !== "B2" && (
           <Route exact path="/list" element={<ListCitizen />} />
+        )}
+        {auth.token && auth.user.regency !== "B2" && (
+          <Route exact path="/monitor" element={<Monitor />} />
         )}
       </Routes>
     </Router>
