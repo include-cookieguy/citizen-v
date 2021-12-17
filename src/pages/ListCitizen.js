@@ -2,11 +2,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import DataPagination from "../components/DataPagination";
 import { listCitizens } from "../redux/actions/citizenAction";
-import { Autocomplete, TextField, Button, Switch } from "@mui/material";
+import { Autocomplete, TextField, Switch } from "@mui/material";
 import locationData from "../data/location.json";
 import { postDataAPI } from "../utils/fetchData";
 import { updateUnitStatus } from "../redux/actions/unitAction";
-import { GLOBALTYPES } from "../redux/actions/globalTypes"
+import { GLOBALTYPES } from "../redux/actions/globalTypes";
 
 const ListCitizen = () => {
   const { auth, user } = useSelector((state) => state);
@@ -214,36 +214,46 @@ const ListCitizen = () => {
     });
   }, [user.searchLocation, user.disabledLocation]);
 
-  let userRegency = useSelector(state => (state.auth.user || {}).regency)
-  let unitStatus = useSelector(state => (state.auth.unit || {}).status)
-  console.log('unit status: ', unitStatus)
-  let idUnit = useSelector(state => (state.auth.unit || {})._id)
+  let userRegency = useSelector((state) => (state.auth.user || {}).regency);
+  let unitStatus = useSelector((state) => (state.auth.unit || {}).status);
+  console.log("unit status: ", unitStatus);
+  let idUnit = useSelector((state) => (state.auth.unit || {})._id);
   const handleUnitStatus = (status) => {
-    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } })
-    dispatch(updateUnitStatus(status, idUnit))
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+    dispatch(updateUnitStatus(status, idUnit));
     setTimeout(() => {
-      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } })
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     }, 4000);
-  } 
+  };
 
   return (
     <div className="list-citizens">
       <div className="list-citizens-container">
         <div className="title">Danh sách công dân theo địa phương</div>
 
-        {userRegency === 'B1' && <div>
-          <div style={{ display: "flex", alignItems: "center", margin: "0 auto 40px auto" }}>
+        {userRegency === "B1" && (
+          <div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                margin: "0 auto 40px auto",
+              }}
+            >
               <h4>Trạng thái hoàn thành:</h4>
               <Switch
                 checked={unitStatus}
-                onChange={() => {handleUnitStatus(!unitStatus)}}
+                onChange={() => {
+                  handleUnitStatus(!unitStatus);
+                }}
                 inputProps={{ "aria-label": "controlled" }}
               ></Switch>
             </div>
-        </div>}
+          </div>
+        )}
 
-        <form 
-          onSubmit={handleSubmitSearch} 
+        <form
+          onSubmit={handleSubmitSearch}
           className="list-citizens-search list"
         >
           {!disabledLocation.city ? (

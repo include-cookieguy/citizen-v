@@ -2,10 +2,9 @@ import { Autocomplete, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import locationData from "../data/location.json";
-import { getDataAPI, postDataAPI } from "../utils/fetchData";
-import ChartMonitor from "./ChartMonitor";
+import { postDataAPI } from "../utils/fetchData";
+import ChartMonitor from "../components/ChartMonitor";
 import citizenIcon from "../assets/list-citizens.png";
-import { getTotalCitizens } from "../redux/actions/userAction";
 
 const Monitor = () => {
   const [units, setUnits] = useState([]);

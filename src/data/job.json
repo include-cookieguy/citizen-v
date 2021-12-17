@@ -1,0 +1,201 @@
+[
+    {
+        "id": "1",
+        "label": "Marketing"
+    },
+    {
+        "id": "2",
+        "label": "Quản lý nhân sự"
+    },
+    {
+        "id": "3",
+        "label": "Tài chính/Đầu tư"
+    },
+    {
+        "id": "4",
+        "label": "Phi công"
+    },
+    {
+        "id": "5",
+        "label": "Công nghệ thông tin"
+    },
+    {
+        "id": "6",
+        "label": "Kỹ sư xây dựng"
+    },
+    {
+        "id": "7",
+        "label": "Quản trị dịch vụ du lịch và lữ hành"
+    },
+    {
+        "id": "8",
+        "label": "Quản lý nhà hàng"
+    },
+    {
+        "id": "9",
+        "label": "Quản lý khách sạn"
+    },
+    {
+        "id": "10",
+        "label": "Đầu bếp"
+    },
+    {
+        "id": "11",
+        "label": "Thiết kế thời trang"
+    },
+    {
+        "id": "12",
+        "label": "Nhân viên ngân hàng"
+    },
+    {
+        "id": "13",
+        "label": "Nha sĩ"
+    },
+    {
+        "id": "14",
+        "label": "Luật sư"
+    },
+    {
+        "id": "15",
+        "label": "Bác sĩ"
+    },
+    {
+        "id": "16",
+        "label": "Y tá"
+    },
+    {
+        "id": "17",
+        "label": "Dược sĩ"
+    },
+    {
+        "id": "18",
+        "label": "Điện - Cơ khí"
+    },
+    {
+        "id": "19",
+        "label": "Ngôn ngữ - Dịch thuật"
+    },
+    {
+        "id": "20",
+        "label": "Công nghệ sinh học"
+    },
+    {
+        "id": "21",
+        "label": "Giáo viên"
+    },
+    {
+        "id": "22",
+        "label": "Quân đội"
+    },
+    {
+        "id": "23",
+        "label": "Công an"
+    },
+    {
+        "id": "24",
+        "label": "Giáo viên"
+    },
+    {
+        "id": "25",
+        "label": "Hướng dẫn viên du lịch"
+    },
+    {
+        "id": "26",
+        "label": "Bảo hiểm"
+    },
+    {
+        "id": "27",
+        "label": "Kế toán - Kiểm toán"
+    },
+    {
+        "id": "28",
+        "label": "Chăm sóc khách hàng"
+    },{
+        "id": "29",
+        "label": "Báo chí - Truyền thông"
+    },
+    {
+        "id": "30",
+        "label": "Bác sĩ thú y"
+    },
+    {
+        "id": "31",
+        "label": "Nông nghiệp - Chăn nuôi"
+    },
+    {
+        "id": "32",
+        "label": "Kiểm lâm"
+    },
+    {
+        "id": "33",
+        "label": "Xây dựng"
+    },
+    {
+        "id": "34",
+        "label": "Điêu khắc"
+    },
+    {
+        "id": "35",
+        "label": "Ca sĩ"
+    },
+    {
+        "id": "36",
+        "label": "Nghệ sĩ"
+    },
+    {
+        "id": "37",
+        "label": "Thiết kế nội thất"
+    },
+    {
+        "id": "38",
+        "label": "Vận động viên"
+    },
+    {
+        "id": "39",
+        "label": "Quản lý đất đai"
+    },
+    {
+        "id": "40",
+        "label": "Kiểm sát"
+    },
+    {
+        "id": "41",
+        "label": "Toà án"
+    },
+    {
+        "id": "42",
+        "label": "Nhân viên bán hàng"
+    },
+    {
+        "id": "43",
+        "label": "Kỹ sư"
+    },
+    {
+        "id": "44",
+        "label": "Nhà văn - nhà thơ"
+    },
+    {
+        "id": "45",
+        "label": "Điện tử - Viễn thông"
+    },
+    {
+        "id": "46",
+        "label": "Học sinh"
+    },
+    {
+        "id": "47",
+        "label": "Sinh viên"
+    },
+    {
+        "id": "48",
+        "label": "Công nhân"
+    },
+    {
+        "id": "49",
+        "label": "Hoạt động giải trí"
+    },
+    {
+        "id": "50",
+        "label": "Tự do"
+    }
+]

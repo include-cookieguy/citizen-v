@@ -22,6 +22,7 @@ import logoDepartment from "../assets/department-citizen.png";
 import vnLocale from "../data/formatVietnamMonth";
 import greenTick from "../assets/green-tick.png";
 import redX from "../assets/red-x.png";
+import jobData from "../data/job.json";
 
 const InputCitizen = () => {
   // alert submit
@@ -737,15 +738,27 @@ const InputCitizen = () => {
             <label className="label-text">
               Nghề nghiệp <span>{"(*)"}</span>
             </label>
-            <TextField
+            <Autocomplete
+              noOptionsText={"Không có lựa chọn phù hợp"}
+              disablePortal
+              options={jobData}
               onBlur={() => handleBlur("occupation")}
-              onInput={() => handleBlurInput("occupation")}
-              error={errBlur.occupation ? true : false}
-              helperText={errBlur.occupation}
-              placeholder="Ví dụ: Lập trình viên"
-              name="occupation"
-              sx={{ width: "100%" }}
-              onChange={handleInput}
+              sx={{ width: 300 }}
+              onInputChange={(e, newInput) => {
+                setCitizenInfo({ ...citizenInfo, occupation: newInput });
+                setErrBlur({
+                  ...errBlur,
+                  occupation: "",
+                });
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder="Ví dụ: Công nghệ thông tin"
+                  helperText={errBlur.occupation}
+                  error={errBlur.occupation ? true : false}
+                />
+              )}
             />
           </div>
 
