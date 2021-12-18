@@ -27,7 +27,6 @@ const Monitor = () => {
       const res = await postDataAPI("unit/getVillage", {
         ward: user.searchLocation.ward,
       });
-      console.log(res.data);
       return res.data;
     };
 

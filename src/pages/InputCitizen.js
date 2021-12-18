@@ -23,6 +23,7 @@ import vnLocale from "../data/formatVietnamMonth";
 import greenTick from "../assets/green-tick.png";
 import redX from "../assets/red-x.png";
 import jobData from "../data/job.json";
+import religionData from "../data/religion.json";
 
 const InputCitizen = () => {
   // alert submit
@@ -521,16 +522,7 @@ const InputCitizen = () => {
             <Autocomplete
               noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
-              options={[
-                "Không",
-                "Phật giáo",
-                "Công giáo",
-                "Tin Lành",
-                "Hoà Hảo",
-                "Hồi giáo",
-                "Bà-la-môn",
-                "Cao Đài",
-              ]}
+              options={religionData}
               sx={{ width: 300 }}
               onBlur={() => handleBlur("religion")}
               onInputChange={(e, newInput) => {

@@ -4,9 +4,12 @@ import { Autocomplete, TextField, Switch } from "@mui/material";
 import locationData from "../../data/location.json";
 import { postDataAPI } from "../../utils/fetchData";
 import StatisticAge from "./StatisticAge";
+import StatisticReligion from "./StatisticReligion";
+import StatisticEthnic from "./StatisticEthnic";
 
 const StatisticInput = () => {
   const { auth, user } = useSelector((state) => state);
+  const [title, setTitle] = useState("");
 
   const [searchQuery, setSearchQuery] = useState({
     city: [],
@@ -30,6 +33,27 @@ const StatisticInput = () => {
   });
 
   const [availableVillages, setAvailableVillages] = useState([]);
+
+  useEffect(() => {
+    if (resQuery.city) {
+      let str = "";
+      if (resQuery.village) {
+        str += resQuery.village + ", ";
+      }
+      if (resQuery.ward) {
+        str += resQuery.ward + ", ";
+      }
+      if (resQuery.district) {
+        str += resQuery.district + ", ";
+      }
+      if (resQuery.city) {
+        str += resQuery.city;
+      }
+      setTitle(str);
+    } else {
+      setTitle("Việt Nam");
+    }
+  }, [resQuery]);
 
   useEffect(() => {
     if (searchQuery.ward) {
@@ -147,7 +171,10 @@ const StatisticInput = () => {
         </div>
 
         <div className="stats-filter">
-          <form onSubmit={handleSubmitSearch} className="list-citizens-search list">
+          <form
+            onSubmit={handleSubmitSearch}
+            className="list-citizens-search list"
+          >
             {!disabledLocation.city ? (
               <Autocomplete
                 className="filter city"
@@ -286,9 +313,21 @@ const StatisticInput = () => {
           </form>
         </div>
 
+        {Object.keys(resQuery).length !== 0 && (
+          <h2 style={{ textAlign: "center" }}>
+            Thống kê và phân tích công dân của {title}
+          </h2>
+        )}
+
         <div className="stats-result">
           {Object.keys(resQuery).length !== 0 && (
             <StatisticAge location={resQuery} />
+          )}
+          {Object.keys(resQuery).length !== 0 && (
+            <StatisticReligion location={resQuery} />
+          )}
+          {Object.keys(resQuery).length !== 0 && (
+            <StatisticEthnic location={resQuery} />
           )}
         </div>
       </div>

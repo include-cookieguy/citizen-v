@@ -1,0 +1,66 @@
+[
+    {
+        "id": "1",
+        "label": "Phật giáo"
+    },
+    {
+        "id": "2",
+        "label": "Công giáo"
+    },
+    {
+        "id": "3",
+        "label": "Tin Lành"
+    },
+    {
+        "id": "4",
+        "label": "Cao Đài"
+    },
+    {
+        "id": "5",
+        "label": "Phật giáo Hòa Hảo"
+    },
+    {
+        "id": "6",
+        "label": "Hồi giáo"
+    },
+    {
+        "id": "10",
+        "label": "Đạo Bửu Sơn Kỳ Hương"
+    },
+    {
+        "id": "11",
+        "label": "Minh Sư Đạo"
+    },
+    {
+        "id": "7",
+        "label": "Bahá'í"
+    },
+    {
+        "id": "8",
+        "label": "Tịnh độ cư sĩ Phật hội Việt Nam"
+    },
+    {
+        "id": "9",
+        "label": "Đạo Tứ Ân Hiếu Nghĩa"
+    },
+    {
+        "id": "16",
+        "label": "Thiên chúa"
+    },
+    {
+        "id": "12",
+        "label": "Minh Lý Đạo"
+    },
+    {
+        "id": "13",
+        "label": "Bà-la-môn"
+    },
+    {
+        "id": "14",
+        "label": "Không"
+    },
+    {
+        "id": "15",
+        "label": "Tôn giáo khác"
+    }
+]
