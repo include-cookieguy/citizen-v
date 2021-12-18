@@ -93,7 +93,7 @@
     },
     {
         "id": "24",
-        "label": "Giáo viên"
+        "label": "Cán bộ nhà nước"
     },
     {
         "id": "25",
@@ -110,7 +110,8 @@
     {
         "id": "28",
         "label": "Chăm sóc khách hàng"
-    },{
+    },
+    {
         "id": "29",
         "label": "Báo chí - Truyền thông"
     },
@@ -197,5 +198,9 @@
     {
         "id": "50",
         "label": "Tự do"
+    },
+    {
+        "id": "51",
+        "label": "Nghỉ hưu"
     }
 ]

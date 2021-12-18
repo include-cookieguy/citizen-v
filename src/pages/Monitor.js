@@ -2,7 +2,7 @@ import { Autocomplete, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import locationData from "../data/location.json";
-import { getDataAPI, postDataAPI } from "../utils/fetchData";
+import { postDataAPI, getDataAPI } from "../utils/fetchData";
 import ChartMonitor from "../components/ChartMonitor";
 import citizenIcon from "../assets/list-citizens.png";
 

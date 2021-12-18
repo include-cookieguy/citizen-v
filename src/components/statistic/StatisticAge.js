@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { postDataAPI } from "../../utils/fetchData";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 
 const StatisticAge = ({ location }) => {
   const [series, setSeries] = useState([]);
   const { auth, user } = useSelector((state) => state);
-  const [title, setTitle] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getAgeByGender = async () => {
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
       const res = await postDataAPI("citizen/statistic/age", {
         location: location,
       });
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
 
       let dataMale = [];
       let dataFemale = [];
@@ -33,10 +36,10 @@ const StatisticAge = ({ location }) => {
         const str = i.toString();
         if (res.data.hasOwnProperty(str)) {
           seri_temp[0].data.push(
-            (-res.data[str].sumMale / res.data[str].countCitizens) * 5
+            (-res.data[str].sumMale / res.data.totalCitizens) * 100
           );
           seri_temp[1].data.push(
-            (res.data[str].sumFemale / res.data[str].countCitizens) * 5
+            (res.data[str].sumFemale / res.data.totalCitizens) * 100
           );
         } else {
           seri_temp[0].data.push(-0);
@@ -49,26 +52,18 @@ const StatisticAge = ({ location }) => {
     getAgeByGender();
   }, [location, user.searchLocation]);
 
-  useEffect(() => {
-    if (location.city) {
-      let str = "";
-      if (location.village) {
-        str += location.village + ", ";
-      }
-      if (location.ward) {
-        str += location.ward + ", ";
-      }
-      if (location.district) {
-        str += location.district + ", ";
-      }
-      if (location.city) {
-        str += location.city;
-      }
-      setTitle(str);
-    } else {
-      setTitle("Việt Nam");
+  const percentGender = useMemo(() => {
+    if (series.length !== 0) {
+      return (
+        series[0].data.reduce(function (a, b) {
+          return Math.abs(a) + Math.abs(b);
+        }, 0) /
+        series[1].data.reduce(function (a, b) {
+          return a + b;
+        }, 0)
+      );
     }
-  }, [location]);
+  }, [series]);
 
   const categories = [
     "0-4",
@@ -99,8 +94,7 @@ const StatisticAge = ({ location }) => {
       type: "bar",
     },
     title: {
-      text:
-        "Thống kê và phân tích công dân theo độ tuổi-giới tính của " + title,
+      text: "Theo độ tuổi-giới tính",
     },
 
     accessibility: {
@@ -134,8 +128,6 @@ const StatisticAge = ({ location }) => {
       },
     ],
     yAxis: {
-      max: 5,
-      min: -5,
       title: {
         text: null,
       },
@@ -176,6 +168,11 @@ const StatisticAge = ({ location }) => {
   return (
     <div>
       <HighchartsReact highcharts={Highcharts} options={options} />
+      {series.length !== 0 && (
+        <p>
+          Tỉ lệ Nam/Nữ: {(percentGender * 100).toFixed(1).toString() + " / 100"}
+        </p>
+      )}
     </div>
   );
 };

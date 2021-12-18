@@ -7,6 +7,7 @@ import homeIcon from "../assets/home.png";
 import locationIcon from "../assets/location.png";
 import citizenIcon from "../assets/list-citizens.png";
 import searchIcon from "../assets/search.png";
+import investigateIcon from "../assets/investigate-icon.png";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -82,52 +83,52 @@ const Header = () => {
       <div className="bottom">
         <div className="nav-bar-bottom">
           <div className="nav-bar-bottom-container">
-            <div className="nav-bar-option">
-              <div className="opt-nav-bar">
+            <ul className="nav-bar-option">
+              <li className="opt-nav-bar">
                 <Link to="/" className="header-link">
                   <div className="img">
                     <img src={homeIcon} alt="icon" />
                   </div>
                   <div className="text">Trang chủ</div>
                 </Link>
+              </li>
 
-                <li className="opt-nav-bar">
-                  <Link to="/newUnit" className="header-link">
-                    <div className="img">
-                      <img src={locationIcon} alt="icon" />
-                    </div>
-                    <div className="text">Đơn vị</div>
-                  </Link>
-                </li>
+              <li className="opt-nav-bar">
+                <Link to="/newUnit" className="header-link">
+                  <div className="img">
+                    <img src={locationIcon} alt="icon" />
+                  </div>
+                  <div className="text">Đơn vị</div>
+                </Link>
+              </li>
 
-                <li className="opt-nav-bar">
-                  <Link to="/list" className="header-link">
-                    <div className="img">
-                      <img src={citizenIcon} alt="icon" />
-                    </div>
-                    <div className="text">Danh sách</div>
-                  </Link>
-                </li>
+              <li className="opt-nav-bar">
+                <Link to="/list" className="header-link">
+                  <div className="img">
+                    <img src={citizenIcon} alt="icon" />
+                  </div>
+                  <div className="text">Danh sách</div>
+                </Link>
+              </li>
 
-                <li className="opt-nav-bar">
-                  <Link to="/search" className="header-link">
-                    <div className="img">
-                      <img src={searchIcon} alt="icon" />
-                    </div>
-                    <div className="text">Tìm kiếm</div>
-                  </Link>
-                </li>
+              <li className="opt-nav-bar">
+                <Link to="/search" className="header-link">
+                  <div className="img">
+                    <img src={searchIcon} alt="icon" />
+                  </div>
+                  <div className="text">Tìm kiếm</div>
+                </Link>
+              </li>
 
-                <li className="opt-nav-bar">
-                  <Link to="/monitor" className="header-link">
-                    <div className="img">
-                      <img src={searchIcon} alt="icon" />
-                    </div>
-                    <div className="text">Theo dõi</div>
-                  </Link>
-                </li>
-              </div>
-            </div>
+              <li className="opt-nav-bar">
+                <Link to="/monitor" className="header-link">
+                  <div className="img">
+                    <img src={investigateIcon} alt="icon" />
+                  </div>
+                  <div className="text">Theo dõi</div>
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
