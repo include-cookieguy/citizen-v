@@ -97,12 +97,16 @@ export const createUser = (data) => async (dispatch) => {
   }
 };
 
-export const updateUserById = (data) => async (dispatch) => {
+export const updateUserById = (socket, data) => async (dispatch) => {
   let type = null;
   let message = null;
   try {
     let res = await putDataAPI(`/user/${data._id}`, data);
     dispatch(getChildUser());
+    socket.emit("pushNotification", {
+      _user: JSON.parse(localStorage.getItem('user')),
+      type: 'NOTI_TO_CHILDS' 
+    })
     type = "success";
     message =
       res.data.msg ||

@@ -1,4 +1,4 @@
-import { getUser, gGetUnit, GLOBALTYPES } from "./globalTypes";
+import { GLOBALTYPES } from "./globalTypes";
 import {
   deleteDataAPI,
   getDataAPI,
@@ -76,7 +76,7 @@ export const createUnit = (data) => async (dispatch) => {
   }
 };
 
-export const updateUnitStatus = (status, idUnit) => async (dispatch) => {
+export const updateUnitStatus = (socket, status, idUnit) => async (dispatch) => {
   let type = null
   let message = null
   try {
@@ -84,6 +84,13 @@ export const updateUnitStatus = (status, idUnit) => async (dispatch) => {
     let user = JSON.parse(localStorage.getItem('user'))
     const unit = await getDataAPI(`unit/code/${user.username}`)
     localStorage.setItem('unit', JSON.stringify(unit.data))
+
+    //  pushNotification
+    socket.emit('pushNotification', {
+      _user: user,
+      type: 'NOTI_TO_PARENT'
+    })
+  
     dispatch({ type: GLOBALTYPES.GET_UNIT, payload: unit.data })
     type = 'success'
     message = res.data.msg || res.data.message || 'Cấp mã thành công!'

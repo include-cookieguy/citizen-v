@@ -86,6 +86,7 @@ export default function NewUnit() {
   const [state, setState] = useState(initState);
 
   const dispatch = useDispatch();
+  const socket = useSelector(state => state.socket)
 
   useEffect(async () => {
     setState({ ...state, loading: true });
@@ -220,7 +221,7 @@ export default function NewUnit() {
   }
   const handleEditAccountSubmit = () => {
     dispatch(
-      updateUserById({
+      updateUserById(socket, {
         _id: state.editUser._id,
         newPassword: state.editPassword,
         active: state.editActive,
