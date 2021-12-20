@@ -12,6 +12,8 @@ const authReducer = (state = initialState, action) => {
       return action.payload;
     case GLOBALTYPES.GET_UNIT:
       return { ...state, unit: action.payload }
+    case GLOBALTYPES.AUTH_GET_USER:
+      return { ...state, user: action.payload }
     default:
       return state;
   }

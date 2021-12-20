@@ -1,5 +1,6 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/actions/authAction";
 import { Link } from "react-router-dom";
 import ShowMessage from "./ShowMessage";
@@ -11,9 +12,17 @@ import investigateIcon from "../assets/investigate-icon.png";
 
 const Header = () => {
   const dispatch = useDispatch();
+  const [showNoti, setShowNoti] = useState(false)
   const handleLogout = () => {
     dispatch(logout());
   };
+
+  let notis = useSelector(state => state.auth.user.notifications) || []
+  notis = notis.reverse()
+
+  const handleNoti = () => {
+    setShowNoti(!showNoti)
+  }
 
   return (
     <>
@@ -58,6 +67,18 @@ const Header = () => {
                     <Link to="/monitor" className="header-link">
                       Theo dõi
                     </Link>
+                  </div>
+                  <div className="opt-nav-bar">
+                    <div className="notification" onClick={handleNoti}>Thông báo</div>
+                    {showNoti && <div className="body_notification">
+                      <ul>
+                        <li>{ notis[0] || '' }</li>
+                        <li>{ notis[1] || '' }</li>
+                        <li>{ notis[2] || '' }</li>
+                        <li>{ notis[3] || '' }</li>
+                        <li>{ notis[4] || '' }</li>
+                      </ul>
+                    </div>}
                   </div>
                 </div>
               </div>

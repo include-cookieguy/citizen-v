@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import StatisticInput from "../components/statistic/StatisticInput";
+import { getUser } from "../redux/actions/authAction";
 import { getUnit } from "../redux/actions/unitAction";
 
 const Home = () => {
@@ -11,6 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getUnit(user));
+    dispatch(getUser())
   }, []);
 
   return (

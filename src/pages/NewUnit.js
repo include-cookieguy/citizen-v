@@ -86,6 +86,7 @@ export default function NewUnit() {
   const [state, setState] = useState(initState);
 
   const dispatch = useDispatch();
+  const socket = useSelector(state => state.socket)
 
   useEffect(async () => {
     setState({ ...state, loading: true });
@@ -188,14 +189,16 @@ export default function NewUnit() {
   //  Edit Account handler
   const handleEditAccountOpen = (row) => {
     let user = cChildUser.filter((u) => u.username === row.code)[0];
-    state.editUser = user;
     console.log(user.startTime)
     console.log(user.endTime)
     user.startTime = (new Date(parseInt(user.startTime) || new Date().getTime())).toISOString().split('.')[0]
     user.endTime = (new Date(parseInt(user.endTime) || new Date().getTime())).toISOString().split('.')[0]
+    // user.startTime = '2021-12-26T04:17:00'
+    // user.endTime = '2021-12-26T04:17:00'
     setState({
       ...state,
       isEditAccountModalOpen: true,
+      editUser: user,
       editUsername: user.username,
       editActive: user.active,
       editStartTime: user.startTime,
@@ -212,11 +215,13 @@ export default function NewUnit() {
     setState({ ...state, editActive: !state.editActive });
   const handleEditStartTime = (e) =>
     setState({ ...state, editStartTime: e.target.value });
-  const handleEditEndtTime = (e) =>
+  const handleEditEndtTime = (e) => {
+    console.log(e.target.value)
     setState({ ...state, editEndTime: e.target.value });
+  }
   const handleEditAccountSubmit = () => {
     dispatch(
-      updateUserById({
+      updateUserById(socket, {
         _id: state.editUser._id,
         newPassword: state.editPassword,
         active: state.editActive,

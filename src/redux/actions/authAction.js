@@ -130,3 +130,13 @@ export const logout = () => async (dispatch) => {
     });
   }
 };
+
+export const getUser = () => async (dispatch) => {
+  try {
+    let user = await getDataAPI(`/user/current`)
+    localStorage.setItem('user', JSON.stringify(user.data))
+    dispatch({ type: GLOBALTYPES.AUTH_GET_USER, payload: user.data })
+  } catch(err) {
+    console.log(err)
+  }
+}

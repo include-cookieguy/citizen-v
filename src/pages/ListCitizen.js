@@ -33,6 +33,7 @@ const ListCitizen = () => {
   const [availableVillages, setAvailableVillages] = useState([]);
 
   const dispatch = useDispatch();
+  const socket = useSelector(state => state.socket)
 
   useEffect(() => {
     if (searchQuery.ward) {
@@ -220,7 +221,7 @@ const ListCitizen = () => {
   let idUnit = useSelector((state) => (state.auth.unit || {})._id);
   const handleUnitStatus = (status) => {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
-    dispatch(updateUnitStatus(status, idUnit));
+    dispatch(updateUnitStatus(socket, status, idUnit));
     setTimeout(() => {
       dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
     }, 4000);
