@@ -12,7 +12,9 @@ import investigateIcon from "../assets/investigate-icon.png";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const [showNoti, setShowNoti] = useState(false)
+  const [showNoti, setShowNoti] = useState(false);
+  const [hover, setHover] = useState('notifications');
+
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -21,8 +23,11 @@ const Header = () => {
   notis = notis.reverse()
 
   const handleNoti = () => {
-    setShowNoti(!showNoti)
+    setShowNoti(!showNoti);
   }
+
+  const handleOnHover = () => setHover('notifications-outline');
+  const handleOverHover = () => setHover('notifications');
 
   return (
     <>
@@ -68,24 +73,35 @@ const Header = () => {
                       Theo dõi
                     </Link>
                   </div>
-                  <div className="opt-nav-bar">
-                    <div className="notification" onClick={handleNoti}>Thông báo</div>
-                    {showNoti && <div className="body_notification">
-                      <ul>
-                        <li>{ notis[0] || '' }</li>
-                        <li>{ notis[1] || '' }</li>
-                        <li>{ notis[2] || '' }</li>
-                        <li>{ notis[3] || '' }</li>
-                        <li>{ notis[4] || '' }</li>
-                      </ul>
-                    </div>}
-                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="logout">
+            <div className="logout-notification">
               <button onClick={handleLogout}>Đăng xuất</button>
+
+              <div className="notification">
+                <div
+                  className="icon"
+                  onClick={handleNoti}
+                  onMouseEnter={handleOnHover}
+                  onMouseLeave={handleOverHover}
+                >
+                  <ion-icon name={hover}></ion-icon>
+                </div>
+
+                {showNoti && <div className="body_notification">
+                  <div className="title">Thông báo</div>
+                  <ul>
+                    <li>{notis[0] || ''}</li>
+                    <li>{notis[1] || ''}</li>
+                    <li>{notis[2] || ''}</li>
+                    <li>{notis[3] || ''}</li>
+                    <li>{notis[4] || ''}</li>
+                  </ul>
+                </div>}
+              </div>
+
             </div>
           </div>
         </div>

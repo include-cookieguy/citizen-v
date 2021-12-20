@@ -102,40 +102,20 @@ header {
               margin-left: 20px;
               margin-right: 20px;
 
-              &:hover  {
-                transform: translateY(-5px);
-                transition: 0.5s;
-              }
-
               .header-link {
                 color: v.$text-color;
               }
-              .notification {
-                position: relative;
-              }
-              .body_notification {
-                position: absolute;
-                color: #333;
-                font-size: 1.1rem;
-                background-color: rgb(247, 247, 247);
-                top: 80px;
-                left: 65%;
-                width: 300px;
-                height: 200px;
-                ul {
-                  margin: 10px;
-                  list-style: none;
-                }
-              }
+              
             }
           }
         }
       }
 
-      .logout {
+      .logout-notification {
         flex: 1;
         display: flex;
         justify-content: left;
+        align-items: center;
 
         @media screen and (max-width: v.$tablet-width) {
           justify-content: right;
@@ -147,10 +127,13 @@ header {
           border: 2px solid rgba(0, 0, 0, 0);
           background-color: v.$text-color;
           color: v.$base-color;
-          padding: 5px 25px;
+          padding: 0 25px;
+          height: 31px;
+          min-width: 115px;
           font-weight: 700;
           cursor: pointer;
-          transition: all 0.3s;
+          transition: all .3s;
+          margin-right: 10px;
 
           &:hover {
             background-color: rgba(0, 0, 0, 0);
@@ -158,6 +141,47 @@ header {
             color: v.$text-color;
           }
         }
+
+        .notification {
+          position: relative;
+
+          .icon {
+            font-size: x-large;
+            cursor: pointer;
+            margin-top: 7px;
+            transition: .5s;
+          }
+
+          .body_notification {
+            position: absolute;
+            right: 0;
+            top: 54px;
+            color: #000000;
+            font-size: large;
+            background-color: #fff;
+            width: 340px;
+            height: 770px;
+            border: 1px solid rgba(38, 56, 150, 0.1411764705882353);
+            border-radius: 10px;
+            padding: 24px;
+            box-shadow: 0 8px 12px 5px rgb(34 41 47 / 12%);
+
+            .title {
+              font-size: x-large;
+              font-weight: 600;
+              margin-bottom: 30px;
+            }
+
+            ul {
+              list-style: none;
+
+              li {
+                margin-bottom: 15px;
+              }
+            }
+          }
+        }
+
       }
     }
   }
