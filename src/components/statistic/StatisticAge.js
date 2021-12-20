@@ -166,12 +166,12 @@ const StatisticAge = ({ location }) => {
     series: series,
   };
   return (
-    <div>
+    <div className="stats-chart age-gender">
       <HighchartsReact highcharts={Highcharts} options={options} />
       {series.length !== 0 && (
-        <p>
-          Tỉ lệ Nam/Nữ: {(percentGender * 100).toFixed(1).toString() + " / 100"}
-        </p>
+        <div className="comment">
+          Tỉ lệ Nam/Nữ: {(percentGender * 100).toFixed(1).toString() + "/100"}
+        </div>
       )}
     </div>
   );

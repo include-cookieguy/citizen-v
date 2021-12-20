@@ -30,7 +30,7 @@ const StatisticEthnic = ({ location }) => {
       setRowData(
         res.data.map((e, index) => ({
           name: e._id,
-          id: index,
+          id: index + 1,
           count: e.count,
         }))
       );
@@ -40,9 +40,9 @@ const StatisticEthnic = ({ location }) => {
   }, [location]);
 
   const columns = [
-    { field: "id", headerName: "STT", width: 80 },
-    { field: "name", headerName: "Dân tộc", width: 250 },
-    { field: "count", headerName: "Số người", width: 150 },
+    { field: "id", headerName: "STT", flex: 1, minWidth: 60 },
+    { field: "name", headerName: "Dân tộc", flex: 4, minWidth: 230 },
+    { field: "count", headerName: "Số người", flex: 3, minWidth: 150 },
   ];
 
   function NoRowsOverlay() {
@@ -91,15 +91,15 @@ const StatisticEthnic = ({ location }) => {
   };
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h3>Theo dân tộc</h3>
+    <div className="stats-chart ethnic"> 
+      <div className="chart-title">Theo dân tộc</div>
 
-      <h3>10 dân tộc có số lượng dân số lớn nhất</h3>
+      <div className="chart-subtitle">10 dân tộc có số lượng dân số lớn nhất</div>
 
       <HighchartsReact highcharts={Highcharts} options={options} />
 
-      <h3>Tổng dân số của các dân tộc</h3>
-      <div style={{ width: "50%", margin: "auto" }}>
+      <div className="total-title">Tổng dân số của các dân tộc</div>
+      <div className="table-of-ethnic">
         <DataGrid
           autoHeight
           rows={rowData}

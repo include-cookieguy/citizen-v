@@ -61,7 +61,7 @@ const StatisticReligion = ({ location }) => {
   };
 
   return (
-    <div>
+    <div className="stats-chart religion">
       <HighchartsReact highcharts={Highcharts} options={options} />
     </div>
   );

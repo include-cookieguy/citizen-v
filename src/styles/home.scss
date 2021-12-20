@@ -15,13 +15,25 @@
     padding: 24px;
     box-shadow: 0 4px 12px 0 rgb(34 41 47 / 12%);
 
-    @media screen and (max-width: 861px) {
+    @media screen and (max-width: 1210px) {
       width: 100%;
+    }
+
+    @media screen and (max-width: 525px) {
+      padding-left: 0;
+      padding-right: 0;
     }
 
     .statistic-container {
       width: 100%;
       height: 100%;
+
+      @media screen and (max-width: 525px) {
+        .stats-title, .stats-filter, .title-in-title {
+          padding-left: 24px;
+          padding-right: 24px;
+        }
+      }
 
       .stats-title {
         font-size: x-large;
@@ -86,8 +98,78 @@
         }
       }
 
+      .title-in-title {
+        margin-top: 50px;
+        text-align: center;
+        font-size: x-large;
+        font-weight: 500;
+
+        @media screen and (max-width: v.$phone-width) {
+          font-size: large;
+        }
+      }
+
       .stats-result {
         margin-top: 40px;
+
+        .stats-chart {
+          border: 1px solid rgba(38, 56, 150, 0.1411764705882353);
+          border-radius: 10px;
+          padding: 24px;
+          padding-bottom: 50px;
+          padding-top: 40px;
+          box-shadow: 0 4px 12px 0 rgb(34 41 47 / 12%);
+          
+          @media screen and (max-width: 550px) {
+            padding-left: 0;
+            padding-right: 0;
+          }
+        }
+
+        .age-gender {
+          .comment {
+            font-size: medium;
+            font-style: italic;
+            padding-left: 20px;
+            padding-top: 20px;
+
+            @media screen and (max-width: 525px) {
+              font-size: small;
+            }
+          }
+        }
+
+        .ethnic {
+          .chart-title, .chart-subtitle, .total-title {
+            text-align: center;
+            font-size: large;
+            font-weight: 600;
+          }
+
+          .chart-subtitle {
+            margin-bottom: 30px;
+          }
+
+          .total-title {
+            margin-top: 60px;
+            margin-bottom: 20px;
+          }
+
+          .table-of-ethnic {
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+
+            @media screen and (max-width: 850px) {
+              width: 100%;
+            }
+
+            @media screen and (max-width: 550px) {
+              padding-left: 20px;
+              padding-right: 20px;
+            }
+          }
+        }
 
         .highcharts-title {
           font-weight: 600;

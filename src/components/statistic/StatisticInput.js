@@ -314,9 +314,9 @@ const StatisticInput = () => {
         </div>
 
         {Object.keys(resQuery).length !== 0 && (
-          <h2 style={{ textAlign: "center" }}>
+          <div className="title-in-title"> 
             Thống kê và phân tích công dân của {title}
-          </h2>
+          </div>
         )}
 
         <div className="stats-result">
