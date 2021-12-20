@@ -98,7 +98,7 @@ export default function NewUnit() {
     setState({ ...state, select: options, cSelect: cOptions });
   }, []);
 
-  const regency = useSelector(state => state.auth.user.regency)
+  const regency = useSelector(state => state.auth.user.regency);
 
   let cRows = useSelector((state) => {
     console.log('all unit: ', state.unit.allUnit)

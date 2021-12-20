@@ -5,6 +5,39 @@
   margin-bottom: 200px;
   margin-top: 20px;
 
+  .btn-input {
+    width: 70%;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+
+    @media screen and (max-width: 1210px) {
+      width: 100%;
+    }
+
+    button {
+      height: 38px;
+      padding: 0 10px;
+      border: 2px solid #34882c;
+      border-radius: 8px 8px 8px 0;
+      background-color: #34882c;
+      border: none;
+      color: #fff;
+      font-size: medium;
+      font-weight: 600;
+      transition: all .5s;
+
+      &:hover {
+        color: #34882c;
+        background-color: #fff;
+        border: 2px solid #34882c;
+      }
+    }
+  }
+
   .statistic {
     width: 70%;
     margin-left: auto;
