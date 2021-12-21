@@ -1,4 +1,5 @@
 import { getDataAPI, postDataAPI, putDataAPI } from "../../utils/fetchData";
+import { getUser } from "./authAction";
 import { GLOBALTYPES } from "./globalTypes";
 
 export const getChildUser = () => async (dispatch) => {
@@ -105,7 +106,7 @@ export const updateUserById = (socket, data) => async (dispatch) => {
     dispatch(getChildUser());
     socket.emit("pushNotification", {
       _user: JSON.parse(localStorage.getItem('user')),
-      type: 'NOTI_TO_CHILDS' 
+      type: 'NOTI_TO_CHILDS'
     })
     type = "success";
     message =
@@ -129,6 +130,15 @@ export const updateUserById = (socket, data) => async (dispatch) => {
     }, 4000);
   }
 };
+
+export const updateCurrentUser = (id) => async (dispatch) => {
+  try {
+    await putDataAPI(`/user/${id}`, { newNotification: 0 })
+    dispatch(getUser())
+  } catch (err) {
+    console.log('Update error')
+  }
+}
 
 export const getOptions = () => {
   return new Promise(async (next) => {

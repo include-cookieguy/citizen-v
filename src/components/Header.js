@@ -9,6 +9,7 @@ import locationIcon from "../assets/location.png";
 import citizenIcon from "../assets/list-citizens.png";
 import searchIcon from "../assets/search.png";
 import investigateIcon from "../assets/investigate-icon.png";
+import { updateCurrentUser } from "../redux/actions/userAction";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -18,12 +19,16 @@ const Header = () => {
   const handleLogout = () => {
     dispatch(logout());
   };
-
+  const user = useSelector(state => state.auth.user)
   let notis = useSelector(state => state.auth.user.notifications) || []
+  let newNotification = useSelector(state => state.auth.user.newNotification) || 0
   notis = notis.reverse()
 
   const handleNoti = () => {
     setShowNoti(!showNoti);
+    if (showNoti === false) {
+      dispatch(updateCurrentUser(user._id))
+    }
   }
 
   const handleOnHover = () => setHover('notifications-outline');
@@ -88,16 +93,17 @@ const Header = () => {
                   onMouseLeave={handleOverHover}
                 >
                   <ion-icon name={hover}></ion-icon>
+                  { newNotification > 0 && <span className="newNotification">{ newNotification }</span> }
                 </div>
 
                 {showNoti && <div className="body_notification">
                   <div className="title">Thông báo</div>
                   <ul>
-                    <li>{notis[0] || ''}</li>
-                    <li>{notis[1] || ''}</li>
-                    <li>{notis[2] || ''}</li>
-                    <li>{notis[3] || ''}</li>
-                    <li>{notis[4] || ''}</li>
+                    <li>{(notis[0] || {}).value || ''}</li>
+                    <li>{(notis[1] || {}).value || ''}</li>
+                    <li>{(notis[2] || {}).value || ''}</li>
+                    <li>{(notis[3] || {}).value || ''}</li>
+                    <li>{(notis[4] || {}).value || ''}</li>
                   </ul>
                 </div>}
               </div>
