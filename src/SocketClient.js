@@ -32,7 +32,7 @@ const SocketClient = () => {
     });
 
     return () => socket.close();
-  }, [auth.user, dispatch, user]);
+  }, [auth.user, user]);
   return <div></div>;
 };
 
