@@ -15,6 +15,7 @@ const SearchCitizen = () => {
     district: "",
     ward: "",
     village: "",
+    identifiedCode: "",
     //  Key
     city_key: true,
     district_key: true,
@@ -197,6 +198,14 @@ const SearchCitizen = () => {
             className="filter name"
             name="fullName"
             placeholder="Tên công dân"
+            sx={{ width: "50%" }}
+            onChange={handleSearchQuery}
+            size="small"
+          />
+          <TextField
+            className="filter name"
+            name="identifiedCode"
+            placeholder="Chứng minh thư/CCCD"
             sx={{ width: "50%" }}
             onChange={handleSearchQuery}
             size="small"
