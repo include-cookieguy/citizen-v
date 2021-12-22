@@ -2,19 +2,19 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
 import { GLOBALTYPES } from "./redux/actions/globalTypes";
-import { getUser } from "./redux/actions/authAction"
+import { getUser } from "./redux/actions/authAction";
 
 const SocketClient = () => {
   const { auth, user } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const socket = io();
+    const socket = io("http://localhost:3000");
     dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
 
-    socket.on('connect', () => {
-      console.log('Socket connected: ', socket.id)
-    })
+    socket.on("connect", () => {
+      console.log("Socket connected: ", socket.id);
+    });
 
     socket.emit("joinUser", {
       id: auth.user._id,
@@ -27,9 +27,9 @@ const SocketClient = () => {
     });
 
     socket.on("newNotification", (idUser) => {
-      console.log('Socket received, idUser: ', idUser)
-      dispatch(getUser())
-    })
+      console.log("Socket received, idUser: ", idUser);
+      dispatch(getUser());
+    });
 
     return () => socket.close();
   }, [auth.user, dispatch, user]);

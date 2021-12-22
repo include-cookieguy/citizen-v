@@ -12,26 +12,29 @@ const Home = () => {
   const dispatch = useDispatch();
   let user = useSelector((state) => state.auth.user);
 
-  const regency = useSelector(state => state.auth.user.regency);
+  const regency = useSelector((state) => state.auth.user.regency);
 
   useEffect(() => {
     dispatch(getUnit(user));
-    dispatch(getUser())
+    dispatch(getUser());
   }, []);
 
   return (
     <>
-      {regency !== 'B2' ?
+      {regency !== "B2" ? (
         <div className="home-container">
-          {regency === 'B1' && <div className="btn-input">
-              <Link to='/input-citizen'>
+          {regency === "B1" && (
+            <div className="btn-input">
+              <Link to="/input-citizen">
                 <button>Nhập thông tin công dân</button>
               </Link>
-            </div>}
+            </div>
+          )}
           <StatisticInput />
-        </div> :
+        </div>
+      ) : (
         <InputCitizen />
-      }
+      )}
     </>
   );
 };

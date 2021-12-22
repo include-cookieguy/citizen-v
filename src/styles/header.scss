@@ -149,9 +149,23 @@ header {
             cursor: pointer;
             margin-top: 7px;
             transition: 0.5s;
+            .newNotification {
+              position: absolute;
+              right: -10px;
+              top: -2px;
+              width: 20px;
+              height: 20px;
+              font-size: 1rem;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 50%;
+              background-color: red;
+            }
           }
 
           .body_notification {
+            overflow: auto;
             position: absolute;
             left: -150px;
             top: 54px;
@@ -159,30 +173,37 @@ header {
             font-size: large;
             background-color: #fff;
             width: 340px;
-            height: 770px;
+            height: calc(100vh - 85px);
             border: 1px solid rgba(38, 56, 150, 0.1411764705882353);
             border-radius: 10px;
-            padding: 24px;
             box-shadow: 0 8px 12px 5px rgb(34 41 47 / 12%);
 
             .title {
               font-size: x-large;
               font-weight: 600;
-              margin-bottom: 30px;
+              padding: 24px;
             }
 
-            ul {
-              list-style: none;
-
-              li {
-                margin-bottom: 15px;
-                padding: 5px;
+            .noti-container {
+              height: calc(100% - 85px);
+              .noti-item {
+                padding: 10px 12px;
 
                 &:hover {
                   background: #ddd;
                   cursor: pointer;
-                  border-radius: 5px;
                 }
+
+                small {
+                  color: rgb(130, 130, 130);
+                }
+              }
+
+              .no-noti {
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
               }
             }
           }

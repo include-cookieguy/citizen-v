@@ -6,6 +6,7 @@ import { postDataAPI } from "../../utils/fetchData";
 import StatisticAge from "./StatisticAge";
 import StatisticReligion from "./StatisticReligion";
 import StatisticEthnic from "./StatisticEthnic";
+import StatisticOccupation from "./StatisticOccupation";
 
 const StatisticInput = () => {
   const { auth, user } = useSelector((state) => state);
@@ -118,10 +119,6 @@ const StatisticInput = () => {
       }
     }
   }, [searchQuery.city, searchQuery.district, availableDistricts]);
-
-  useEffect(() => {
-    console.log(resQuery);
-  }, [resQuery]);
 
   const handleSubmitSearch = (e) => {
     e.preventDefault();
@@ -314,7 +311,7 @@ const StatisticInput = () => {
         </div>
 
         {Object.keys(resQuery).length !== 0 && (
-          <div className="title-in-title"> 
+          <div className="title-in-title">
             Thống kê và phân tích công dân của {title}
           </div>
         )}
@@ -328,6 +325,9 @@ const StatisticInput = () => {
           )}
           {Object.keys(resQuery).length !== 0 && (
             <StatisticEthnic location={resQuery} />
+          )}
+          {Object.keys(resQuery).length !== 0 && (
+            <StatisticOccupation location={resQuery} />
           )}
         </div>
       </div>

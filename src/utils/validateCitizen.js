@@ -65,7 +65,7 @@ export const validateCitizen = (info) => {
   if (!currentAddress) {
     err.currentAddress = "Vui lòng nhập địa chỉ tạm trú của công dân.";
   }
-  if (!occupation) {
+  if (!occupation && age >= 6) {
     err.occupation = "Vui lòng nhập nghề nghiệp của công dân.";
   }
   if (!religion) {

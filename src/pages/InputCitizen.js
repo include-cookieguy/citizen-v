@@ -143,10 +143,12 @@ const InputCitizen = () => {
           });
           break;
         case "occupation":
-          setErrBlur({
-            ...errBlur,
-            [type]: "Vui lòng nhập nghề nghiệp của công dân.",
-          });
+          if (citizenInfo.age >= 6) {
+            setErrBlur({
+              ...errBlur,
+              [type]: "Vui lòng nhập nghề nghiệp của công dân.",
+            });
+          }
           break;
         case "religion":
           setErrBlur({
@@ -728,11 +730,12 @@ const InputCitizen = () => {
 
           <div className="field occupation">
             <label className="label-text">
-              Nghề nghiệp <span>{"(*)"}</span>
+              Nghề nghiệp {citizenInfo.age >= 6 && <span>{"(*)"}</span>}
             </label>
             <Autocomplete
               noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
+              disabled={citizenInfo.age < 6 ? true : false}
               options={jobData}
               onBlur={() => handleBlur("occupation")}
               sx={{ width: 300 }}
@@ -746,8 +749,12 @@ const InputCitizen = () => {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  placeholder="Ví dụ: Công nghệ thông tin"
-                  helperText={errBlur.occupation}
+                  placeholder={
+                    citizenInfo.age >= 6
+                      ? "Ví dụ: Công nghệ thông tin"
+                      : "Công dân chưa đủ tuổi để có nghề nghiệp"
+                  }
+                  helperText={citizenInfo.age >= 6 && errBlur.occupation}
                   error={errBlur.occupation ? true : false}
                 />
               )}

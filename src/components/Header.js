@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react"
+import React, { useEffect, useRef } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/actions/authAction";
 import { Link } from "react-router-dom";
@@ -9,25 +9,48 @@ import locationIcon from "../assets/location.png";
 import citizenIcon from "../assets/list-citizens.png";
 import searchIcon from "../assets/search.png";
 import investigateIcon from "../assets/investigate-icon.png";
+import { updateCurrentUser } from "../redux/actions/userAction";
+import { convertTime } from "../utils/convertTime";
 
 const Header = () => {
   const dispatch = useDispatch();
   const [showNoti, setShowNoti] = useState(false);
-  const [hover, setHover] = useState('notifications');
+  const [hover, setHover] = useState("notifications");
+  const ref = useRef();
 
   const handleLogout = () => {
     dispatch(logout());
   };
-
-  let notis = useSelector(state => state.auth.user.notifications) || []
-  notis = notis.reverse()
+  const user = useSelector((state) => state.auth.user);
+  let notis = useSelector((state) => state.auth.user.notifications) || [];
+  let newNotification =
+    useSelector((state) => state.auth.user.newNotification) || 0;
 
   const handleNoti = () => {
     setShowNoti(!showNoti);
-  }
+    if (showNoti === false) {
+      dispatch(updateCurrentUser(user._id));
+    }
+  };
 
-  const handleOnHover = () => setHover('notifications-outline');
-  const handleOverHover = () => setHover('notifications');
+  const handleOnHover = () => setHover("notifications-outline");
+  const handleOverHover = () => setHover("notifications");
+
+  useEffect(() => {
+    const clickOutSide = (event) => {
+      if (!ref.current || ref.current.contains(event.target)) {
+        return;
+      }
+      console.log("first");
+      setShowNoti(false);
+    };
+
+    document.addEventListener("mousedown", clickOutSide);
+
+    return () => {
+      document.removeEventListener("mousedown", clickOutSide);
+    };
+  }, [showNoti]);
 
   return (
     <>
@@ -80,7 +103,7 @@ const Header = () => {
             <div className="logout-notification">
               <button onClick={handleLogout}>Đăng xuất</button>
 
-              <div className="notification">
+              <div className="notification" ref={ref}>
                 <div
                   className="icon"
                   onClick={handleNoti}
@@ -88,20 +111,33 @@ const Header = () => {
                   onMouseLeave={handleOverHover}
                 >
                   <ion-icon name={hover}></ion-icon>
+                  {newNotification > 0 && (
+                    <span className="newNotification">{newNotification}</span>
+                  )}
                 </div>
 
-                {showNoti && <div className="body_notification">
-                  <div className="title">Thông báo</div>
-                  <ul>
-                    <li>{notis[0] || ''}</li>
-                    <li>{notis[1] || ''}</li>
-                    <li>{notis[2] || ''}</li>
-                    <li>{notis[3] || ''}</li>
-                    <li>{notis[4] || ''}</li>
-                  </ul>
-                </div>}
+                {showNoti && (
+                  <div className="body_notification">
+                    <div className="title">Thông báo</div>
+                    <div className="noti-container">
+                      {notis.length > 0 ? (
+                        notis.map((e) => (
+                          <div className="noti-item">
+                            <p>{e.value}</p>{" "}
+                            <small>
+                              {convertTime(
+                                (new Date().getTime() - e.createdAt) / 1000
+                              )}
+                            </small>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="no-noti">Không có thông báo nào mới</p>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
-
             </div>
           </div>
         </div>
