@@ -84,7 +84,7 @@ const SearchCitizen = () => {
   };
 
   useEffect(() => {
-    if (searchQuery.ward) {
+    if (searchQuery.ward && searchQuery.ward.length > 0) {
       const getVillages = async () => {
         const locaWard = {
           ward: searchQuery.ward,
