@@ -5,6 +5,8 @@ import HighchartsReact from "highcharts-react-official";
 
 const StatisticReligion = ({ location }) => {
   const [dataReligion, setDataReligion] = useState([]);
+  const [percentFaithful, setPercentFaithfull] = useState(0);
+  const [numberFaithful, setNumberFaithfull] = useState(0);
 
   useEffect(() => {
     const getStatisticReligion = async () => {
@@ -18,6 +20,10 @@ const StatisticReligion = ({ location }) => {
       setDataReligion(
         res.data.map((e) => ({ name: e._id, y: e.count / totalReligion }))
       );
+
+      setNumberFaithfull(totalReligion - res.data[0].count);
+      setPercentFaithfull((totalReligion - res.data[0].count) / totalReligion);
+      
     };
 
     getStatisticReligion();
@@ -63,6 +69,25 @@ const StatisticReligion = ({ location }) => {
   return (
     <div className="stats-chart religion">
       <HighchartsReact highcharts={Highcharts} options={options} />
+
+      <div className="religion-stats">
+        <div className="title">Cả nước hiện có:</div>
+        <div className="some-stat">
+          <div className="organization">
+            <div></div>
+            <span>
+              <span>39</span>&nbsp;&nbsp;Tổ chức tôn giáo
+            </span> 
+          </div>
+          <div className="number-of-faithful">
+            <div></div>
+            <span>
+               <span>{numberFaithful}</span>&nbsp;&nbsp;Tín đồ
+            </span>
+            <span className="extra">(Chiếm {percentFaithful * 100}% dân số)</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

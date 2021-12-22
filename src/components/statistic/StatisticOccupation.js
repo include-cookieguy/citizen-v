@@ -69,6 +69,8 @@ const StatisticOccupation = ({ location }) => {
   return (
     <div className="stats-chart occupation">
       <div className="chart-title">Theo nghề nghiệp</div>
+
+      <div className="title-top-10">10 nghề có lực lượng lao động đông đảo nhất</div>
       <HighchartsReact highcharts={Highcharts} options={options} />
 
       <div className="statistic-force">
@@ -78,7 +80,7 @@ const StatisticOccupation = ({ location }) => {
 
             <img src={LabourForce} alt="occu" className="img-occupation" />
 
-            <p>Lực lượng lao động từ 15 tuổi trở lên đang làm việc</p>
+            <div>Lực lượng lao động từ 15 tuổi trở lên đang làm việc</div>
           </div>
 
           <div className="box-occupation unemployed">
@@ -97,7 +99,7 @@ const StatisticOccupation = ({ location }) => {
               className="img-occupation"
             />
 
-            <p>Tỷ lệ thất nghiệp của lực lượng lao động trong độ tuổi</p>
+            <div>Tỷ lệ thất nghiệp của lực lượng lao động trong độ tuổi</div>
           </div>
         </div>
 
@@ -107,10 +109,10 @@ const StatisticOccupation = ({ location }) => {
 
             <img src={ChildIcon} alt="occu" className="img-occupation" />
 
-            <p>
-              Trẻ em dưới 15 tuổi trở xuống đang làm việc (chưa đến tuổi lao
+            <div>
+              Trẻ em dưới 15 tuổi trở xuống đang làm việc (chưa đến độ tuổi lao
               động)
-            </p>
+            </div>
           </div>
 
           <div className="box-occupation old">
@@ -118,9 +120,9 @@ const StatisticOccupation = ({ location }) => {
 
             <img src={OldIcon} alt="occu" className="img-occupation" />
 
-            <p>
-              Người già từ 60 tuổi trở lên đang làm việc (đã hết tuổi lao động)
-            </p>
+            <div>
+              Người già từ 60 tuổi trở lên đang làm việc (đã hết độ tuổi lao động)
+            </div>
           </div>
         </div>
       </div>

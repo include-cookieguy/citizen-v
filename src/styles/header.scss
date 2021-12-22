@@ -149,6 +149,7 @@ header {
             cursor: pointer;
             margin-top: 7px;
             transition: 0.5s;
+
             .newNotification {
               position: absolute;
               right: -10px;
@@ -177,7 +178,14 @@ header {
             border: 1px solid rgba(38, 56, 150, 0.1411764705882353);
             border-radius: 10px;
             box-shadow: 0 8px 12px 5px rgb(34 41 47 / 12%);
+            
+            @media screen and (max-width: v.$tablet-width) {
+              left: -300px;
+            }
 
+            @media screen and (max-width: 400px) {
+              left: -310px;
+            }
             .title {
               font-size: x-large;
               font-weight: 600;
