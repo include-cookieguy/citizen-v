@@ -36,7 +36,7 @@ const ListCitizen = () => {
   const socket = useSelector(state => state.socket)
 
   useEffect(() => {
-    if (searchQuery.ward) {
+    if (searchQuery.ward && searchQuery.length > 0) {
       const getVillages = async () => {
         let locaWard = {
           ward: "",

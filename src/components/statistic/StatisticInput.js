@@ -57,7 +57,7 @@ const StatisticInput = () => {
   }, [resQuery]);
 
   useEffect(() => {
-    if (searchQuery.ward) {
+    if (searchQuery.ward.length > 0) {
       const getVillages = async () => {
         let locaWard = {
           ward: "",
