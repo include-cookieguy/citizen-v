@@ -50,7 +50,7 @@ const StatisticAge = ({ location }) => {
       setSeries(seri_temp);
     };
     getAgeByGender();
-  }, [location, user.searchLocation]);
+  }, [location, user.searchLocation, dispatch]);
 
   const percentGender = useMemo(() => {
     if (series.length !== 0) {

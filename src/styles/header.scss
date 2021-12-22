@@ -105,7 +105,6 @@ header {
               .header-link {
                 color: v.$text-color;
               }
-              
             }
           }
         }
@@ -132,7 +131,7 @@ header {
           min-width: 115px;
           font-weight: 700;
           cursor: pointer;
-          transition: all .3s;
+          transition: all 0.3s;
           margin-right: 10px;
 
           &:hover {
@@ -149,12 +148,12 @@ header {
             font-size: x-large;
             cursor: pointer;
             margin-top: 7px;
-            transition: .5s;
+            transition: 0.5s;
           }
 
           .body_notification {
             position: absolute;
-            right: 0;
+            left: -150px;
             top: 54px;
             color: #000000;
             font-size: large;
@@ -177,11 +176,17 @@ header {
 
               li {
                 margin-bottom: 15px;
+                padding: 5px;
+
+                &:hover {
+                  background: #ddd;
+                  cursor: pointer;
+                  border-radius: 5px;
+                }
               }
             }
           }
         }
-
       }
     }
   }
@@ -270,7 +275,7 @@ header {
               flex-direction: column;
               font-weight: 500;
               color: #4a85c4;
-              
+
               .img {
                 top: 10px;
                 display: block;
@@ -290,7 +295,6 @@ header {
               }
             }
           }
-
         }
       }
     }
