@@ -194,11 +194,13 @@
               height: 200px;
               width: 100%;
 
-              .organization, .number-of-faithful {
+              .organization,
+              .number-of-faithful {
                 flex: 1;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                justify-content: flex-start;
 
                 div {
                   height: 120px;
@@ -223,14 +225,16 @@
               }
 
               .organization {
+                position: relative;
+                top: -14px;
                 div {
-                  background-image: url('../assets/organization.png');
+                  background-image: url("../assets/organization.png");
                 }
               }
 
               .number-of-faithful {
                 div {
-                  background-image: url('../assets/faithful.png');
+                  background-image: url("../assets/faithful.png");
                 }
               }
             }

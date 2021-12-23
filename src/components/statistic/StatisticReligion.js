@@ -23,7 +23,6 @@ const StatisticReligion = ({ location }) => {
 
       setNumberFaithfull(totalReligion - res.data[0].count);
       setPercentFaithfull((totalReligion - res.data[0].count) / totalReligion);
-      
     };
 
     getStatisticReligion();
@@ -77,14 +76,16 @@ const StatisticReligion = ({ location }) => {
             <div></div>
             <span>
               <span>39</span>&nbsp;&nbsp;Tổ chức tôn giáo
-            </span> 
+            </span>
           </div>
           <div className="number-of-faithful">
             <div></div>
             <span>
-               <span>{numberFaithful}</span>&nbsp;&nbsp;Tín đồ
+              <span>{numberFaithful}</span>&nbsp;&nbsp;Tín đồ
             </span>
-            <span className="extra">(Chiếm {percentFaithful * 100}% dân số)</span>
+            <span className="extra">
+              (Chiếm {(percentFaithful * 100).toFixed(2)}% dân số)
+            </span>
           </div>
         </div>
       </div>
