@@ -2,7 +2,7 @@
 
 header {
   z-index: 999;
-  font-size: 15px;
+  font-size: 14px;
   position: fixed;
   top: 0;
   background-image: linear-gradient(
@@ -101,10 +101,16 @@ header {
               cursor: pointer;
               margin-left: 20px;
               margin-right: 20px;
+              transition: .3s;
 
               .header-link {
                 color: v.$text-color;
               }
+            }
+
+            .current-route {
+              font-size: 18px;
+              font-weight: bold;
             }
           }
         }
@@ -322,6 +328,18 @@ header {
                 letter-spacing: 0.05em;
                 transition: 0.5s;
               }
+            }
+          }
+
+          .current-route {
+            .header-link .img {
+              transform: translateY(-18px);
+              width: 45px;
+            }
+
+            .header-link .text {
+              transform: translateY(-10px);
+              font-size: 13px;
             }
           }
         }
