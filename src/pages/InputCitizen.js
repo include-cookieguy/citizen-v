@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import locationData from "../data/location.json";
 import ethnic from "../data/ethnic.json";
 import { postDataAPI } from "../utils/fetchData";
@@ -25,7 +25,7 @@ import redX from "../assets/red-x.png";
 import jobData from "../data/job.json";
 import religionData from "../data/religion.json";
 
-const InputCitizen = () => {
+const InputCitizen = ({ editable, currentCitizen, updateCitizen }) => {
   // alert submit
   const [open, setOpen] = useState(false);
   const [openFailed, setOpenFailed] = useState(false);
@@ -40,6 +40,7 @@ const InputCitizen = () => {
 
   const { auth, socket, user } = useSelector((state) => state);
   const [citizenInfo, setCitizenInfo] = useState({
+    idCitizen: "",
     fullName: "",
     dateOfBirth: new Date(),
     currentAddress: "",
@@ -104,6 +105,12 @@ const InputCitizen = () => {
       }
     }
   }, [citizenInfo.city, citizenInfo.district, availableDistricts]);
+
+  useEffect(() => {
+    if (currentCitizen) {
+      setCitizenInfo(currentCitizen);
+    }
+  }, [currentCitizen]);
 
   const handleBlur = (type) => {
     if (!citizenInfo[type]) {
@@ -282,18 +289,21 @@ const InputCitizen = () => {
         location,
       };
 
-      console.log(finalInfo);
-      const res = await postDataAPI("citizen", finalInfo);
+      if (editable) {
+        updateCitizen(finalInfo);
+      } else {
+        const res = await postDataAPI("citizen", finalInfo);
 
-      socket.emit("increaseCitizen", {
-        regencyCur: auth.user.regency,
-        check: res.data.success,
-        locationCur: user.searchLocation,
-      });
+        socket.emit("increaseCitizen", {
+          regencyCur: auth.user.regency,
+          check: res.data.success,
+          locationCur: user.searchLocation,
+        });
 
-      setAlertMsg(res.data.msg);
+        setAlertMsg(res.data.msg);
 
-      res.data.success ? handleOpenAlert() : handleOpenFailAlert();
+        res.data.success ? handleOpenAlert() : handleOpenFailAlert();
+      }
     }
   };
 
@@ -351,27 +361,34 @@ const InputCitizen = () => {
         </DialogActions>
       </Dialog>
 
-      <div className="title-logo">
-        <div className="header-form">
-          <div className="ministry">BỘ Y TẾ</div>
-          <div className="department">TỔNG CỤC DÂN SỐ</div>
+      {!editable && (
+        <div className="title-logo">
+          <div className="header-form">
+            <div className="ministry">BỘ Y TẾ</div>
+            <div className="department">TỔNG CỤC DÂN SỐ</div>
+          </div>
+          <div className="logo">
+            <img src={logoDepartment} alt="logo of department" />
+          </div>
+          <div className="title">PHIẾU ĐIỀN THÔNG TIN CỦA CÔNG DÂN</div>
         </div>
-        <div className="logo">
-          <img src={logoDepartment} alt="logo of department" />
-        </div>
-        <div className="title">PHIẾU ĐIỀN THÔNG TIN CỦA CÔNG DÂN</div>
-      </div>
+      )}
 
       <form onSubmit={handleSubmit}>
-        <div className="print" onClick={() => printImage()}>
-          <FontAwesomeIcon icon={faPrint} /> In phiếu điền
-        </div>
-        <img
-          src="https://res.cloudinary.com/dyywecvyl/image/upload/v1639054815/samples/Phi%E1%BA%BFu_%C4%91i%E1%BB%81n_th%C3%B4ng_tin_c%C3%B4ng_d%C3%A2n_1_dyjy8c.png"
-          alt="form-nhap"
-          className="form-nhap"
-          style={{ display: "none" }}
-        />
+        {!editable && (
+          <>
+            {" "}
+            <div className="print" onClick={() => printImage()}>
+              <FontAwesomeIcon icon={faPrint} /> In phiếu điền
+            </div>
+            <img
+              src="https://res.cloudinary.com/dyywecvyl/image/upload/v1639054815/samples/Phi%E1%BA%BFu_%C4%91i%E1%BB%81n_th%C3%B4ng_tin_c%C3%B4ng_d%C3%A2n_1_dyjy8c.png"
+              alt="form-nhap"
+              className="form-nhap"
+              style={{ display: "none" }}
+            />
+          </>
+        )}
 
         <Box
           sx={{
@@ -450,6 +467,7 @@ const InputCitizen = () => {
               disablePortal
               noOptionsText={"Không có lựa chọn phù hợp"}
               options={["Nam", "Nữ"]}
+              defaultValue={citizenInfo.gender}
               sx={{ width: 300 }}
               onInputChange={(e, newInput) => {
                 setCitizenInfo({ ...citizenInfo, gender: newInput });
@@ -482,6 +500,7 @@ const InputCitizen = () => {
               name="identifiedCode"
               sx={{ width: "100%" }}
               onChange={handleInput}
+              value={citizenInfo.age > 15 ? citizenInfo.identifiedCode : ""}
               disabled={citizenInfo.age < 15 ? true : false}
               error={errBlur.identifiedCode ? true : false}
               onBlur={() => handleBlur("identifiedCode")}
@@ -499,6 +518,7 @@ const InputCitizen = () => {
               options={ethnic.ethnic}
               onBlur={() => handleBlur("ethnic")}
               sx={{ width: 300 }}
+              defaultValue={citizenInfo.ethnic}
               onInputChange={(e, newInput) => {
                 setCitizenInfo({ ...citizenInfo, ethnic: newInput });
                 setErrBlur({
@@ -524,6 +544,7 @@ const InputCitizen = () => {
             <Autocomplete
               noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
+              defaultValue={citizenInfo.religion}
               options={religionData}
               sx={{ width: 300 }}
               onBlur={() => handleBlur("religion")}
@@ -552,6 +573,7 @@ const InputCitizen = () => {
             <Autocomplete
               noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
+              // defaultValue={citizenInfo.city}
               options={locationData}
               sx={{ width: 300 }}
               key={citizenInfo.city_key + "city"}
@@ -592,6 +614,7 @@ const InputCitizen = () => {
             <Autocomplete
               noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
+              // defaultValue={citizenInfo.district}
               options={availableDistricts}
               key={citizenInfo.district_key + "district"}
               sx={{ width: 300 }}
@@ -629,6 +652,7 @@ const InputCitizen = () => {
             <Autocomplete
               noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
+              // defaultValue={citizenInfo.ward}
               options={avaiableWards}
               key={citizenInfo.ward_key + "ward"}
               sx={{ width: 300 }}
@@ -686,6 +710,7 @@ const InputCitizen = () => {
               onInput={() => handleBlurInput("residentAddress")}
               error={errBlur.residentAddress ? true : false}
               helperText={errBlur.residentAddress}
+              value={citizenInfo.residentAddress}
               className="ta dang o dau"
               placeholder="Số nhà - Thôn/Xóm/Khu/Ấp - Xã/Phường - Quận/Huyện - Tỉnh/Thành Phố"
               name="residentAddress"
@@ -703,6 +728,7 @@ const InputCitizen = () => {
               onInput={() => handleBlurInput("currentAddress")}
               error={errBlur.currentAddress ? true : false}
               helperText={errBlur.currentAddress}
+              value={citizenInfo.currentAddress}
               className="ta dang o dau"
               placeholder="Số nhà - Thôn/Xóm/Khu/Ấp - Xã/Phường - Quận/Huyện - Tỉnh/Thành Phố"
               name="currentAddress"
@@ -735,6 +761,7 @@ const InputCitizen = () => {
             <Autocomplete
               noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
+              defaultValue={citizenInfo.occupation}
               disabled={citizenInfo.age < 6 ? true : false}
               options={jobData}
               onBlur={() => handleBlur("occupation")}
@@ -766,6 +793,7 @@ const InputCitizen = () => {
             <TextField
               placeholder="Ví dụ: 0123456789"
               name="phoneNumber"
+              value={citizenInfo.phoneNumber}
               sx={{ width: "100%" }}
               onChange={handleInput}
               helperText={errBlur.phoneNumber}
@@ -776,6 +804,7 @@ const InputCitizen = () => {
           <div className="field email">
             <label className="label-text">Email</label>
             <TextField
+              value={citizenInfo.email}
               placeholder="Ví dụ: nguyenvana@gmail.com"
               helperText={errBlur.email}
               sx={{ width: "100%" }}
@@ -788,7 +817,9 @@ const InputCitizen = () => {
 
         <div className="submit">
           <div>
-            <button className="submit-button">Gửi dữ liệu</button>
+            <button className="submit-button">
+              {editable ? "Cập nhật" : "Gửi dữ liệu"}
+            </button>
           </div>
         </div>
       </form>

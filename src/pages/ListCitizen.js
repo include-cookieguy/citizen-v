@@ -33,10 +33,10 @@ const ListCitizen = () => {
   const [availableVillages, setAvailableVillages] = useState([]);
 
   const dispatch = useDispatch();
-  const socket = useSelector(state => state.socket)
+  const socket = useSelector((state) => state.socket);
 
   useEffect(() => {
-    if (searchQuery.ward && searchQuery.length > 0) {
+    if (searchQuery.ward) {
       const getVillages = async () => {
         let locaWard = {
           ward: "",
