@@ -41,7 +41,6 @@ const Header = () => {
       if (!ref.current || ref.current.contains(event.target)) {
         return;
       }
-      console.log("first");
       setShowNoti(false);
     };
 

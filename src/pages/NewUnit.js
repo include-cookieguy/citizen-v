@@ -86,7 +86,7 @@ export default function NewUnit() {
   const [state, setState] = useState(initState);
 
   const dispatch = useDispatch();
-  const socket = useSelector(state => state.socket)
+  const socket = useSelector((state) => state.socket);
 
   useEffect(async () => {
     setState({ ...state, loading: true });
@@ -98,17 +98,17 @@ export default function NewUnit() {
     setState({ ...state, select: options, cSelect: cOptions });
   }, []);
 
-  const regency = useSelector(state => state.auth.user.regency);
+  const regency = useSelector((state) => state.auth.user.regency);
 
   let cRows = useSelector((state) => {
-    console.log('all unit: ', state.unit.allUnit)
+    console.log("all unit: ", state.unit.allUnit);
     return state.unit.allUnit.map((u, idx) => ({
       id: idx + 1,
       _id: u._id,
       name: u.nameOfUnit,
       code: u.code,
       status: u.status === true ? "Đã hoàn thành" : "Chưa hoàn thành",
-    }))
+    }));
   });
   let cChildUser = useSelector((state) => state.user.allUser);
 
@@ -189,10 +189,14 @@ export default function NewUnit() {
   //  Edit Account handler
   const handleEditAccountOpen = (row) => {
     let user = cChildUser.filter((u) => u.username === row.code)[0];
-    console.log(user.startTime)
-    console.log(user.endTime)
-    user.startTime = (new Date(parseInt(user.startTime) || new Date().getTime())).toISOString().split('.')[0]
-    user.endTime = (new Date(parseInt(user.endTime) || new Date().getTime())).toISOString().split('.')[0]
+    console.log(user.startTime);
+    console.log(user.endTime);
+    user.startTime = new Date(parseInt(user.startTime) || new Date().getTime())
+      .toISOString()
+      .split(".")[0];
+    user.endTime = new Date(parseInt(user.endTime) || new Date().getTime())
+      .toISOString()
+      .split(".")[0];
     // user.startTime = '2021-12-26T04:17:00'
     // user.endTime = '2021-12-26T04:17:00'
     setState({
@@ -216,9 +220,9 @@ export default function NewUnit() {
   const handleEditStartTime = (e) =>
     setState({ ...state, editStartTime: e.target.value });
   const handleEditEndtTime = (e) => {
-    console.log(e.target.value)
+    console.log(e.target.value);
     setState({ ...state, editEndTime: e.target.value });
-  }
+  };
   const handleEditAccountSubmit = () => {
     dispatch(
       updateUserById(socket, {
@@ -307,7 +311,12 @@ export default function NewUnit() {
     { field: "id", headerName: "STT", flex: 80, minWidth: 62 },
     { field: "name", headerName: "Tên đơn vị", flex: 300, minWidth: 231 },
     { field: "code", headerName: "Mã đơn vị", flex: 100, minWidth: 100 },
-    { field: "status", headerName: "Trạng thái khai báo", flex: 100, minWidth: 150 },
+    {
+      field: "status",
+      headerName: "Trạng thái khai báo",
+      flex: 100,
+      minWidth: 150,
+    },
     {
       field: "account",
       headerName: "Tài khoản đơn vị",
@@ -347,7 +356,12 @@ export default function NewUnit() {
             >
               Chỉnh sửa
             </Button>
-            <Button style={{ color: 'red' }} onClick={() => handleDeleteMsgOpen(params.row)}>Xóa</Button>
+            <Button
+              style={{ color: "red" }}
+              onClick={() => handleDeleteMsgOpen(params.row)}
+            >
+              Xóa
+            </Button>
           </>
         );
       },
@@ -556,7 +570,7 @@ export default function NewUnit() {
             <div className="content-container">
               <div className="img-alert">
                 <div>
-                  <img src={alertDelete} />
+                  <img src={alertDelete} alt="delete" />
                 </div>
               </div>
               <div className="msg-alert">
@@ -579,7 +593,7 @@ export default function NewUnit() {
         <DataGrid
           autoHeight
           rows={cRows}
-          columns={regency === 'A3' ? A3_columns : columns}
+          columns={regency === "A3" ? A3_columns : columns}
           pageSize={7}
           components={{ NoRowsOverlay }}
           rowsPerPageOptions={[5]}

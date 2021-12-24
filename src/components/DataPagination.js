@@ -1,17 +1,40 @@
-import { Stack } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import InputCitizen from "../pages/InputCitizen";
+import alertDelete from "../assets/alert-delete.jpg";
+import { deleteDataAPI, putDataAPI } from "../utils/fetchData";
+import { GLOBALTYPES } from "../redux/actions/globalTypes";
 
 const DataPagination = () => {
   const { citizen } = useSelector((state) => state);
 
   const [rowData, setRowData] = useState([]);
 
+  const dispatch = useDispatch();
+
+  const [stateRender, setStateRender] = useState({
+    isEditAccountModalOpen: false,
+    handleEditAccountClose: false,
+    isDeleteMsgOpen: false,
+  });
+
+  const [currentCitizen, setCurrentCitizen] = useState({});
+
   useEffect(() => {
     if (citizen.searchCitizensList) {
       const mapSearch = citizen.searchCitizensList.map((e, index) => ({
         ...e,
+        _id: e._id,
         id: index + 1,
         city: e.location.city,
         district: e.location.district,
@@ -22,7 +45,57 @@ const DataPagination = () => {
     }
   }, [citizen.searchCitizensList]);
 
+  const handleEditOpen = (curCitizen) => {
+    setStateRender({
+      ...stateRender,
+      isEditAccountModalOpen: true,
+    });
+
+    const parseDob = curCitizen.dateOfBirth.split("/");
+
+    const dobObject = new Date(+parseDob[2], parseDob[1] - 1, +parseDob[0]);
+
+    setCurrentCitizen({
+      ...curCitizen,
+      dateOfBirth: dobObject.toString(),
+      age:
+        new Date().getFullYear() - parseInt(curCitizen.dateOfBirth.slice(-4)),
+    });
+  };
+
+  const handleDeleteMsgOpen = (curCitizen) => {
+    setStateRender({
+      ...stateRender,
+      isDeleteMsgOpen: true,
+    });
+    setCurrentCitizen(curCitizen);
+  };
+
   const columns = [
+    {
+      field: "account",
+      headerName: "Chỉnh sửa thông tin công dân",
+      width: 250,
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <>
+            <Button
+              style={{ marginRight: "30px" }}
+              onClick={() => handleEditOpen(params.row)}
+            >
+              Chỉnh sửa
+            </Button>
+            <Button
+              style={{ color: "red" }}
+              onClick={() => handleDeleteMsgOpen(params.row)}
+            >
+              Xóa
+            </Button>
+          </>
+        );
+      },
+    },
     { field: "id", headerName: "STT", width: 80 },
     { field: "fullName", headerName: "Họ và tên", width: 250 },
     { field: "dateOfBirth", headerName: "Ngày sinh", width: 120 },
@@ -111,6 +184,41 @@ const DataPagination = () => {
     );
   }
 
+  const handleEditAccountSubmit = async (curCitizen) => {
+    const res = await putDataAPI(`citizen/${curCitizen.idCitizen}`, curCitizen);
+
+    setCurrentCitizen(curCitizen);
+
+    if (res.data.updated) {
+      dispatch({
+        type: GLOBALTYPES.GET_CITIZENS,
+        payload: {
+          searchCitizensList: citizen.searchCitizensList.map((e) =>
+            e._id === res.data.updateCitizen._id ? res.data.updateCitizen : e
+          ),
+        },
+      });
+    }
+  };
+
+  const handleEditAccountClose = () => {
+    setStateRender({
+      ...stateRender,
+      isEditAccountModalOpen: false,
+    });
+  };
+
+  const handleDeleteMsgClose = () => {
+    setStateRender({
+      ...stateRender,
+      isDeleteMsgOpen: false,
+    });
+  };
+
+  const handleDelete = async () => {
+    const res = await deleteDataAPI(`citizen/${currentCitizen._id}`);
+  };
+
   return (
     <div style={{ width: "100%" }}>
       <DataGrid
@@ -123,6 +231,62 @@ const DataPagination = () => {
         checkboxSelection={false}
         disableSelectionOnClick={true}
       />
+      <Dialog // Edit Account dialog
+        open={stateRender.isEditAccountModalOpen}
+        onClose={handleEditAccountClose}
+      >
+        <DialogTitle>Chỉnh sửa thông tin công dân</DialogTitle>
+        <DialogContent style={{ width: "100%", minHeight: 300 }}>
+          <div>
+            <InputCitizen
+              editable={true}
+              currentCitizen={currentCitizen}
+              updateCitizen={(newCitizen) =>
+                handleEditAccountSubmit(newCitizen)
+              }
+            />
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button className="close" onClick={handleEditAccountClose}>
+            Đóng
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={stateRender.isDeleteMsgOpen}
+        onClose={handleDeleteMsgClose}
+        className="dialog-delete"
+      >
+        <DialogContent>
+          <div className="content-container">
+            <div className="img-alert">
+              <div>
+                <img src={alertDelete} alt="delete" />
+              </div>
+            </div>
+            <div className="msg-alert">
+              <div>Bạn có chắc chắn muốn xóa công dân này không?</div>
+            </div>
+          </div>
+        </DialogContent>
+
+        <DialogActions className="button-action">
+          <Button className="delete" onClick={handleDelete}>
+            Tiếp tục xóa
+          </Button>
+
+          <Button
+            className="close"
+            onClick={() =>
+              setStateRender({ ...stateRender, isDeleteMsgOpen: false })
+            }
+          >
+            Hủy
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

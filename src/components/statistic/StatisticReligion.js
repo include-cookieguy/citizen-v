@@ -70,14 +70,8 @@ const StatisticReligion = ({ location }) => {
       <HighchartsReact highcharts={Highcharts} options={options} />
 
       <div className="religion-stats">
-        <div className="title">Cả nước hiện có:</div>
+        <div className="title">Đơn vị hiện có:</div>
         <div className="some-stat">
-          <div className="organization">
-            <div></div>
-            <span>
-              <span>39</span>&nbsp;&nbsp;Tổ chức tôn giáo
-            </span>
-          </div>
           <div className="number-of-faithful">
             <div></div>
             <span>
