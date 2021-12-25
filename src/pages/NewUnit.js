@@ -14,7 +14,6 @@ import {
   Stack,
 } from "@mui/material";
 
-import location from "../data/location.json";
 import {
   getChildUnit,
   createUnit,
@@ -29,20 +28,6 @@ import {
 } from "../redux/actions/userAction";
 
 import alertDelete from "../assets/alert-delete.jpg";
-
-const style = {
-  position: "absolute",
-  display: "flex",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "700px",
-  height: "400px",
-  bgcolor: "background.paper",
-  border: "1px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
 
 export default function NewUnit() {
   const initState = {

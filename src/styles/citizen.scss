@@ -1,13 +1,5 @@
 @use "variable" as v;
 
-a,
-a:hover,
-a:focus {
-  text-decoration: none;
-  transition: 0.5s;
-  outline: none;
-}
-
 /* -----Search-filter */
 
 .card {
@@ -145,7 +137,8 @@ a:focus {
       padding-bottom: 30px;
     }
 
-    .search, .list {
+    .search,
+    .list {
       flex-wrap: wrap;
 
       .filter {

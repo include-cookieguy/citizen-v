@@ -7,7 +7,7 @@ import { GLOBALTYPES } from "../../redux/actions/globalTypes";
 
 const StatisticAge = ({ location }) => {
   const [series, setSeries] = useState([]);
-  const { auth, user } = useSelector((state) => state);
+  const { user } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {

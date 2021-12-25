@@ -46,10 +46,6 @@ const InputCitizen = ({ editable, currentCitizen, updateCitizen }) => {
     {
       ...currentCitizen,
       dateOfBirth: new Date(),
-      city_key: true,
-      district_key: true,
-      ward_key: true,
-      village_key: true,
       age: 0,
     } || {
       fullName: "",
@@ -69,11 +65,6 @@ const InputCitizen = ({ editable, currentCitizen, updateCitizen }) => {
       village: "",
       ethnic: "",
       age: 0,
-      //  Key
-      city_key: true,
-      district_key: true,
-      ward_key: true,
-      village_key: true,
     }
   );
 
@@ -593,7 +584,6 @@ const InputCitizen = ({ editable, currentCitizen, updateCitizen }) => {
               defaultValue={citizenInfo.city}
               options={locationData}
               sx={{ width: 300 }}
-              key={citizenInfo.city_key + "city"}
               onBlur={() => handleBlur("city")}
               clearText="Xoá"
               onInputChange={(e, newInput) => {
@@ -603,9 +593,6 @@ const InputCitizen = ({ editable, currentCitizen, updateCitizen }) => {
                   city: newInput,
                   district: "",
                   ward: "",
-                  district_key: !citizenInfo.district_key,
-                  ward_key: !citizenInfo.ward_key,
-                  village_key: !citizenInfo.village_key,
                 });
 
                 setErrBlur({
@@ -633,7 +620,6 @@ const InputCitizen = ({ editable, currentCitizen, updateCitizen }) => {
               disablePortal
               defaultValue={citizenInfo.district}
               options={availableDistricts}
-              key={citizenInfo.district_key + "district"}
               sx={{ width: 300 }}
               disabled={citizenInfo.city ? false : true}
               onInputChange={(e, newInput) => {
@@ -642,8 +628,6 @@ const InputCitizen = ({ editable, currentCitizen, updateCitizen }) => {
                   ...citizenInfo,
                   district: newInput,
                   ward: "",
-                  ward_key: !citizenInfo.ward_key,
-                  village_key: !citizenInfo.village_key,
                 });
                 setErrBlur({
                   ...errBlur,
@@ -671,14 +655,12 @@ const InputCitizen = ({ editable, currentCitizen, updateCitizen }) => {
               disablePortal
               defaultValue={citizenInfo.ward}
               options={avaiableWards}
-              key={citizenInfo.ward_key + "ward"}
               sx={{ width: 300 }}
               onInputChange={(e, newInput) => {
                 setCitizenInfo({ ...citizenInfo, ward: newInput });
                 setErrBlur({
                   ...errBlur,
                   ward: "",
-                  village_key: !citizenInfo.village_key,
                 });
               }}
               onBlur={() => handleBlur("ward")}

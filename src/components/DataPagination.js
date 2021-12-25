@@ -5,7 +5,6 @@ import {
   DialogContent,
   DialogTitle,
   Stack,
-  TextField,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
@@ -16,7 +15,7 @@ import { deleteDataAPI, putDataAPI } from "../utils/fetchData";
 import { GLOBALTYPES } from "../redux/actions/globalTypes";
 
 const DataPagination = () => {
-  const { citizen } = useSelector((state) => state);
+  const { citizen, auth } = useSelector((state) => state);
 
   const [rowData, setRowData] = useState([]);
 
@@ -72,7 +71,7 @@ const DataPagination = () => {
   };
 
   const columns = [
-    {
+    auth.user.regency === "B1" && {
       field: "account",
       headerName: "Chỉnh sửa thông tin công dân",
       width: 250,
@@ -189,7 +188,7 @@ const DataPagination = () => {
       type: GLOBALTYPES.EDIT_CITIZEN,
       payload: curCitizen,
     });
-    const res = await putDataAPI(`citizen/${curCitizen._id}`, curCitizen);
+    await putDataAPI(`citizen/${curCitizen._id}`, curCitizen);
 
     setCurrentCitizen(curCitizen);
   };
@@ -209,7 +208,7 @@ const DataPagination = () => {
   };
 
   const handleDelete = async () => {
-    const res = await deleteDataAPI(`citizen/${currentCitizen._id}`);
+    await deleteDataAPI(`citizen/${currentCitizen._id}`);
 
     dispatch({ type: GLOBALTYPES.REMOVE_CITIZEN, payload: currentCitizen._id });
   };

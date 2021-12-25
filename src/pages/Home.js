@@ -8,7 +8,6 @@ import { getUnit } from "../redux/actions/unitAction";
 import InputCitizen from "./InputCitizen";
 
 const Home = () => {
-  const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
   let user = useSelector((state) => state.auth.user);
 
@@ -17,7 +16,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(getUnit(user));
     dispatch(getUser());
-  }, []);
+  }, [dispatch, user]);
 
   return (
     <>

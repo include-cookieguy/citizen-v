@@ -217,7 +217,6 @@ const ListCitizen = () => {
 
   let userRegency = useSelector((state) => (state.auth.user || {}).regency);
   let unitStatus = useSelector((state) => (state.auth.unit || {}).status);
-  console.log("unit status: ", unitStatus);
   let idUnit = useSelector((state) => (state.auth.unit || {})._id);
   const handleUnitStatus = (status) => {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });

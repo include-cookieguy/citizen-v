@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { Autocomplete, TextField, Switch } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import locationData from "../../data/location.json";
 import { postDataAPI } from "../../utils/fetchData";
 import StatisticAge from "./StatisticAge";
