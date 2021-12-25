@@ -14,6 +14,8 @@ import InputCitizen from "../pages/InputCitizen";
 import alertDelete from "../assets/alert-delete.jpg";
 import { deleteDataAPI, putDataAPI } from "../utils/fetchData";
 import { GLOBALTYPES } from "../redux/actions/globalTypes";
+import greenTick from '../assets/green-tick.png';
+import redX from '../assets/red-x.png'
 
 const DataPagination = () => {
   const { citizen } = useSelector((state) => state);
@@ -22,10 +24,15 @@ const DataPagination = () => {
 
   const dispatch = useDispatch();
 
+  const [alertMsg, setAlertMsg] = useState("");
+
   const [stateRender, setStateRender] = useState({
     isEditAccountModalOpen: false,
     handleEditAccountClose: false,
+
     isDeleteMsgOpen: false,
+    isAfterDeleteMsgOpenSuccess: false,
+    isAfterDeleteMsgOpenFail: false,
   });
 
   const [currentCitizen, setCurrentCitizen] = useState({});
@@ -215,8 +222,34 @@ const DataPagination = () => {
     });
   };
 
+  const handleAfterDeleteCloseSuccess = () => {
+    setStateRender({
+      ...stateRender,
+      isAfterDeleteMsgOpenSuccess: false,
+    });
+  };
+
+  const handleAfterDeleteCloseFail = () => {
+    setStateRender({
+      ...stateRender,
+      isAfterDeleteMsgOpenFail: false,
+    });
+  };
+
   const handleDelete = async () => {
     const res = await deleteDataAPI(`citizen/${currentCitizen._id}`);
+
+    setAlertMsg(res.data.msg);
+
+    res.data.deleted ? setStateRender({
+      ...stateRender,
+      isDeleteMsgOpen: false,
+      isAfterDeleteMsgOpenSuccess: true,
+    }) : setStateRender({
+      ...stateRender,
+      isDeleteMsgOpen: false,
+      isAfterDeleteMsgOpenFail: true,
+    });
   };
 
   return (
@@ -231,13 +264,14 @@ const DataPagination = () => {
         checkboxSelection={false}
         disableSelectionOnClick={true}
       />
-      <Dialog // Edit Account dialog
+
+      <Dialog // Edit citizens dialog
         open={stateRender.isEditAccountModalOpen}
         onClose={handleEditAccountClose}
       >
         <DialogTitle>Chỉnh sửa thông tin công dân</DialogTitle>
-        <DialogContent style={{ width: "100%", minHeight: 300 }}>
-          <div>
+        <DialogContent className='update-content'>
+          <div className="form-update-citizens">
             <InputCitizen
               editable={true}
               currentCitizen={currentCitizen}
@@ -254,7 +288,8 @@ const DataPagination = () => {
         </DialogActions>
       </Dialog>
 
-      <Dialog
+
+      <Dialog // Delete citizens dialog
         open={stateRender.isDeleteMsgOpen}
         onClose={handleDeleteMsgClose}
         className="dialog-delete"
@@ -277,16 +312,64 @@ const DataPagination = () => {
             Tiếp tục xóa
           </Button>
 
-          <Button
-            className="close"
-            onClick={() =>
-              setStateRender({ ...stateRender, isDeleteMsgOpen: false })
-            }
-          >
+          <Button className="close" onClick={handleDeleteMsgClose}>
             Hủy
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog // After delete citizens dialog message => success
+        open={stateRender.isAfterDeleteMsgOpenSuccess}
+        onClose={handleAfterDeleteCloseSuccess}
+        className="after-dialog-delete"
+      >
+        <DialogContent>
+          <div className="content-container">
+            <div className="img-alert">
+              <div>
+                <img src={greenTick} alt="print" />
+              </div>
+            </div>
+
+            <div className="msg-alert">
+              <div>{alertMsg}</div>
+            </div>
+          </div>
+        </DialogContent>
+
+        <DialogActions className="button-action">
+          <Button className="close" onClick={handleAfterDeleteCloseSuccess}>
+            Đóng
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog // After delete citizens dialog message => fail
+        open={stateRender.isAfterDeleteMsgOpenFail}
+        onClose={handleAfterDeleteCloseFail}
+        className="after-dialog-delete"
+      >
+        <DialogContent>
+          <div className="content-container">
+            <div className="img-alert">
+              <div>
+                <img src={redX} alt="print" />
+              </div>
+            </div>
+
+            <div className="msg-alert">
+              <div>{alertMsg}</div>
+            </div>
+          </div>
+        </DialogContent>
+
+        <DialogActions className="button-action">
+          <Button className="close" onClick={handleAfterDeleteCloseFail}>
+            Đóng
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </div>
   );
 };

@@ -1,5 +1,37 @@
 @use "variable" as v;
 
+.MuiPaper-root {
+  width: 600px;
+  padding: 0;
+
+  .update-content {
+    padding: 0;
+    width: 100%;
+    
+    .form-update-citizens {
+      .input-citizen {
+        width: 100%;
+        margin-bottom: 0;
+
+        .MuiBox-root {
+          display: flex;
+          flex-direction: column;
+      
+          .field {
+            padding: 0;
+          }
+        }
+
+        .submit {
+          div {
+            width: 50%;
+          }
+        }
+      }
+    }
+  }
+}
+
 .input-citizen {
   width: 65%;
   margin-left: auto;
@@ -309,7 +341,7 @@
   }
 }
 
-.dialog-after-input {
+.dialog-after-input, .after-dialog-delete {
   .content-container {
     width: 100%;
     display: flex;
