@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import locationData from "../data/location.json";
 import ethnic from "../data/ethnic.json";
 import { postDataAPI } from "../utils/fetchData";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPrint } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -24,6 +24,7 @@ import greenTick from "../assets/green-tick.png";
 import redX from "../assets/red-x.png";
 import jobData from "../data/job.json";
 import religionData from "../data/religion.json";
+import { GLOBALTYPES } from "../redux/actions/globalTypes";
 
 const InputCitizen = ({ editable, currentCitizen, updateCitizen }) => {
   // alert submit
@@ -36,34 +37,45 @@ const InputCitizen = ({ editable, currentCitizen, updateCitizen }) => {
   const handleCloseAlert = () => setOpen(false);
   const handleCloseFailedAlert = () => setOpenFailed(false);
 
+  const dispatch = useDispatch();
+
   const [alertMsg, setAlertMsg] = useState("");
 
   const { auth, socket, user } = useSelector((state) => state);
-  const [citizenInfo, setCitizenInfo] = useState({
-    idCitizen: "",
-    fullName: "",
-    dateOfBirth: new Date(),
-    currentAddress: "",
-    gender: "",
-    email: "",
-    phoneNumber: "",
-    identifiedCode: "",
-    occupation: "",
-    religion: "",
-    residentAddress: "",
-    educationLevel: "",
-    city: "",
-    district: "",
-    ward: "",
-    village: "",
-    ethnic: "",
-    age: 0,
-    //  Key
-    city_key: true,
-    district_key: true,
-    ward_key: true,
-    village_key: true,
-  });
+  const [citizenInfo, setCitizenInfo] = useState(
+    {
+      ...currentCitizen,
+      dateOfBirth: new Date(),
+      city_key: true,
+      district_key: true,
+      ward_key: true,
+      village_key: true,
+      age: 0,
+    } || {
+      fullName: "",
+      dateOfBirth: new Date(),
+      currentAddress: "",
+      gender: "",
+      email: "",
+      phoneNumber: "",
+      identifiedCode: "",
+      occupation: "",
+      religion: "",
+      residentAddress: "",
+      educationLevel: "",
+      city: "",
+      district: "",
+      ward: "",
+      village: "",
+      ethnic: "",
+      age: 0,
+      //  Key
+      city_key: true,
+      district_key: true,
+      ward_key: true,
+      village_key: true,
+    }
+  );
 
   const [errBlur, setErrBlur] = useState({
     fullName: "",
@@ -301,6 +313,11 @@ const InputCitizen = ({ editable, currentCitizen, updateCitizen }) => {
         });
 
         setAlertMsg(res.data.msg);
+
+        dispatch({
+          type: GLOBALTYPES.ADD_CITIZEN,
+          payload: res.data.newCitizen,
+        });
 
         res.data.success ? handleOpenAlert() : handleOpenFailAlert();
       }
@@ -573,7 +590,7 @@ const InputCitizen = ({ editable, currentCitizen, updateCitizen }) => {
             <Autocomplete
               noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
-              // defaultValue={citizenInfo.city}
+              defaultValue={citizenInfo.city}
               options={locationData}
               sx={{ width: 300 }}
               key={citizenInfo.city_key + "city"}
@@ -614,7 +631,7 @@ const InputCitizen = ({ editable, currentCitizen, updateCitizen }) => {
             <Autocomplete
               noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
-              // defaultValue={citizenInfo.district}
+              defaultValue={citizenInfo.district}
               options={availableDistricts}
               key={citizenInfo.district_key + "district"}
               sx={{ width: 300 }}
@@ -652,7 +669,7 @@ const InputCitizen = ({ editable, currentCitizen, updateCitizen }) => {
             <Autocomplete
               noOptionsText={"Không có lựa chọn phù hợp"}
               disablePortal
-              // defaultValue={citizenInfo.ward}
+              defaultValue={citizenInfo.ward}
               options={avaiableWards}
               key={citizenInfo.ward_key + "ward"}
               sx={{ width: 300 }}

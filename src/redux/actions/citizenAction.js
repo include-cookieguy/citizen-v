@@ -8,9 +8,7 @@ export const searchCitizens = (data, auth) => async (dispatch) => {
 
     dispatch({
       type: GLOBALTYPES.GET_CITIZENS,
-      payload: {
-        searchCitizensList: res.data,
-      },
+      payload: res.data,
     });
 
     dispatch({
@@ -34,13 +32,9 @@ export const listCitizens = (data, auth) => async (dispatch) => {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     const res = await postDataAPI("citizen/listCitizen", data, auth.token);
 
-    console.log(res.data);
-
     dispatch({
       type: GLOBALTYPES.GET_CITIZENS,
-      payload: {
-        searchCitizensList: res.data,
-      },
+      payload: res.data,
     });
 
     dispatch({
