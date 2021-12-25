@@ -192,20 +192,13 @@ const DataPagination = () => {
   }
 
   const handleEditAccountSubmit = async (curCitizen) => {
-    const res = await putDataAPI(`citizen/${curCitizen.idCitizen}`, curCitizen);
+    dispatch({
+      type: GLOBALTYPES.EDIT_CITIZEN,
+      payload: curCitizen,
+    });
+    const res = await putDataAPI(`citizen/${curCitizen._id}`, curCitizen);
 
     setCurrentCitizen(curCitizen);
-
-    if (res.data.updated) {
-      dispatch({
-        type: GLOBALTYPES.GET_CITIZENS,
-        payload: {
-          searchCitizensList: citizen.searchCitizensList.map((e) =>
-            e._id === res.data.updateCitizen._id ? res.data.updateCitizen : e
-          ),
-        },
-      });
-    }
   };
 
   const handleEditAccountClose = () => {
@@ -250,6 +243,7 @@ const DataPagination = () => {
       isDeleteMsgOpen: false,
       isAfterDeleteMsgOpenFail: true,
     });
+    dispatch({ type: GLOBALTYPES.REMOVE_CITIZEN, payload: currentCitizen._id });
   };
 
   return (
