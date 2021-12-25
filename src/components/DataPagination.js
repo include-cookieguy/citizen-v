@@ -194,23 +194,25 @@ const DataPagination = () => {
   }
 
   const handleEditAccountSubmit = async (curCitizen) => {
-    dispatch({
-      type: GLOBALTYPES.EDIT_CITIZEN,
-      payload: curCitizen,
-    });
     const res = await putDataAPI(`citizen/${curCitizen._id}`, curCitizen);
 
     setAlertMsg(res.data.msg);
 
-    res.data.updated
-      ? setStateRender({
-          ...stateRender,
-          isAfterUpdateMsgSuccess: true,
-        })
-      : setStateRender({
-          ...stateRender,
-          isAfterUpdateMsgFail: true,
-        });
+    if (res.data.updated) {
+      setStateRender({
+        ...stateRender,
+        isAfterUpdateMsgSuccess: true,
+      });
+      dispatch({
+        type: GLOBALTYPES.EDIT_CITIZEN,
+        payload: curCitizen,
+      });
+    } else {
+      setStateRender({
+        ...stateRender,
+        isAfterUpdateMsgFail: true,
+      });
+    }
 
     setCurrentCitizen(curCitizen);
   };
@@ -340,7 +342,7 @@ const DataPagination = () => {
       </Dialog>
 
       <Dialog // After update citizens dialog message => fail
-        open={stateRender.isAfterDeleteMsgOpenFail}
+        open={stateRender.isAfterUpdateMsgFail}
         onClose={handleAfterUpdateCloseFail}
         className="after-dialog-delete update"
       >

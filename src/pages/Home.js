@@ -16,7 +16,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(getUnit(user));
     dispatch(getUser());
-  }, [dispatch, user]);
+  }, []);
 
   return (
     <>
