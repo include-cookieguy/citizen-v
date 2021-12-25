@@ -18,7 +18,7 @@ import greenTick from '../assets/green-tick.png';
 import redX from '../assets/red-x.png'
 
 const DataPagination = () => {
-  const { citizen } = useSelector((state) => state);
+  const { citizen, auth } = useSelector((state) => state);
 
   const [rowData, setRowData] = useState([]);
 
@@ -29,6 +29,9 @@ const DataPagination = () => {
   const [stateRender, setStateRender] = useState({
     isEditAccountModalOpen: false,
     handleEditAccountClose: false,
+
+    isAfterUpdateMsgSuccess: false,
+    isAfterUpdateMsgFail: false,
 
     isDeleteMsgOpen: false,
     isAfterDeleteMsgOpenSuccess: false,
@@ -79,7 +82,7 @@ const DataPagination = () => {
   };
 
   const columns = [
-    {
+    auth.user.regency === 'B1' && {
       field: "account",
       headerName: "Chỉnh sửa thông tin công dân",
       width: 250,
@@ -198,7 +201,31 @@ const DataPagination = () => {
     });
     const res = await putDataAPI(`citizen/${curCitizen._id}`, curCitizen);
 
+    setAlertMsg(res.data.msg);
+
+    res.data.updated ? setStateRender({
+      ...stateRender,
+      isAfterUpdateMsgSuccess: true,
+    }) : setStateRender({
+      ...stateRender,
+      isAfterUpdateMsgFail: true,
+    });
+    
     setCurrentCitizen(curCitizen);
+  };
+
+  const handleAfterUpdateCloseSuccess = () => {
+    setStateRender({
+      ...stateRender,
+      isAfterUpdateMsgSuccess: false,
+    });
+  };
+
+  const handleAfterUpdateCloseFail = () => {
+    setStateRender({
+      ...stateRender,
+      isAfterUpdateMsgFail: false,
+    });
   };
 
   const handleEditAccountClose = () => {
@@ -243,6 +270,7 @@ const DataPagination = () => {
       isDeleteMsgOpen: false,
       isAfterDeleteMsgOpenFail: true,
     });
+
     dispatch({ type: GLOBALTYPES.REMOVE_CITIZEN, payload: currentCitizen._id });
   };
 
@@ -277,6 +305,58 @@ const DataPagination = () => {
         </DialogContent>
         <DialogActions>
           <Button className="close" onClick={handleEditAccountClose}>
+            Đóng
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog // After update citizens dialog message => success
+        open={stateRender.isAfterUpdateMsgSuccess}
+        onClose={handleAfterUpdateCloseSuccess}
+        className="after-dialog-delete update"
+      >
+        <DialogContent>
+          <div className="content-container">
+            <div className="img-alert">
+              <div>
+                <img src={greenTick} alt="print" />
+              </div>
+            </div>
+
+            <div className="msg-alert">
+              <div>{alertMsg}</div>
+            </div>
+          </div>
+        </DialogContent>
+
+        <DialogActions className="button-action">
+          <Button className="close" onClick={handleAfterUpdateCloseSuccess}>
+            Đóng
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog // After update citizens dialog message => fail
+        open={stateRender.isAfterDeleteMsgOpenFail}
+        onClose={handleAfterUpdateCloseFail}
+        className="after-dialog-delete update"
+      >
+        <DialogContent>
+          <div className="content-container">
+            <div className="img-alert">
+              <div>
+                <img src={redX} alt="print" />
+              </div>
+            </div>
+
+            <div className="msg-alert">
+              <div>{alertMsg}</div>
+            </div>
+          </div>
+        </DialogContent>
+
+        <DialogActions className="button-action">
+          <Button className="close" onClick={handleAfterUpdateCloseFail}>
             Đóng
           </Button>
         </DialogActions>
