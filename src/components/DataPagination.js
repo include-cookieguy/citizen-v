@@ -274,7 +274,7 @@ const DataPagination = () => {
           isAfterDeleteMsgOpenFail: true,
         });
 
-    dispatch({ type: GLOBALTYPES.REMOVE_CITIZEN, payload: currentCitizen._id });
+    dispatch({ type: GLOBALTYPES.REMOVE_CITIZEN, payload: currentCitizen });
   };
 
   return (
