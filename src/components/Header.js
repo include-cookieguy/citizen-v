@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/actions/authAction";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ShowMessage from "./ShowMessage";
 import homeIcon from "../assets/home.png";
 import locationIcon from "../assets/location.png";
@@ -51,6 +51,8 @@ const Header = () => {
     };
   }, [showNoti]);
 
+  const location = useLocation();
+
   return (
     <>
       <header>
@@ -70,27 +72,27 @@ const Header = () => {
               </div>
               <div className="nav-bar">
                 <div className="nav-bar-option">
-                  <div className="opt-nav-bar">
+                  <div className={location.pathname === '/' ? 'opt-nav-bar current-route' : 'opt-nav-bar'}>
                     <Link to="/" className="header-link">
                       Trang chủ
                     </Link>
                   </div>
-                  <div className="opt-nav-bar">
+                  <div className={location.pathname === '/newUnit' ? 'opt-nav-bar current-route' : 'opt-nav-bar'}>
                     <Link to="/newUnit" className="header-link">
                       Đơn vị
                     </Link>
                   </div>
-                  <div className="opt-nav-bar">
+                  <div className={location.pathname === '/list' ? 'opt-nav-bar current-route' : 'opt-nav-bar'}>
                     <Link to="/list" className="header-link">
                       Danh sách
                     </Link>
                   </div>
-                  <div className="opt-nav-bar">
+                  <div className={location.pathname === '/search' ? 'opt-nav-bar current-route' : 'opt-nav-bar'}>
                     <Link to="/search" className="header-link">
                       Tìm kiếm
                     </Link>
                   </div>
-                  <div className="opt-nav-bar">
+                  <div className={location.pathname === '/monitor' ? 'opt-nav-bar current-route' : 'opt-nav-bar'}>
                     <Link to="/monitor" className="header-link">
                       Theo dõi
                     </Link>
@@ -156,7 +158,7 @@ const Header = () => {
         <div className="nav-bar-bottom">
           <div className="nav-bar-bottom-container">
             <ul className="nav-bar-option">
-              <li className="opt-nav-bar">
+              <li className={location.pathname === '/' ? 'opt-nav-bar current-route' : 'opt-nav-bar'}>
                 <Link to="/" className="header-link">
                   <div className="img">
                     <img src={homeIcon} alt="icon" />
@@ -165,7 +167,7 @@ const Header = () => {
                 </Link>
               </li>
 
-              <li className="opt-nav-bar">
+              <li className={location.pathname === '/newUnit' ? 'opt-nav-bar current-route' : 'opt-nav-bar'}>
                 <Link to="/newUnit" className="header-link">
                   <div className="img">
                     <img src={locationIcon} alt="icon" />
@@ -174,7 +176,7 @@ const Header = () => {
                 </Link>
               </li>
 
-              <li className="opt-nav-bar">
+              <li className={location.pathname === '/list' ? 'opt-nav-bar current-route' : 'opt-nav-bar'}>
                 <Link to="/list" className="header-link">
                   <div className="img">
                     <img src={citizenIcon} alt="icon" />
@@ -183,7 +185,7 @@ const Header = () => {
                 </Link>
               </li>
 
-              <li className="opt-nav-bar">
+              <li className={location.pathname === '/search' ? 'opt-nav-bar current-route' : 'opt-nav-bar'}>
                 <Link to="/search" className="header-link">
                   <div className="img">
                     <img src={searchIcon} alt="icon" />
@@ -192,7 +194,7 @@ const Header = () => {
                 </Link>
               </li>
 
-              <li className="opt-nav-bar">
+              <li className={location.pathname === '/monitor' ? 'opt-nav-bar current-route' : 'opt-nav-bar'}>
                 <Link to="/monitor" className="header-link">
                   <div className="img">
                     <img src={investigateIcon} alt="icon" />
